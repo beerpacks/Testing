@@ -5,7 +5,7 @@ Conservateur::Conservateur()
 
 }
 
-Conservateur::Conservateur(std::string _id, std::string _prenom, std::string _nom, double _commission)
+Conservateur::Conservateur(QString _id, QString _prenom, QString _nom, double _commission)
     :Personne(_prenom,_nom)
 {
     id = _id;
@@ -20,7 +20,7 @@ Conservateur::Conservateur(Conservateur *_conservateur)
     nomFamille = _conservateur->getNomFamille();
 }
 
-std::string Conservateur::getId()
+QString Conservateur::getId()
 {
     return id;
 }

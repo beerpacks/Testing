@@ -1,10 +1,10 @@
 #ifndef CONSERVATEURMANAGER_H
 #define CONSERVATEURMANAGER_H
 
-#include <vector>
+#include <QVector>
 #include <conservateur.h>
 #include <QtCore/qobject.h>
-#include <string.h>
+#include <QString>
 
 using namespace std;
 
@@ -18,13 +18,13 @@ public:
        static ConservateurManager INSTANCE;
        return INSTANCE;
     }
-    Conservateur getConservateurFromId(string id);
-    void setConservateurFromId(string id, Conservateur* _conservateur);
-    vector<Conservateur> getConservateurList();
+    Conservateur getConservateurFromId(QString id);
+    void setConservateurFromId(QString id, Conservateur* _conservateur);
+    QVector<Conservateur> getConservateurList();
 
 private:
     ConservateurManager();
-    vector<Conservateur> conservateurList;
+    QVector<Conservateur> conservateurList;
 
 Q_SIGNALS:
     void conservateurChangeListener();
