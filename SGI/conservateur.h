@@ -2,20 +2,20 @@
 #define CONSERVATEUR_H
 
 #include <personne.h>
-#include <string>
+#include <QString>
 
 class Conservateur : Personne
 {
 public:
     Conservateur();
-    Conservateur(std::string _id, std::string _prenom, std::string _nom, double _commission);
+    Conservateur(QString _id, QString _prenom, QString _nom, double _commission);
     Conservateur(Conservateur* _conservateur);
-    std::string getId();
+    QString getId();
     double getCommission();
     void setCommission(double valueSold);
     static const Conservateur* Conservateur_Invalid;
 private:
-    std::string id;
+    QString id;
     double commission;
 };
 

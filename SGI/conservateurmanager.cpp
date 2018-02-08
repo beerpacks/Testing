@@ -1,30 +1,33 @@
 #include "conservateurmanager.h"
 
-Conservateur ConservateurManager::getConservateurFromId(string id)
+Conservateur ConservateurManager::getConservateurFromId(QString id)
 {
     for(int i = 0 ; i < conservateurList.size(); i++){
         if(((Conservateur)conservateurList.at(i)).getId() == id)
             return (Conservateur)conservateurList.at(i);
     }
-    return Conservateur::Conservateur_Invalid;
+    throw std::invalid_argument("No conservateur found at this id");
 }
 
-void ConservateurManager::setConservateurFromId(string id, Conservateur *_conservateur)
+void ConservateurManager::setConservateurFromId(QString id, Conservateur *_conservateur)
 {
+    /*
     for(int i = 0 ; i < conservateurList.size(); i++){
         if(((Conservateur)conservateurList.at(i)).getId() == id)
            conservateurList[i] = Conservateur(_conservateur);
     }
     conservateurChangeListener();
+    */
 }
 
-vector<Conservateur> ConservateurManager::getConservateurList()
+QVector<Conservateur> ConservateurManager::getConservateurList()
 {
     return conservateurList;
 }
 
 ConservateurManager::ConservateurManager()
 {
+
     {
         Conservateur conservateur("C001","JF","Pelletier",0.0);
         conservateurList.push_back(conservateur);
