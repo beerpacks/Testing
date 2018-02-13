@@ -13,7 +13,6 @@ public:
     QString getId();
     double getCommission();
     void setCommission(double valueSold);
-    static const Conservateur* Conservateur_Invalid;
 private:
     QString id;
     double commission;

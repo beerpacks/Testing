@@ -28,13 +28,17 @@ SOURCES += \
         mainwindow.cpp \
     conservateur.cpp \
     personne.cpp \
-    conservateurmanager.cpp
+    conservateurmanager.cpp \
+    artiste.cpp \
+    artistemanager.cpp
 
 HEADERS += \
         mainwindow.h \
     conservateur.h \
     personne.h \
-    conservateurmanager.h
+    conservateurmanager.h \
+    artiste.h \
+    artistemanager.h
 
 FORMS += \
         mainwindow.ui

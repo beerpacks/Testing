@@ -19,8 +19,8 @@ public:
        return INSTANCE;
     }
     Conservateur getConservateurFromId(QString id);
-    void setConservateurFromId(QString id, Conservateur* _conservateur);
-    QVector<Conservateur> getConservateurList();
+    void setConservateurFromId(QString id, Conservateur _conservateur);
+    QVector<Conservateur>& getConservateurList();
 
 private:
     ConservateurManager();
