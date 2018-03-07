@@ -1,5 +1,23 @@
 #include "artistemanager.h"
 
+
+/*
+
+void ConservateurManager::setConservateurFromId(QString id, Conservateur _conservateur)
+{
+    for(auto it = conservateurList.begin();it != conservateurList.end();++it){
+        if(it->getId() == id)
+            it = &_conservateur;
+    }
+    throw std::invalid_argument("No conservateur found at this id");
+}
+
+QVector<Conservateur>& ConservateurManager::getConservateurList()
+{
+    return conservateurList;
+}
+*/
+
 Artiste ArtisteManager::getArtisteFromId(QString id)
 {
     for(auto it = artisteList.begin();it != artisteList.end();++it){
@@ -26,11 +44,11 @@ QVector<Artiste>& ArtisteManager::getArtisteList()
 ArtisteManager::ArtisteManager()
 {
     {
-        Artiste artiste("A001","JF","Pelletier","C001");
-        artisteList.push_back(artiste);
+        Conservateur conservateur("C001","JF","Pelletier",0.0);
+        conservateurList.push_back(conservateur);
     }
     {
-        Artiste artiste("A002","Simon-Pierre","Bernard Arevalo","C001");
-        artisteList.push_back(artiste);
+        Conservateur conservateur("C002","Simon-Pierre","Bernard Arevalo",0.0);
+        conservateurList.push_back(conservateur);
     }
 }
