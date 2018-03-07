@@ -30,7 +30,9 @@ SOURCES += \
     personne.cpp \
     conservateurmanager.cpp \
     artiste.cpp \
-    artistemanager.cpp
+    artistemanager.cpp \
+    oeuvre.cpp \
+    oeuvremanager.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -38,7 +40,9 @@ HEADERS += \
     personne.h \
     conservateurmanager.h \
     artiste.h \
-    artistemanager.h
+    artistemanager.h \
+    oeuvre.h \
+    oeuvremanager.h
 
 FORMS += \
         mainwindow.ui
