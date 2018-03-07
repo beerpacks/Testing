@@ -2,10 +2,12 @@
 
 Oeuvre OeuvreManager::getOeuvre(QString id)
 {
+    /*
     for(auto it = oeuvreList.begin();it != oeuvreList.end();++it){
         if(it->getId() == id)
             return it;
     }
+    */
     throw std::invalid_argument("No oeuvre found at this id");
 }
 
@@ -26,11 +28,7 @@ QVector<Oeuvre> &OeuvreManager::getOeuvreList()
 OeuvreManager::OeuvreManager()
 {
     {
-        Oeuvre oeuvre("O001","Test",,0,"A001");
-        oeuvreList.push_back(oeuvre);
-    }
-    {
-        Conservateur conservateur("C002","Simon-Pierre","Bernard Arevalo",0.0);
-        conservateurList.push_back(conservateur);
+//        Oeuvre oeuvre("O001","Test",,0,"A001");
+//        oeuvreList.push_back(oeuvre);
     }
 }
