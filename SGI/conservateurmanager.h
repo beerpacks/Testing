@@ -8,26 +8,18 @@
 
 using namespace std;
 
-class ConservateurManager : QObject
+class ConservateurManager
 {
-    Q_OBJECT
 
 public:
-    static ConservateurManager& getSingleton()
-    {
-       static ConservateurManager INSTANCE;
-       return INSTANCE;
-    }
-    Conservateur getConservateurFromId(QString id);
-    void setConservateurFromId(QString id, Conservateur _conservateur);
-    QVector<Conservateur>& getConservateurList();
+    ConservateurManager();
+    void AddConservateur(Conservateur* newConservateur);
+    Conservateur* GetConservateurFromId(QString id);
+    void SetConservateurFromId(QString id, Conservateur* _conservateur);
+    int GetSize();
 
 private:
-    ConservateurManager();
-    QVector<Conservateur> conservateurList;
-
-Q_SIGNALS:
-    void conservateurChangeListener();
+    QVector<Conservateur*>* conservateurList;
 
 };
 

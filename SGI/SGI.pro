@@ -32,7 +32,8 @@ SOURCES += \
     artiste.cpp \
     artistemanager.cpp \
     oeuvre.cpp \
-    oeuvremanager.cpp
+    oeuvremanager.cpp \
+    sgicontroller.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -42,7 +43,8 @@ HEADERS += \
     artiste.h \
     artistemanager.h \
     oeuvre.h \
-    oeuvremanager.h
+    oeuvremanager.h \
+    sgicontroller.h
 
 FORMS += \
         mainwindow.ui
