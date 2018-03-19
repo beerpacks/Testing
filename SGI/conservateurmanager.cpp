@@ -14,6 +14,7 @@ ConservateurManager::ConservateurManager()
 void ConservateurManager::AddConservateur(Conservateur *newConservateur)
 {
     conservateurList->push_back(newConservateur);
+    emit conservateurListUpdated();
 }
 
 Conservateur* ConservateurManager::GetConservateurFromId(QString id)
