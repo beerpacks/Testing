@@ -8,9 +8,9 @@
 
 using namespace std;
 
-class ConservateurManager
+class ConservateurManager : public QObject
 {
-
+    Q_OBJECT
 public:
     ConservateurManager();
     void AddConservateur(Conservateur* newConservateur);
@@ -20,6 +20,10 @@ public:
 
 private:
     QVector<Conservateur*>* conservateurList;
+
+signals:
+    void conservateurListUpdated();
+
 
 };
 
