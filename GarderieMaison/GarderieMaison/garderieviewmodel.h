@@ -12,11 +12,12 @@ class GarderieViewModel:public QObject
 public:
     GarderieViewModel();
     StateManager* getStateManager();
-    void setEnfantList(QVector<EnfantModel*> newList);
+    void setEnfantList(QVector<EnfantModel*>* newList);
+    QVector<EnfantModel*>* getEnfantList();
 
 private:
     StateManager* statemanager;
-    QVector<EnfantModel*> enfantList;
+    QVector<EnfantModel*>* enfantList;
 };
 
 #endif // GARDERIEVIEWMODEL_H
