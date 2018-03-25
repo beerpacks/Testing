@@ -9,15 +9,19 @@ class StateManager : public ITransition
 {
     enum State {
         STARTUP,
-        ADD_CHILDREN,
-        GROUP
+        onEducatriceConnect,
+        onDirectriceConnect,
+        onCuisiereConnect
     };
+
 public:
     StateManager();
     void setState(State newState, QString methodCalled);
     void setUIReference(IGarderieViewUI* uiReference);
-    void onAddChildren();
-    void onGroup();
+    void onEducatriceLayout();
+    void onDirectriceLayout();
+    void onCuisiniereLayout();
+    void onBack();
     void onStartUp();
 
 private:

@@ -4,27 +4,31 @@
 #include <QGridLayout>
 #include <QWidget>
 #include "garderieviewmodel.h"
-#include "groupview.h"
+#include "educatriceview.h"
 #include "QLabel"
 #include "mainviewmodel.h"
+#include <QTimer>
 
-class GroupView : public MainViewModel
+class EducatriceView : public MainViewModel
 {
     Q_OBJECT
 public:
-    GroupView(GarderieViewModel* _viewModel);
-    void updateEnfants();
+    EducatriceView(GarderieViewModel* _viewModel);
     void enterAnimation();
     void updateUI();
     void quitAnimation();
 private:
     GarderieViewModel* model;
+    QTimer* autoCloseTimer;
     QHBoxLayout* groupeNameLayout;
     QHBoxLayout* enfantLayout;
     QHBoxLayout* nextLayout;
     QLabel* test;
 
 private slots:
+    void quit();
+    void enfantPress(EnfantModel* enfantModel);
+
     void addEnfant();
     void testAddEnfantSLot();
 };

@@ -12,20 +12,24 @@ public:
     GarderieView();
     void setModel(GarderieViewModel* _newModel);
     void setStartView();
-    void setGroupView();
+    void setEducatriceView();
 private :
     GarderieViewModel* model;
     MainViewModel* startView;
-    MainViewModel* groupView;
+    MainViewModel* educatriceView;
+
+
 
     // IGarderieViewUI interface
 public:
-    void showAddChildrenView();
-    void hideAddChildrenView();
-    void showGroupView();
-    void hideGroupView();
     void showStart();
     void hideStart();
+    void showEducatriceLayout();
+    void hideEducatriceLayout();
+    void showDirectriceLayout();
+    void hideDirectriceLayout();
+    void showCuisiniereLayout();
+    void hideCuisiniereLayout();
 };
 
 #endif // GARDERIEVIEW_H
