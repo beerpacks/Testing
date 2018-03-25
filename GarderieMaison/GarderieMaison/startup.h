@@ -3,17 +3,24 @@
 
 #include <QGridLayout>
 #include <garderieviewmodel.h>
+#include <QWidget>
+#include "QHBoxLayout"
+#include "mainviewmodel.h"
 
-class StartUp : public QGridLayout
+class StartUp : public MainViewModel
 {
+    Q_OBJECT
 public:
     StartUp(GarderieViewModel* _viewModel);
+    void enterAnimation();
+    void updateUI();
+    void quitAnimation();
 
 private:
     GarderieViewModel* model;
 
 private slots:
-    pressHereButton_press(bool why);
+    void pressHereButton_press(bool);
 };
 
 #endif // STARTUP_H

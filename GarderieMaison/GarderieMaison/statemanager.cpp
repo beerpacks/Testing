@@ -12,7 +12,8 @@ void StateManager::setState(StateManager::State newState,QString methodCalled)
 {
     if(debugMode)
     {
-        qDebug().nospace() << "Changing for " << newState << " from " << methodCalled;
+        //qDebug() << "Changing for " << newState << " from " << methodCalled;
+        qDebug("Changing for ");
     }
     actualState = newState;
 }
@@ -30,6 +31,16 @@ void StateManager::onAddChildren()
 
 void StateManager::onGroup()
 {
+    uiRef->hideStart();
     uiRef->hideAddChildrenView();
     uiRef->showGroupView();
+    setState(StateManager::State::GROUP,"onGroup");
+}
+
+void StateManager::onStartUp()
+{
+    uiRef->hideGroupView();
+    uiRef->hideAddChildrenView();
+    uiRef->showStart();
+    setState(StateManager::State::STARTUP,"onGroup");
 }

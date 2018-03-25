@@ -16,13 +16,15 @@ public:
     StateManager();
     void setState(State newState, QString methodCalled);
     void setUIReference(IGarderieViewUI* uiReference);
-    virtual void onAddChildren();
-    virtual void onGroup();
+    void onAddChildren();
+    void onGroup();
+    void onStartUp();
 
 private:
     State actualState;
     IGarderieViewUI* uiRef;
     bool debugMode;
+
 };
 
 #endif // STATEMANAGER_H

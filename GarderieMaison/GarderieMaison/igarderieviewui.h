@@ -10,6 +10,10 @@ public:
     virtual void showGroupView() = 0;
 
     virtual void hideGroupView() = 0;
+
+    virtual void showStart() = 0;
+
+    virtual void hideStart() = 0;
 };
 
 #endif // IGARDERIEVIEWUI_H
