@@ -1,6 +1,6 @@
 #include "garderieview.h"
 #include <startup.h>
-#include <groupview.h>
+#include <educatriceview.h>
 
 GarderieView::GarderieView()
 {
@@ -19,34 +19,11 @@ void GarderieView::setStartView()
     this->addWidget(startView,0,0,1,1,Qt::AlignHCenter);
 }
 
-void GarderieView::setGroupView()
+void GarderieView::setEducatriceView()
 {
-    GroupView* mainGroupView = new GroupView(model);
-    groupView = mainGroupView;
-    this->addWidget(groupView,0,0,1,1,Qt::AlignHCenter);
-}
-
-void GarderieView::showAddChildrenView()
-{
-
-}
-
-void GarderieView::hideAddChildrenView()
-{
-
-}
-
-void GarderieView::showGroupView()
-{
-    groupView->setVisible(true);
-    groupView->updateUI();
-
-    //((GroupView*)groupView)->updateEnfants();
-}
-
-void GarderieView::hideGroupView()
-{
-    groupView->setVisible(false);
+    EducatriceView* mainGroupView = new EducatriceView(model);
+    educatriceView = mainGroupView;
+    this->addWidget(educatriceView,0,0,1,1,Qt::AlignHCenter);
 }
 
 void GarderieView::showStart()
@@ -57,4 +34,35 @@ void GarderieView::showStart()
 void GarderieView::hideStart()
 {
     startView->setVisible(false);
+}
+
+void GarderieView::showEducatriceLayout()
+{
+    educatriceView->setVisible(true);
+    educatriceView->updateUI();
+}
+
+void GarderieView::hideEducatriceLayout()
+{
+    educatriceView->setVisible(false);
+}
+
+void GarderieView::showDirectriceLayout()
+{
+
+}
+
+void GarderieView::hideDirectriceLayout()
+{
+
+}
+
+void GarderieView::showCuisiniereLayout()
+{
+
+}
+
+void GarderieView::hideCuisiniereLayout()
+{
+
 }

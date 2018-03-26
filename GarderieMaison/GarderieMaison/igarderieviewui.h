@@ -3,17 +3,22 @@
 
 class IGarderieViewUI{
 public:
-    virtual void showAddChildrenView() = 0;
-
-    virtual void hideAddChildrenView() = 0;
-
-    virtual void showGroupView() = 0;
-
-    virtual void hideGroupView() = 0;
 
     virtual void showStart() = 0;
 
     virtual void hideStart() = 0;
+
+    virtual void showEducatriceLayout() = 0;
+
+    virtual void hideEducatriceLayout() = 0;
+
+    virtual void showDirectriceLayout() = 0;
+
+    virtual void hideDirectriceLayout() = 0;
+
+    virtual void showCuisiniereLayout() = 0;
+
+    virtual void hideCuisiniereLayout() = 0;
 };
 
 #endif // IGARDERIEVIEWUI_H

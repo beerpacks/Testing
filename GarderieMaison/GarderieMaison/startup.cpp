@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <QGridLayout>
 #include <iostream>
+#include <QVBoxLayout>
 
 using namespace std;
 
@@ -15,13 +16,24 @@ StartUp::StartUp(GarderieViewModel* _viewModel)
     QGridLayout* layout = new QGridLayout();
     this->setLayout(layout);
 
+    QVBoxLayout* centeredLayout = new QVBoxLayout();
+    layout->addLayout(centeredLayout,0,0,1,1,Qt::AlignCenter);
+
     QLabel* lblId = new QLabel("Welcome");
-    layout->addWidget(lblId,0,0,1,1,Qt::AlignCenter);
+    centeredLayout->addWidget(lblId);
+    centeredLayout->setAlignment(lblId,Qt::AlignCenter);
 
-    QPushButton* pressHereButton = new QPushButton("Press here");
-    layout->addWidget(pressHereButton,0,1,1,1, Qt::AlignCenter);
+    QPushButton* btnEducatrice = new QPushButton("Educatrice");
+    centeredLayout->addWidget(btnEducatrice);
+    connect(btnEducatrice,SIGNAL(clicked(bool)),this,SLOT(educatrice_press(bool)));
 
-    connect(pressHereButton,SIGNAL(clicked(bool)),this,SLOT(pressHereButton_press(bool)));
+    QPushButton* btnDirectrice = new QPushButton("Directrice");
+    centeredLayout->addWidget(btnDirectrice);
+    connect(btnDirectrice,SIGNAL(clicked(bool)),this,SLOT(directrice_press(bool)));
+
+    QPushButton* btnCuisiniere = new QPushButton("Cuisiniere");
+    centeredLayout->addWidget(btnCuisiniere);
+    connect(btnCuisiniere,SIGNAL(clicked(bool)),this,SLOT(cuisiniere_press(bool)));
 }
 
 void StartUp::enterAnimation()
@@ -39,7 +51,17 @@ void StartUp::quitAnimation()
 
 }
 
-void StartUp::pressHereButton_press(bool)
+void StartUp::educatrice_press(bool)
 {
-    model->getStateManager()->onGroup();
+    model->getStateManager()->onEducatriceLayout();
+}
+
+void StartUp::directrice_press(bool)
+{
+
+}
+
+void StartUp::cuisiniere_press(bool)
+{
+
 }

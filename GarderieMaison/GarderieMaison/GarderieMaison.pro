@@ -33,8 +33,9 @@ SOURCES += \
     enfantmodel.cpp \
     garderieview.cpp \
     startup.cpp \
-    groupview.cpp \
-    mainviewmodel.cpp
+    mainviewmodel.cpp \
+    educatriceview.cpp \
+    enfantitemview.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -45,8 +46,9 @@ HEADERS += \
     enfantmodel.h \
     garderieview.h \
     startup.h \
-    groupview.h \
-    mainviewmodel.h
+    mainviewmodel.h \
+    educatriceview.h \
+    enfantitemview.h
 
 FORMS += \
         mainwindow.ui

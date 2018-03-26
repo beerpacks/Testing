@@ -13,7 +13,7 @@ void StateManager::setState(StateManager::State newState,QString methodCalled)
     if(debugMode)
     {
         //qDebug() << "Changing for " << newState << " from " << methodCalled;
-        qDebug("Changing for ");
+        //qDebug(methodCalled);
     }
     actualState = newState;
 }
@@ -23,24 +23,39 @@ void StateManager::setUIReference(IGarderieViewUI *uiReference)
     uiRef = uiReference;
 }
 
-void StateManager::onAddChildren()
-{
-    uiRef->hideGroupView();
-    uiRef->showAddChildrenView();
-}
-
-void StateManager::onGroup()
-{
-    uiRef->hideStart();
-    uiRef->hideAddChildrenView();
-    uiRef->showGroupView();
-    setState(StateManager::State::GROUP,"onGroup");
-}
-
 void StateManager::onStartUp()
 {
-    uiRef->hideGroupView();
-    uiRef->hideAddChildrenView();
+    uiRef->hideCuisiniereLayout();
+    uiRef->hideDirectriceLayout();
+    uiRef->hideEducatriceLayout();
     uiRef->showStart();
-    setState(StateManager::State::STARTUP,"onGroup");
+    setState(StateManager::State::STARTUP,"onStartUp");
 }
+
+void StateManager::onEducatriceLayout()
+{
+    uiRef->hideStart();
+    uiRef->showEducatriceLayout();
+    setState(StateManager::State::onEducatriceConnect,"onGroup");
+}
+
+void StateManager::onDirectriceLayout()
+{
+    //uiRef->hideCuisiniereLayout();
+    //uiRef->hideDirectriceLayout();
+}
+
+void StateManager::onCuisiniereLayout()
+{
+
+}
+
+void StateManager::onBack()
+{
+    if(actualState == onEducatriceConnect)
+    {
+        uiRef->hideEducatriceLayout();
+        uiRef->showStart();
+    }
+}
+

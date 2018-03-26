@@ -20,7 +20,9 @@ private:
     GarderieViewModel* model;
 
 private slots:
-    void pressHereButton_press(bool);
+    void educatrice_press(bool);
+    void directrice_press(bool);
+    void cuisiniere_press(bool);
 };
 
 #endif // STARTUP_H
