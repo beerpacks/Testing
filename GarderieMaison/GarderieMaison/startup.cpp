@@ -7,11 +7,16 @@
 #include <iostream>
 #include <QVBoxLayout>
 
-using namespace std;
-
 StartUp::StartUp(GarderieViewModel* _viewModel)
 {
     model = _viewModel;
+
+    {
+        QPalette backgroundColor = palette();
+        backgroundColor.setColor(QPalette::Background,Qt::yellow);
+        setPalette(backgroundColor);
+        setAutoFillBackground(true);
+    }
 
     QGridLayout* layout = new QGridLayout();
     this->setLayout(layout);
@@ -34,6 +39,7 @@ StartUp::StartUp(GarderieViewModel* _viewModel)
     QPushButton* btnCuisiniere = new QPushButton("Cuisiniere");
     centeredLayout->addWidget(btnCuisiniere);
     connect(btnCuisiniere,SIGNAL(clicked(bool)),this,SLOT(cuisiniere_press(bool)));
+
 }
 
 void StartUp::enterAnimation()

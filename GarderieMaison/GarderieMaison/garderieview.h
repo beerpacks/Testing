@@ -5,18 +5,26 @@
 #include <garderieviewmodel.h>
 #include <QWidget>
 #include "mainviewmodel.h"
+#include "educatricebaseview.h"
+#include "QStackedLayout"
+#include "startup.h"
+#include "educatricebaseview.h"
+#include "faketestpane.h"
 
-class GarderieView : public QGridLayout , public IGarderieViewUI
+class GarderieView : public QWidget, public IGarderieViewUI
 {
 public:
     GarderieView();
     void setModel(GarderieViewModel* _newModel);
-    void setStartView();
-    void setEducatriceView();
+    void setStartView(StartUp* _startView);
+    void setEducatriceView(EducatriceBaseView* _educatriceView);
+    void setFakeViewer(QWidget *fakeTest);
 private :
     GarderieViewModel* model;
     MainViewModel* startView;
-    MainViewModel* educatriceView;
+    EducatriceBaseView* educatriceView;
+    QStackedLayout* stacker;
+    QWidget* faker;
 
 
 
@@ -30,6 +38,9 @@ public:
     void hideDirectriceLayout();
     void showCuisiniereLayout();
     void hideCuisiniereLayout();
+    void showEnfantLayout(EnfantModel *enfantModel);
+    void hideEnfantLayout();
+
 };
 
 #endif // GARDERIEVIEW_H

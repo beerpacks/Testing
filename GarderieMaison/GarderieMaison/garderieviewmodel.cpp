@@ -1,5 +1,5 @@
 #include "garderieviewmodel.h"
-
+#include "softwarepath.h"
 GarderieViewModel::GarderieViewModel()
 {
     statemanager = new StateManager();
@@ -19,7 +19,7 @@ GarderieViewModel::GarderieViewModel()
         EnfantModel* enfant = new EnfantModel();
         enfant->id = "a"+i;
         enfant->name = names[i];
-        enfant->icon ="/home/jf/Desktop/Testing/GarderieMaison/images/enfant.png";
+        enfant->icon = SoftwarePath::getRoot()+"enfant.png";
         enfantList->append(enfant);
     }
 

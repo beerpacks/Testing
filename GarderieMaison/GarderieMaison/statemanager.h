@@ -11,7 +11,8 @@ class StateManager : public ITransition
         STARTUP,
         onEducatriceConnect,
         onDirectriceConnect,
-        onCuisiereConnect
+        onCuisiereConnect,
+        onEnfantView
     };
 
 public:
@@ -29,6 +30,10 @@ private:
     IGarderieViewUI* uiRef;
     bool debugMode;
 
+
+    // ITransition interface
+public:
+    void onEnfantLayout(EnfantModel *enfantModel);
 };
 
 #endif // STATEMANAGER_H
