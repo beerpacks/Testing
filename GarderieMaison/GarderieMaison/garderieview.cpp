@@ -1,9 +1,22 @@
 #include "garderieview.h"
 #include <startup.h>
 #include <educatriceview.h>
+#include <QPushButton>
+#include "enfantview.h"
+#include "QStackedLayout"
+
 
 GarderieView::GarderieView()
 {
+    stacker = new QStackedLayout(this);
+    stacker->setStackingMode(QStackedLayout::StackAll);
+    {
+        QPalette backgroundColor = palette();
+        backgroundColor.setColor(QPalette::Background,Qt::red);
+        setPalette(backgroundColor);
+        setAutoFillBackground(true);
+    }
+
 }
 
 void GarderieView::setModel(GarderieViewModel *_newModel)
@@ -12,18 +25,18 @@ void GarderieView::setModel(GarderieViewModel *_newModel)
     model->getStateManager()->setUIReference(this);
 }
 
-void GarderieView::setStartView()
+void GarderieView::setStartView(StartUp* _startView)
 {
-    StartUp* frontPage = new StartUp(model);
-    startView = frontPage;
-    this->addWidget(startView,0,0,1,1,Qt::AlignHCenter);
+    startView = _startView;
+    startView->setVisible(false);
+    stacker->addWidget(startView);
 }
 
-void GarderieView::setEducatriceView()
+void GarderieView::setEducatriceView(EducatriceBaseView* _educatriceView)
 {
-    EducatriceView* mainGroupView = new EducatriceView(model);
-    educatriceView = mainGroupView;
-    this->addWidget(educatriceView,0,0,1,1,Qt::AlignHCenter);
+    educatriceView = _educatriceView;
+    educatriceView->setVisible(false);
+    stacker->addWidget(educatriceView);
 }
 
 void GarderieView::showStart()
@@ -44,7 +57,7 @@ void GarderieView::showEducatriceLayout()
 
 void GarderieView::hideEducatriceLayout()
 {
-    educatriceView->setVisible(false);
+    educatriceView->setVisible(true);
 }
 
 void GarderieView::showDirectriceLayout()
@@ -65,4 +78,14 @@ void GarderieView::showCuisiniereLayout()
 void GarderieView::hideCuisiniereLayout()
 {
 
+}
+
+void GarderieView::showEnfantLayout(EnfantModel *enfantModel)
+{
+    educatriceView->showEnfantView(enfantModel);
+}
+
+void GarderieView::hideEnfantLayout()
+{
+    educatriceView->hideEnfantView();
 }

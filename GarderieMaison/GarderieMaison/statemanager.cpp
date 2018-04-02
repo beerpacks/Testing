@@ -32,6 +32,12 @@ void StateManager::onStartUp()
     setState(StateManager::State::STARTUP,"onStartUp");
 }
 
+void StateManager::onEnfantLayout(EnfantModel *enfantModel)
+{
+    uiRef->showEnfantLayout(enfantModel);
+    setState(StateManager::State::onEnfantView,"onEnfantLayout");
+}
+
 void StateManager::onEducatriceLayout()
 {
     uiRef->hideStart();
@@ -56,6 +62,11 @@ void StateManager::onBack()
     {
         uiRef->hideEducatriceLayout();
         uiRef->showStart();
+        setState(State::STARTUP,"onBackFromEducatriceView");
+    }else if(actualState == onEnfantView){
+        uiRef->hideEnfantLayout();
+        uiRef->showEducatriceLayout();
+        setState(State::onEducatriceConnect,"onBackFromEnfantView");
     }
 }
 

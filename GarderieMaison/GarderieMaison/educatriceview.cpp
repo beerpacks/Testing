@@ -2,6 +2,8 @@
 #include "QLabel"
 #include <QPushButton>
 #include "enfantitemview.h"
+#include "QWidget"
+#include "softwarepath.h"
 
 
 static void Toto();
@@ -10,56 +12,84 @@ EducatriceView::EducatriceView(GarderieViewModel* _viewModel)
 {
     model = _viewModel;
 
+    {
+        QPalette backgroundColor = palette();
+        backgroundColor.setColor(QPalette::Background,Qt::blue);
+        setPalette(backgroundColor);
+        setAutoFillBackground(true);
+    }
+
     autoCloseTimer = new QTimer(this);
     autoCloseTimer->setInterval(5*60*1000);
     connect(autoCloseTimer,SIGNAL(timeout()),this,SLOT(quit()));
 
+    {
+        QPixmap backgroundImage(SoftwarePath::getRoot() + "mainBackground.jpg"); //.scaled(this->size(),Qt::KeepAspectRatio)
+        QPalette backPalette;
+        backPalette.setBrush(QPalette::Background,backgroundImage);
+        setPalette(backPalette);
+    }
+
+    layoutStacker = new QStackedLayout(this);
+    layoutStacker->setStackingMode(QStackedLayout::StackAll);
+
+
+    mainEducatriceLayout = new QWidget();
     QGridLayout* fullLayout = new QGridLayout();
-    this->setLayout(fullLayout);
+    mainEducatriceLayout->setLayout(fullLayout);
+    layoutStacker->addWidget(mainEducatriceLayout);
+
 
     {
-        QPixmap backgroundImage("/home/jf/Desktop/Testing/GarderieMaison/images/mainBackground.jpg");
-        //QPalette backPalette;
-        //backPalette.setBrush(QPalette::Background,backgroundImage);
+        {
+            /*
+        QWidget* innerWidget = new QWidget();
+        innerWidget->setMaximumSize(800,480);
+        innerWidget->setMinimumSize(800,480);
+        QGridLayout* innerGridPane = new QGridLayout(innerWidget);
 
-        //setPalette(backPalette);
-        QLabel* background = new QLabel();
-        background->setPixmap(backgroundImage); //backgroundImage.scaled(1366,768,Qt::KeepAspectRatio)
-        fullLayout->addWidget(background,0,0,4,1);
-    }
+        fullLayout->addWidget(innerWidget);
+    */
 
-    //quit button
-    {
-        //QHBoxLayout* quitLayout = new QHBoxLayout();
 
-        QPushButton* quitButton = new QPushButton("Close");
-        //quitLayout->addWidget(quitButton);
-        connect(quitButton,SIGNAL(clicked(bool)),this,SLOT(quit()));
-        fullLayout->addWidget(quitButton,0,0,1,1,Qt::AlignLeft);
+            //QLabel* background = new QLabel();
+            //background->setPixmap(backgroundImage); //backgroundImage.scaled(1366,768,Qt::KeepAspectRatio)
+            //innerGridPane->addWidget(background,0,0,4,1);
+        }
 
-    }
+        //quit button
+        {
+            //QHBoxLayout* quitLayout = new QHBoxLayout();
 
-    //group name
-    {
-        test = new QLabel("test");
-        groupeNameLayout = new QHBoxLayout();
-        groupeNameLayout->addWidget(test);
-        groupeNameLayout->setAlignment(Qt::AlignCenter);
-        fullLayout->addLayout(groupeNameLayout,1,0,1,1,Qt::AlignCenter);
-    }
+            QPushButton* quitButton = new QPushButton("Close");
+            //quitLayout->addWidget(quitButton);
+            connect(quitButton,SIGNAL(clicked(bool)),this,SLOT(quit()));
+            fullLayout->addWidget(quitButton,0,0,1,1,Qt::AlignLeft);
 
-    //middle layout
-    {
-        enfantLayout = new QHBoxLayout();
-        enfantLayout->setAlignment(Qt::AlignCenter);
-        fullLayout->addLayout(enfantLayout,2,0,1,1,Qt::AlignCenter);
-    }
+        }
 
-    //button layout
-    {
-        nextLayout= new QHBoxLayout();
-        nextLayout->setAlignment(Qt::AlignCenter);
-        fullLayout->addLayout(nextLayout,3,0,1,1,Qt::AlignCenter);
+        //group name
+        {
+            test = new QLabel("test");
+            groupeNameLayout = new QHBoxLayout();
+            groupeNameLayout->addWidget(test);
+            groupeNameLayout->setAlignment(Qt::AlignCenter);
+            fullLayout->addLayout(groupeNameLayout,1,0,1,1,Qt::AlignCenter);
+        }
+
+        //middle layout
+        {
+            enfantLayout = new QHBoxLayout();
+            enfantLayout->setAlignment(Qt::AlignCenter);
+            fullLayout->addLayout(enfantLayout,2,0,1,1,Qt::AlignCenter);
+        }
+
+        //button layout
+        {
+            nextLayout= new QHBoxLayout();
+            nextLayout->setAlignment(Qt::AlignCenter);
+            fullLayout->addLayout(nextLayout,3,0,1,1,Qt::AlignCenter);
+        }
     }
 }
 
@@ -85,6 +115,7 @@ void EducatriceView::updateUI()
     }
     */
     //enfantLayout = new QHBoxLayout();
+
     for(int i = 0 ; i < model->getEnfantList()->size(); i++)
     {
         EnfantItemView* enfantItemView  = new EnfantItemView(model->getEnfantList()->at(i));
@@ -93,11 +124,35 @@ void EducatriceView::updateUI()
         enfantLayout->addWidget(enfantItemView);
     }
     autoCloseTimer->start();
+    layoutStacker->setCurrentIndex(0);
 }
 
 void EducatriceView::quitAnimation()
 {
 
+}
+
+void EducatriceView::setEnfantView(EnfantViewBase* _enfantView)
+{
+    enfantView = _enfantView;
+    enfantView->setVisible(false);
+    layoutStacker->addWidget(enfantView);
+}
+
+void EducatriceView::showEnfantView(EnfantModel* enfantModel)
+{
+    test->setText("j'affiche");
+    enfantView->setVisible(true);
+    enfantView->setEnfantModel(enfantModel);
+    enfantView->enterAnimation();
+    layoutStacker->setCurrentWidget(enfantView);
+}
+
+void EducatriceView::hideEnfantView()
+{
+    enfantView->setVisible(false);
+    layoutStacker->setCurrentWidget(mainEducatriceLayout);
+    test->setText("on back from enfant");
 }
 
 void EducatriceView::quit()
@@ -109,6 +164,8 @@ void EducatriceView::quit()
 void EducatriceView::enfantPress(EnfantModel* enfantModel)
 {
     test->setText(enfantModel->name);
+    autoCloseTimer->stop();
+    model->getStateManager()->onEnfantLayout(enfantModel);
 }
 
 static void Toto()

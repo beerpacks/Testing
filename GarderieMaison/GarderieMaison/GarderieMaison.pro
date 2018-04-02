@@ -35,7 +35,12 @@ SOURCES += \
     startup.cpp \
     mainviewmodel.cpp \
     educatriceview.cpp \
-    enfantitemview.cpp
+    enfantitemview.cpp \
+    enfantview.cpp \
+    enfantviewbase.cpp \
+    softwarepath.cpp \
+    educatricebaseview.cpp \
+    faketestpane.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -48,7 +53,12 @@ HEADERS += \
     startup.h \
     mainviewmodel.h \
     educatriceview.h \
-    enfantitemview.h
+    enfantitemview.h \
+    enfantview.h \
+    enfantviewbase.h \
+    educatricebaseview.h \
+    softwarepath.h \
+    faketestpane.h
 
 FORMS += \
         mainwindow.ui

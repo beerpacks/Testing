@@ -8,15 +8,15 @@
 #include "QLabel"
 #include "mainviewmodel.h"
 #include <QTimer>
+#include "educatricebaseview.h"
+#include "QStackedWidget"
+#include "QStackedLayout"
 
-class EducatriceView : public MainViewModel
+class EducatriceView : public EducatriceBaseView
 {
     Q_OBJECT
 public:
     EducatriceView(GarderieViewModel* _viewModel);
-    void enterAnimation();
-    void updateUI();
-    void quitAnimation();
 private:
     GarderieViewModel* model;
     QTimer* autoCloseTimer;
@@ -24,13 +24,31 @@ private:
     QHBoxLayout* enfantLayout;
     QHBoxLayout* nextLayout;
     QLabel* test;
+    EnfantViewBase* enfantView;
+    QStackedLayout* layoutStacker;
+    QWidget* mainEducatriceLayout;
 
 private slots:
     void quit();
-    void enfantPress(EnfantModel* enfantModel);
 
-    void addEnfant();
-    void testAddEnfantSLot();
+public slots:
+     void enfantPress(EnfantModel *enfantModel);
+
+    //void addEnfant();
+    //void testAddEnfantSLot();
+
+    // MainViewModel interface
+public:
+    void enterAnimation();
+    void updateUI();
+    void quitAnimation();
+
+    // EducatriceBaseView interface
+public:
+    void setEnfantView(EnfantViewBase *_enfantView);
+    void showEnfantView(EnfantModel* enfantModel);
+    void hideEnfantView();
+
 };
 
 #endif // GROUPVIEW_H

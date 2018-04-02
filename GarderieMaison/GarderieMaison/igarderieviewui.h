@@ -19,6 +19,10 @@ public:
     virtual void showCuisiniereLayout() = 0;
 
     virtual void hideCuisiniereLayout() = 0;
+
+    virtual void showEnfantLayout(EnfantModel* enfantModel) = 0;
+
+    virtual void hideEnfantLayout() = 0;
 };
 
 #endif // IGARDERIEVIEWUI_H
