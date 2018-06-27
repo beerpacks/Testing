@@ -30,6 +30,9 @@ SOURCES += \
     personne.cpp \
     conservateurmanager.cpp \
     artiste.cpp \
+<<<<<<< HEAD
+    artistemanager.cpp
+=======
     artistemanager.cpp \
     oeuvre.cpp \
     oeuvremanager.cpp \
@@ -37,6 +40,7 @@ SOURCES += \
     frmserverside.cpp \
     sgiviewmodel.cpp \
     formconservateur.cpp
+>>>>>>> 5ef5203ccb0c2c44c9305e08aa78b049979295ef
 
 HEADERS += \
         mainwindow.h \
@@ -44,6 +48,9 @@ HEADERS += \
     personne.h \
     conservateurmanager.h \
     artiste.h \
+<<<<<<< HEAD
+    artistemanager.h
+=======
     artistemanager.h \
     oeuvre.h \
     oeuvremanager.h \
@@ -51,6 +58,7 @@ HEADERS += \
     frmserverside.h \
     sgiviewmodel.h \
     formconservateur.h
+>>>>>>> 5ef5203ccb0c2c44c9305e08aa78b049979295ef
 
 FORMS += \
         mainwindow.ui \
