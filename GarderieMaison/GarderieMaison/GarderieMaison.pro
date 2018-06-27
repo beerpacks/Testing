@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2018-02-03T18:11:33
+# Project created by QtCreator 2018-03-18T12:49:06
 #
 #-------------------------------------------------
 
@@ -8,7 +8,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = SGI
+TARGET = GarderieMaison
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
@@ -22,44 +22,43 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+#CONFIG += console
+
 
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    conservateur.cpp \
-    personne.cpp \
-    conservateurmanager.cpp \
-    artiste.cpp \
-<<<<<<< HEAD
-    artistemanager.cpp
-=======
-    artistemanager.cpp \
-    oeuvre.cpp \
-    oeuvremanager.cpp \
-    sgicontroller.cpp \
-    frmserverside.cpp \
-    sgiviewmodel.cpp \
-    formconservateur.cpp
->>>>>>> 5ef5203ccb0c2c44c9305e08aa78b049979295ef
+    statemanager.cpp \
+    garderieviewmodel.cpp \
+    enfantmodel.cpp \
+    garderieview.cpp \
+    startup.cpp \
+    mainviewmodel.cpp \
+    educatriceview.cpp \
+    enfantitemview.cpp \
+    enfantview.cpp \
+    enfantviewbase.cpp \
+    softwarepath.cpp \
+    educatricebaseview.cpp \
+    faketestpane.cpp
 
 HEADERS += \
         mainwindow.h \
-    conservateur.h \
-    personne.h \
-    conservateurmanager.h \
-    artiste.h \
-<<<<<<< HEAD
-    artistemanager.h
-=======
-    artistemanager.h \
-    oeuvre.h \
-    oeuvremanager.h \
-    sgicontroller.h \
-    frmserverside.h \
-    sgiviewmodel.h \
-    formconservateur.h
->>>>>>> 5ef5203ccb0c2c44c9305e08aa78b049979295ef
+    itransition.h \
+    statemanager.h \
+    igarderieviewui.h \
+    garderieviewmodel.h \
+    enfantmodel.h \
+    garderieview.h \
+    startup.h \
+    mainviewmodel.h \
+    educatriceview.h \
+    enfantitemview.h \
+    enfantview.h \
+    enfantviewbase.h \
+    educatricebaseview.h \
+    softwarepath.h \
+    faketestpane.h
 
 FORMS += \
-        mainwindow.ui \
-    frmserverside.ui
+        mainwindow.ui
