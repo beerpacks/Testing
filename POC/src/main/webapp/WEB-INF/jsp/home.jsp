@@ -8,5 +8,6 @@
 </head>
 <body>
 	bienvenu dans home.jsp
+	<a href="${pageContext.request.contextPath}/player/index">Player List</a> 
 </body>
 </html>
