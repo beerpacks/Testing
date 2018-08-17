@@ -1,0 +1,16 @@
+{
+  "name": "nodeserver1",
+  "version": "1.0.0",
+  "description": "\"Test setup server 1\"",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start" : "npm run lite",
+    "lite" : "lite-server"
+  },
+  "author": "JF",
+  "license": "ISC",
+  "devDependencies": {
+    "lite-server": "^2.4.0"
+  }
+}
