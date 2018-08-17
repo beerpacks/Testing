@@ -14,5 +14,6 @@
 
           <td>${player.name}</td>
         </c:forEach>
+        <div>j'en ai oublier alors ajoute le <a href="${pageContext.request.contextPath}/player/add">add player</a> </div>
 </body>
 </html>
