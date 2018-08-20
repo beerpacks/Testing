@@ -1,0 +1,19 @@
+{
+  "name": "week1assignement1bootstrapandresponsivedesign",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm run lite",
+    "lite" : "lite-server" 
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "bootstrap": "^4.0.0",
+    "jquery": "^1.9.1",
+    "lite-server":"^2.4.0",
+    "popper.js": "^1.14.4"
+  }
+}
