@@ -1,37 +1,49 @@
 #include "conservateurmanager.h"
 
-Conservateur ConservateurManager::getConservateurFromId(QString id)
-{
-    for(auto it = conservateurList.begin();it != conservateurList.end();++it){
-        if(it->getId() == id)
-            return it;
-    }
-    throw std::invalid_argument("No conservateur found at this id");
-}
-
-void ConservateurManager::setConservateurFromId(QString id, Conservateur _conservateur)
-{
-    for(auto it = conservateurList.begin();it != conservateurList.end();++it){
-        if(it->getId() == id)
-            it = &_conservateur;
-    }
-    throw std::invalid_argument("No conservateur found at this id");
-}
-
-QVector<Conservateur>& ConservateurManager::getConservateurList()
-{
-    return conservateurList;
-}
-
 ConservateurManager::ConservateurManager()
 {
-
+    conservateurList = new QVector<Conservateur*>();
     {
-        Conservateur conservateur("C001","JF","Pelletier",0.0);
-        conservateurList.push_back(conservateur);
+        conservateurList->push_back(new Conservateur("C001","JF","Pelletier",0.0));
     }
     {
-        Conservateur conservateur("C002","Simon-Pierre","Bernard Arevalo",0.0);
-        conservateurList.push_back(conservateur);
+        conservateurList->push_back(new Conservateur("C002","Simon-Pierre","Bernard Arevalo",0.0));
     }
 }
+
+void ConservateurManager::AddConservateur(Conservateur *newConservateur)
+{
+    conservateurList->push_back(newConservateur);
+    emit conservateurListUpdated();
+}
+
+Conservateur* ConservateurManager::GetConservateurFromId(QString id)
+{
+    for(int i = 0; i < conservateurList->size(); i++)
+    {
+        if(conservateurList->at(i)->getId() == id)
+        {
+            return conservateurList->at(i);
+        }
+    }
+    throw std::invalid_argument("No conservateur found at this id");
+}
+
+void ConservateurManager::SetConservateurFromId(QString id, Conservateur* _conservateur)
+{
+
+    for(int i = 0; i < conservateurList->size(); i++)
+    {
+        if(conservateurList->at(i)->getId() == id)
+        {
+            conservateurList->replace(i,_conservateur);
+        }
+    }
+    throw std::invalid_argument("No conservateur found at this id");
+}
+
+int ConservateurManager::GetSize()
+{
+    return conservateurList->size();
+}
+
