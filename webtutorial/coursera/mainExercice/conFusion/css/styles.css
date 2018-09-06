@@ -38,6 +38,10 @@ body{
     background-color:#512DAB
 }
 
+.bg-yellow{
+    background-color:#fdc02f
+}
+
 .tab-content{
     border-left:1px solid #ddd;
     border-right: 1px solid #ddd;
