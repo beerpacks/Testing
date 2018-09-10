@@ -91,28 +91,28 @@
                             <label class="col-12 col-sm-2 col-form-label ">Number of Guests</label>
                             <div class="col-12 col-sm-10 ">
                                 <div class="form-check form-check-inline ">
-                                    <label class="form-check-label " for="option1"><input class="form-check-input "
-                                            type="radio" name="option" id="option1"> 1</label>
+                                    <label class="form-check-label " for="option1"><input class="form-check-input " type="radio"
+                                            name="option" id="option1"> 1</label>
                                 </div>
                                 <div class="form-check form-check-inline ">
-                                    <label class="form-check-label " for="option2"><input class="form-check-input "
-                                            type="radio" name="option" id="option2"> 2</label>
+                                    <label class="form-check-label " for="option2"><input class="form-check-input " type="radio"
+                                            name="option" id="option2"> 2</label>
                                 </div>
                                 <div class="form-check form-check-inline ">
-                                    <label class="form-check-label " for="option3"><input class="form-check-input "
-                                            type="radio" name="option" id="option3"> 3</label>
+                                    <label class="form-check-label " for="option3"><input class="form-check-input " type="radio"
+                                            name="option" id="option3"> 3</label>
                                 </div>
                                 <div class="form-check form-check-inline ">
-                                    <label class="form-check-label " for="option4"><input class="form-check-input "
-                                            type="radio" name="option" id="option4"> 4</label>
+                                    <label class="form-check-label " for="option4"><input class="form-check-input " type="radio"
+                                            name="option" id="option4"> 4</label>
                                 </div>
                                 <div class="form-check form-check-inline ">
-                                    <label class="form-check-label " for="option5"><input class="form-check-input "
-                                            type="radio" name="option" id="option5"> 5</label>
+                                    <label class="form-check-label " for="option5"><input class="form-check-input " type="radio"
+                                            name="option" id="option5"> 5</label>
                                 </div>
                                 <div class="form-check form-check-inline ">
-                                    <label class="form-check-label " for="option6"><input class="form-check-input "
-                                            type="radio" name="option" id="option1"> 6</label>
+                                    <label class="form-check-label " for="option6"><input class="form-check-input " type="radio"
+                                            name="option" id="option1"> 6</label>
                                 </div>
                             </div>
                         </div>
@@ -133,13 +133,11 @@
                             <label class="col-12 col-sm-2 col-form-label ">Date and Time</label>
                             <div class="col-12 col-sm-4 ">
                                 <input type="text " class="form-control " id="date " name="date
-                    "
-                                    placeholder="Date ">
+                    " placeholder="Date ">
                             </div>
                             <div class="col-12 col-sm-4 ">
                                 <input type="text " class="form-control " id="time " name="time
-                    "
-                                    placeholder="Time ">
+                    " placeholder="Time ">
                             </div>
                             <div class="col-12 col-sm "></div>
                         </div>
@@ -222,14 +220,9 @@
                         <a class="carousel-control-next " href="#mycarousel " role="button " data-slide="next ">
                             <span class="carousel-control-next-icon "></span>
                         </a>
-                        <div class="btn-group" id="carouselButton">
-                            <button class="btn btn-danger btn-sm" id="carousel-pause">
-                                <span class="fa fa-pause"></span>
-                            </button>
-                            <button class="btn btn-danger btn-sm" id="carousel-play">
-                                <span class="fa fa-play"></span>
-                            </button>
-                        </div>
+                        <button class="btn btn-danger btn-sm" id="carouselButton">
+                            <span id="carousel-button-icon" class="fa fa-pause"></span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -288,7 +281,7 @@
                     </div>
                 </div>
             </div>
-        </div>        
+        </div>
     </div>
 
     <footer class="footer ">
@@ -337,13 +330,19 @@
     <script src="./node_modules/popper.js/dist/umd/popper.min.js "></script>
     <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js "></script>
     <script>
-        $(docuement).ready(function(){
-            $('#mycarousel').carousel({interval:2000});
-            $('#carousel-pause').click(function(){
-                $('#mycarousel').carousel('pause');
-            });
-            $('#carousel-play').click(function(){
-                $('#mycarousel').carousel('cycle');
+        $(document).ready(function () {
+            $('#mycarousel').carousel({ interval: 2000 });
+            $("#carouselButton").click(function () {
+                if ($("#carouselButton").children("span").hasClass('fa-pause')) {
+                    $("#mycarousel").carousel('pause');
+                    $("#carouselButton").children("span").removeClass('fa-pause');
+                    $("#carouselButton").children("span").addClass('fa-play');
+                }
+                else if ($("#carouselButton").children("span").hasClass('fa-play')) {
+                    $("#mycarousel").carousel('cycle');
+                    $("#carouselButton").children("span").removeClass('fa-play');
+                    $("#carouselButton").children("span").addClass('fa-pause');
+                }
             });
         });
     </script>
