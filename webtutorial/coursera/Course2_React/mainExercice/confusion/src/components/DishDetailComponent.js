@@ -3,20 +3,22 @@ import { Card, CardImg, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbIte
 import { Control, LocalForm, Errors } from 'react-redux-form';
 import { Link } from 'react-router-dom';
 import { Loading } from './LoadingComponents';
-import { baseUrl } from '../shared/baseUrl' 
-
+import { baseUrl } from '../shared/baseUrl';
+import { FadeTransform, Fade, Stagger } from 'react-animation-components';
 //import CommentForm from './CommentForm';
 
-function RenderComments({ comments , postComment, dishId}) {
+function RenderComments({ comments, postComment, dishId }) {
     if (comments != null) {
         const allComments = comments.map((singleComment) => {
             return (
+                <Fade in>
                 <li>
                     <ul className="list-unstyled">
                         <li>{singleComment.comment}</li>
                         <li>--{singleComment.author}, {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit' }).format(new Date(Date.parse(singleComment.date)))}</li>
                     </ul>
                 </li>
+                </Fade>
             );
         });
 
@@ -24,9 +26,11 @@ function RenderComments({ comments , postComment, dishId}) {
             <div>
                 <h4>Comments</h4>
                 <ul className="list-unstyled">
+                <Stagger in>
                     {allComments}
+                    </Stagger>
                 </ul>
-                <CommentForm postComment={postComment} dishId={dishId}/>
+                <CommentForm postComment={postComment} dishId={dishId} />
             </div>
         );
     } else {
@@ -36,36 +40,41 @@ function RenderComments({ comments , postComment, dishId}) {
 
 function RenderDish({ dish }) {
     return (
-        <Card>
-            <CardImg top src={baseUrl+dish.image} alt={dish.name} />
-            <CardBody>
-                <CardTitle>{dish.name}</CardTitle>
-                <CardText>
-                    {dish.description}
-                </CardText>
-            </CardBody>
-        </Card>
-    );
+        <div className="col-12 col-md-5 m-1">
+            <FadeTransform in
+                transformProps={{ exitTransform: 'scale(0.5) translateY(-50%)' }}
+            >
+                <Card>
+                    <CardImg top src={baseUrl + dish.image} alt={dish.name} />
+                    <CardBody>
+                        <CardTitle>{dish.name}</CardTitle>
+                        <CardText>
+                            {dish.description}
+                        </CardText>
+                    </CardBody>
+                </Card>
+            </FadeTransform>
+        </div>);
 }
 
 const DishDetail = (props) => {
-    if(props.isLoading){
-        return(
+    if (props.isLoading) {
+        return (
             <div className="container">
                 <div className="row">
                     <Loading />
                 </div>
             </div>
         );
-    }else if(props.errMess){
-        return(
+    } else if (props.errMess) {
+        return (
             <div className="container">
                 <div className="row">
                     <h4>{props.errMess}</h4>
                 </div>
             </div>
         );
-    }else if (props.dish != null) {
+    } else if (props.dish != null) {
         return (
             <div className="container">
                 <div className="row">
@@ -83,7 +92,7 @@ const DishDetail = (props) => {
                         <RenderDish dish={props.dish} />
                     </div>
                     <div className="col-12 col-md-5 m-1">
-                        <RenderComments comments={props.comments} postComment={props.postComment} dishId={props.dish.id}/>
+                        <RenderComments comments={props.comments} postComment={props.postComment} dishId={props.dish.id} />
                     </div>
                 </div>
             </div>
@@ -115,9 +124,9 @@ class CommentForm extends Component {
 
     handleSubmit(values) {
         this.toggleModal();
-        this.props.postComment(this.props.dishId,values.rating,values.author, values.comment)
- //       console.log('Current State is: ' + JSON.stringify(values));
- //       alert('Current State is: ' + JSON.stringify(values));
+        this.props.postComment(this.props.dishId, values.rating, values.author, values.comment)
+        //       console.log('Current State is: ' + JSON.stringify(values));
+        //       alert('Current State is: ' + JSON.stringify(values));
     }
 
     toggleModal() {
@@ -145,17 +154,17 @@ class CommentForm extends Component {
 
                                 </Col>
                                 <Col md={12}>
-                                        <Control.select
-                                            defaultValue="1"
-                                            model=".rating"
-                                            className="form-control"
-                                            name="rating">
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                        </Control.select>
+                                    <Control.select
+                                        defaultValue="1"
+                                        model=".rating"
+                                        className="form-control"
+                                        name="rating">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                    </Control.select>
                                 </Col>
                             </Row>
 
