@@ -1,0 +1,14 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+#root {
+  text-align: center;
+}
+.cl3 {
+  background-color: goldenrod;
+}
+html {
+  font-size: 10px;
+}
