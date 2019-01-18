@@ -19,7 +19,8 @@
     "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
-    "babel-preset-expo": "^5.0.0"
+    "babel-preset-expo": "^5.0.0",
+    "electron-devtools-installer": "^2.2.4"
   },
   "private": true
 }
