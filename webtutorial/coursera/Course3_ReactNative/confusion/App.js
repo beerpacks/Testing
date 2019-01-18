@@ -1,17 +1,16 @@
 import React from 'react';
-import MainComponent from './components/MainComponent';
+import Main from './components/MainComponent';
+import {Provider} from 'react-redux';
+import {ConfigureStore} from './redux/configureStore';
 
-import { StyleSheet, Text, View } from 'react-native';
+const store =ConfigureStore();
 
 export default class App extends React.Component {
   render() {
     return (
-      <MainComponent />
+      <Provider store={store} >
+        <Main />
+      </Provider>
     );
   }
 }
-
-/*
-      <View style={styles.container}>
-        <Text>Cmon Norm!</Text>
-      </View>*/
