@@ -24,7 +24,7 @@ function RenderDish(props){
         return (
             <Card featuredTitle={dish.name} image={{uri: baseUrl + dish.image}}>
                 <Text style={{margin:10}}>{dish.description}</Text>
-                <Icon raised reverse name={props.favorites ? 'heart' : 'heart-o'} type='font-awesome' color='#f50' onPress={()=>props.favorites ?console.log('already favorite'):props.onPress()}/>
+                <Icon raised reverse name={props.favorite ? 'heart' : 'heart-o'} type='font-awesome' color='#f50' onPress={()=>props.favorites ?console.log('already favorite'):props.onPress()}/>
             </Card>
         );
     }else{
