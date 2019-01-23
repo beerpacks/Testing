@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {View, Text, ScrollView, FlatList, Modal, Button,StyleSheet} from 'react-native';
+import {View, Text, ScrollView, FlatList, Modal, Button,StyleSheet, Alert, PanResponder} from 'react-native';
 import {Card, Icon, Rating, FormLabel, FormInput} from 'react-native-elements';
 import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
@@ -22,17 +22,60 @@ const mapDispatchToProps = dispatch => ({
 
 function RenderDish(props){
     const dish = props.dish;
+
+    const recognizeDrag = ({moveX, moveY, dx, dy})=>{
+        if(dx < -200){
+            return true;
+        }else{
+            return false;
+        }
+    };
+
+    const panResponder = PanResponder.create({
+        onStartShouldSetPanResponder:(e,gestureState)=>{
+            return true;
+        },
+        onPanResponderEnd:(e, gestureState)=>{
+            if(recognizeDrag(gestureState)){
+                Alert.alert(
+                    'Add to Favorites?',
+                    'Are you sure you wish to add ' + dish.name + '',
+                    [
+                        {
+                            text:'Cancel',
+                            onPress:()=>console.log("Cancel pressed"),
+                            style:'cancel'
+                        },
+                        {
+                            text:'OK',
+                            onPress:()=>props.favorites ?console.log('already favorite'):props.onPress()
+                        }
+                    ],
+                    {
+                        cancelable:false
+                    }
+                );
+            }
+            
+            return true;
+        }
+    });
+
     if(dish != null){
         return (
-            <Animatable.View animation="fadeInDown" duration={2000} delay={1000}>
-            <Card
-            featuredTitle={dish.name}
-            image={{uri: baseUrl + dish.image}}>
-                <Text style={{margin:10}}>{dish.description}</Text>
-                <View style={{flexDirection:'row', flex:1, justifyContent:'center'}}>
-                    <Icon raised reverse name={props.favorite ? 'heart' : 'heart-o'} type='font-awesome' color='#f50' onPress={()=>props.favorites ?console.log('already favorite'):props.onPress()}/>
-                    <Icon raised reverse name={'pencil'} type='font-awesome' color='#512DA8' onPress={()=>props.onNewComment()}/>
-                </View>
+            <Animatable.View animation="fadeInDown" duration={2000} delay={1000}
+                {
+                    ...panResponder.panHandlers
+                }
+            >
+                <Card
+                    featuredTitle={dish.name}
+                    image={{uri: baseUrl + dish.image}}>
+                    <Text style={{margin:10}}>{dish.description}</Text>
+                    <View style={{flexDirection:'row', flex:1, justifyContent:'center'}}>
+                        <Icon raised reverse name={props.favorite ? 'heart' : 'heart-o'} type='font-awesome' color='#f50' onPress={()=>props.favorites ?console.log('already favorite'):props.onPress()}/>
+                        <Icon raised reverse name={'pencil'} type='font-awesome' color='#512DA8' onPress={()=>props.onNewComment()}/>
+                    </View>
                 </Card>
             </Animatable.View>
         );
