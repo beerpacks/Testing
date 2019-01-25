@@ -132,6 +132,22 @@ class RegisterTab extends Component {
         }
     }
 
+    getImageFromGallery = async () => {
+        const cameraPermission = await Permissions.askAsync(Permissions.CAMERA);
+        const cameraRollPermission = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+
+        if (cameraPermission.status === 'granted' && cameraRollPermission.status === 'granted') {
+            let selectedImage = await ImagePicker.launchImageLibraryAsync({
+                allowsEditing: true,
+                aspect: [4, 3],
+            });
+            if(!selectedImage.cancelled){
+                console.log(selectedImage);
+                this.processImage(selectedImage.uri);
+            }
+        }
+    }
+
     getImageFromCamera = async () => {
         const cameraPermission = await Permissions.askAsync(Permissions.CAMERA);
         const cameraRollPermission = await Permissions.askAsync(Permissions.CAMERA_ROLL);
@@ -142,7 +158,7 @@ class RegisterTab extends Component {
                 aspect: [4, 3],
             });
             if (!capturedImage.cancelled) {
-                //console.log(capturedImage);
+                console.log(capturedImage);
                 this.processImage(capturedImage.uri);
             }
         }
@@ -150,7 +166,6 @@ class RegisterTab extends Component {
     }
 
     processImage = async (imageUri) => {
-        alert(imageUri)
         let processedImage = await ImageManipulator.manipulate(
             imageUri, 
             [
@@ -158,8 +173,7 @@ class RegisterTab extends Component {
             ],
             {format: 'png'}
         );
-        console.log("je me rend")
-        //console.log(processedImage);
+        console.log(processedImage);
         this.setState({imageUrl: processedImage.uri });
 
     }
@@ -196,6 +210,11 @@ class RegisterTab extends Component {
                     <Button
                         title="Camera"
                         onPress={this.getImageFromCamera}
+                        />
+
+                    <Button
+                        title="Library"
+                        onPress={this.getImageFromGallery}
                         />
                 </View>
                 <FormInput
