@@ -6,39 +6,23 @@ const dishRouter = express.Router();
 dishRouter.use(bodyParser.json());
 
 dishRouter.route('/')
-.all((req,res,next)=>{
+.all((req,res,next) => {
     res.statusCode = 200;
-    res.setHeader('Content-Type','text/plain');
+    res.setHeader('Content-Type', 'text/plain');
     next();
 })
-.get((req,res,next)=>{
-    res.end('will send all the dishes to you !');
+.get((req,res,next) => {
+    res.end('Will send all the dishes to you!');
 })
-.post((req,res,next)=>{
-    res.end('Will add the dish: ' + req.body.name + ' with details : ' +req.body.description );
+.post((req, res, next) => {
+    res.end('Will add the dish: ' + req.body.name + ' with details: ' + req.body.description);
 })
-.put((req,res,next)=>{
+.put((req, res, next) => {
     res.statusCode = 403;
     res.end('PUT operation not supported on /dishes');
 })
-.delete((req,res,next)=>{
-    res.end('deleting all the deshies !');
-})
+.delete((req, res, next) => {
+    res.end('Deleting all dishes');
+});
 
 module.exports = dishRouter;
-
-/*
-.get((req,res,next)=>{
-    res.end('will send '+ req.param.dishId+ ' the dishe to you !');
-})
-.post((req,res,next)=>{
-    res.statusCode = 403;
-    res.end('POST operation not supported on /dishes/:dishId('+req.param.dishId+')');
-})
-.put((req,res,next)=>{
-    res.write('Updating the dish ' + req.param.dishId + '\n');
-    res.end('Will update the dish: ' + req.body.name + ' with details : '+ req.body.description);
-})
-.delete((req,res,next)=>{
-    res.end('Deleting dish:' + req.param.dishId);
-})*/
