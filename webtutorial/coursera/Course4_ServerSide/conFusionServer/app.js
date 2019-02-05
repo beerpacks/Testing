@@ -18,8 +18,8 @@ const leaderRouter = require('./routes/leaderRouter');
 const mongoose = require('mongoose');
 
 const Dishes = require('./models/dishes');
-
-const url = 'mongodb://localhost:27017/conFusion';
+var config = require('./config');
+const url = config.mongoUrl;
 const connect = mongoose.connect(url);
 
 connect.then((db) => {
@@ -48,9 +48,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-
-var config = require('./config');
-const url = config.mongoUrl;
 
 app.use(express.static(path.join(__dirname, 'public')));
 
