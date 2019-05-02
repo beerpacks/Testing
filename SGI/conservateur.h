@@ -13,6 +13,7 @@ public:
     QString getId();
     double getCommission();
     void setCommission(double valueSold);
+    QString toString();
 private:
     QString id;
     double commission;

@@ -34,3 +34,8 @@ void Conservateur::setCommission(double valueSold)
 {
     commission += valueSold * 0.2;
 }
+
+QString Conservateur::toString()
+{
+    return QString("Id:" + id + " Nom:"+prenom+","+nomFamille + " Commission:" + commission);
+}
