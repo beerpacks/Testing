@@ -2,15 +2,14 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { Stores } from './stores/stores';
+import { TestComponents } from './components/test/testcomponents';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        {
-          Stores.employeeStore.name
-        }
+        <TestComponents />
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>

@@ -71,7 +71,7 @@ let token = "";
 
 export function apiUrl(controller: string, methodName: string) {
     if (window.location.origin.indexOf("localhost") > 0) {
-        return `http://localhost:65390/api/${controller}/${methodName}`;
+        return `http://localhost:3000/api` ///${controller}/${methodName};
     } else {
         if (window.location.origin.indexOf("mngtool.cafection.com") >= 0) {
             return `https://mngtool.cafection.com/mng3/api/${controller}/${methodName}`;
