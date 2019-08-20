@@ -6,8 +6,14 @@ export class EmployeesStore {
 
     @observable name: string = "jf";
 
+    @observable playersName: string[] = ["adsf", "qwer"];
+
     @computed get getName() {
         return this.name;
+    }
+
+    @computed get allPlayersName() {
+        return this.playersName;
     }
 
     async loadName() {
@@ -24,6 +30,23 @@ export class EmployeesStore {
             if (tmp.name.length > 0) {
                 this.name = tmp.name;
             }
+        } catch (err) {
+
+        }
+    }
+
+    async loadPlayers() {
+        let input: Server.loginInfo = {
+            alternatePassword: "",
+            email: "email",
+            password: "password",
+            username: ""
+        };
+
+        try {
+            let tmp = await Server.getplayerslist(input);
+            console.debug(JSON.stringify(tmp))
+            this.playersName = tmp.names;
         } catch (err) {
 
         }

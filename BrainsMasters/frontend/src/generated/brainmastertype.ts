@@ -5,3 +5,7 @@ export interface LoginInfoTest {
 export interface EmployeesInfoTest {
     name: string;
 }
+
+export interface Test {
+    names: string[];
+}

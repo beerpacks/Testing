@@ -24,7 +24,21 @@ export class TestComponents extends React.Component<Props, State> {
         if (!this.tesing)
             return (<div />);
         return (
-            <div>my name is : {this.tesing.name} <button onClick={() => { this.tesing.onSetName() }} value="refresh" /></div>
+            <div>
+                my name is : {this.tesing.name} <button onClick={() => { this.tesing.onSetName() }} value="refresh" />
+                <div>
+                    players
+                    {
+                        this.tesing.playersNames.map(pla => {
+                            return (
+                                <div>
+                                    {pla}
+                                </div>
+                            )
+                        })
+                    }
+                </div>
+            </div>
         )
     }
 }
