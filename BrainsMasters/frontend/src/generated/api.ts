@@ -5,8 +5,15 @@ export interface Test {
   name: string
 }
 
-export async function getEmployees(request: string) { //BrainMasterType.LoginInfoTest
-  return await apiCall<string, Test>(
+export interface loginInfo {
+  alternatePassword: string,
+  email: string,
+  password: string,
+  username: string
+};
+
+export async function getEmployees(request: loginInfo) { //BrainMasterType.LoginInfoTest
+  return await apiCall<loginInfo, Test>(
     'employees',
     'getallemployees',
     request,

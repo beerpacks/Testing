@@ -20,12 +20,12 @@ export async function apiCall<REQUEST, RESPONSE>(
             method: "POST",
             body: JSON.stringify(request),
             headers: {
-                "Content-Type": "application/json",
-                Authorization: authorization
+                "Content-Type": "application/json"//,
+                //Authorization: authorization
             }
         });
 
-        //console.log(JSON.stringify(response1))
+        console.log(JSON.stringify(response1))
 
         if (response1.status === 410) {
             /*
@@ -71,7 +71,7 @@ let token = "";
 
 export function apiUrl(controller: string, methodName: string) {
     if (window.location.origin.indexOf("localhost") > 0) {
-        return `http://localhost:3000/api` ///${controller}/${methodName};
+        return `http://localhost:3000/api/${controller}/${methodName}`;
     } else {
         if (window.location.origin.indexOf("mngtool.cafection.com") >= 0) {
             return `https://mngtool.cafection.com/mng3/api/${controller}/${methodName}`;
