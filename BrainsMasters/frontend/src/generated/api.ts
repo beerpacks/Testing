@@ -1,10 +1,6 @@
 import * as BrainMasterType from "./brainmastertype";
 import { apiCall } from "../utils";
 
-export interface Test {
-  name: string
-}
-
 export interface loginInfo {
   alternatePassword: string,
   email: string,
@@ -13,9 +9,20 @@ export interface loginInfo {
 };
 
 export async function getEmployees(request: loginInfo) { //BrainMasterType.LoginInfoTest
-  return await apiCall<loginInfo, Test>(
+  return await apiCall<loginInfo, BrainMasterType.EmployeesInfoTest>(
     'employees',
     'getallemployees',
+    request,
+    null,
+    null,
+    false
+  );
+}
+
+export async function getplayerslist(request: loginInfo) { //BrainMasterType.LoginInfoTest
+  return await apiCall<loginInfo, BrainMasterType.Test>(
+    'players',
+    'getallplayers',
     request,
     null,
     null,
