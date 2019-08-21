@@ -1,7 +1,5 @@
 import { computed, observable, action } from "mobx"
-
-import * as Server from "../generated/api";
-
+import * as Server from "../generated/playerscontroller";
 export class EmployeesStore {
 
     @observable name: string = "jf";
@@ -17,6 +15,7 @@ export class EmployeesStore {
     }
 
     async loadName() {
+        /*
         let input: Server.loginInfo = {
             alternatePassword: "",
             email: "email",
@@ -32,19 +31,12 @@ export class EmployeesStore {
             }
         } catch (err) {
 
-        }
+        }*/
     }
 
     async loadPlayers() {
-        let input: Server.loginInfo = {
-            alternatePassword: "",
-            email: "email",
-            password: "password",
-            username: ""
-        };
-
         try {
-            let tmp = await Server.getplayerslist(input);
+            let tmp = await Server.getallplayers({});
             console.debug(JSON.stringify(tmp))
             this.playersName = tmp.names;
         } catch (err) {

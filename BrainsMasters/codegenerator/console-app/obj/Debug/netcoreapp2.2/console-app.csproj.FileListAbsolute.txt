@@ -1,0 +1,11 @@
+C:\Users\jfpelletier\Desktop\Testing\BrainsMasters\codegenerator\console-app\bin\Debug\netcoreapp2.2\console-app.deps.json
+C:\Users\jfpelletier\Desktop\Testing\BrainsMasters\codegenerator\console-app\bin\Debug\netcoreapp2.2\console-app.runtimeconfig.json
+C:\Users\jfpelletier\Desktop\Testing\BrainsMasters\codegenerator\console-app\bin\Debug\netcoreapp2.2\console-app.runtimeconfig.dev.json
+C:\Users\jfpelletier\Desktop\Testing\BrainsMasters\codegenerator\console-app\bin\Debug\netcoreapp2.2\console-app.dll
+C:\Users\jfpelletier\Desktop\Testing\BrainsMasters\codegenerator\console-app\bin\Debug\netcoreapp2.2\console-app.pdb
+C:\Users\jfpelletier\Desktop\Testing\BrainsMasters\codegenerator\console-app\obj\Debug\netcoreapp2.2\console-app.csprojAssemblyReference.cache
+C:\Users\jfpelletier\Desktop\Testing\BrainsMasters\codegenerator\console-app\obj\Debug\netcoreapp2.2\console-app.csproj.CoreCompileInputs.cache
+C:\Users\jfpelletier\Desktop\Testing\BrainsMasters\codegenerator\console-app\obj\Debug\netcoreapp2.2\console-app.AssemblyInfoInputs.cache
+C:\Users\jfpelletier\Desktop\Testing\BrainsMasters\codegenerator\console-app\obj\Debug\netcoreapp2.2\console-app.AssemblyInfo.cs
+C:\Users\jfpelletier\Desktop\Testing\BrainsMasters\codegenerator\console-app\obj\Debug\netcoreapp2.2\console-app.dll
+C:\Users\jfpelletier\Desktop\Testing\BrainsMasters\codegenerator\console-app\obj\Debug\netcoreapp2.2\console-app.pdb
