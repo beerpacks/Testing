@@ -23,9 +23,10 @@ var corsOptions = {
         super(true);
         this.app.use(bodyParser.json());
         this.app.use(bodyParser.urlencoded({ extended: true }));
-        this.app.use(cors({
-            origin: 'http://localhost:3001'
-        }))
+        this.app.use(
+            cors({
+                origin: 'http://localhost:3001'
+            }))
         this.setupControllers();
     }
 
