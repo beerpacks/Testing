@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import path from "path";
 import cors from "cors";
 import { playersApi } from "./playersapi";
+import { formationApi } from "./formationapi";
 
 
 export function startTheServer() {
@@ -28,6 +29,8 @@ export function startTheServer() {
     app.use(cors());
 
     app.use('/api/player', playersApi)
+
+    app.use('/api/formation', formationApi);
     /*
         if (app.get('env') === 'production') {
             app.set('trust proxy', 1) // trust first proxy
