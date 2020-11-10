@@ -53,6 +53,19 @@ const RecruitsLine = observer(({ recruits, onDeleteRecruit }: { recruits: Recrui
                     recruits.name = inputer.target.value
                 }} />
             </div>
+            <div>
+                <input type="number" value={recruits.minPotential} onChange={(inputer) => {
+                    recruits.minPotential = parseInt(inputer.target.value)
+                }} />
+            </div>
+            <div>
+                <input type="number" value={recruits.maxPotential} onChange={(inputer) => {
+                    recruits.maxPotential = parseInt(inputer.target.value)
+                }} />
+            </div>
+            <div>
+                {recruits.midPotential}
+            </div>
             <div style={{ display: 'flex', flexDirection: 'column' }}>
                 <div style={{ display: 'flex', flexDirection: 'row' }}>
                     <div style={{ display: 'flex', flexDirection: 'row' }}>
@@ -108,6 +121,12 @@ const RecruitsLine = observer(({ recruits, onDeleteRecruit }: { recruits: Recrui
                     </div>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'row' }}>
+                    CDM
+                    <input type="checkbox" checked={recruits.positions.find(pos => pos === "CDM") !== undefined} onChange={() => {
+                        recruits.setPosition("CDM")
+                    }} />
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'row' }}>
                     <div>
                         LB
                     <input type="checkbox" checked={recruits.positions.find(pos => pos === "LB") !== undefined} onChange={() => {
@@ -127,19 +146,12 @@ const RecruitsLine = observer(({ recruits, onDeleteRecruit }: { recruits: Recrui
                         }} />
                     </div>
                 </div>
-            </div>
-            <div>
-                <input type="number" value={recruits.minPotential} onChange={(inputer) => {
-                    recruits.minPotential = parseInt(inputer.target.value)
-                }} />
-            </div>
-            <div>
-                <input type="number" value={recruits.maxPotential} onChange={(inputer) => {
-                    recruits.maxPotential = parseInt(inputer.target.value)
-                }} />
-            </div>
-            <div>
-                {recruits.midPotential}
+                <div style={{ display: 'flex', flexDirection: 'row' }}>
+                    GK
+                    <input type="checkbox" checked={recruits.positions.find(pos => pos === "GK") !== undefined} onChange={() => {
+                        recruits.setPosition("GK")
+                    }} />
+                </div>
             </div>
             <div>
                 <select

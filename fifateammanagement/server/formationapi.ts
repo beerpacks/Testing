@@ -40,7 +40,6 @@ formationApi.post("/playersstats", (req, res) => {
                 }
                 return presence
             }, 0)
-            console.debug("test " + JSON.stringify(test))
             response.players.push({ name: player, presence: test })
         })
 
