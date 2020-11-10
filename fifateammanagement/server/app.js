@@ -8,6 +8,7 @@ const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const cors_1 = __importDefault(require("cors"));
 const playersapi_1 = require("./playersapi");
+const formationapi_1 = require("./formationapi");
 function startTheServer() {
     const app = express_1.default();
     if (!process.env.NODE_ENV) {
@@ -23,6 +24,7 @@ function startTheServer() {
     }));
     app.use(cors_1.default());
     app.use('/api/player', playersapi_1.playersApi);
+    app.use('/api/formation', formationapi_1.formationApi);
     /*
         if (app.get('env') === 'production') {
             app.set('trust proxy', 1) // trust first proxy
