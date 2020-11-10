@@ -23,7 +23,9 @@ export class RecruitsModel {
 
     @action
     addRecruits() {
-        this.recruitsList.push(new Recruits(""))
+        let newRecruits = new Recruits("")
+        newRecruits.isEditting = true
+        this.recruitsList.push(newRecruits)
     }
 
     @action
@@ -55,11 +57,6 @@ export class RecruitsModel {
     deleteRecruits(model: Recruits) {
         this.recruitsList = this.recruitsList.filter(recruit => recruit !== model)
     }
-
-    @computed get getSize() {
-        console.debug("je trigg")
-        return this.recruitsList.length
-    }
 }
 
 export class Recruits {
@@ -73,6 +70,7 @@ export class Recruits {
     weakFoot: number
     technique: number
     status: string
+    isEditting: boolean
 
     constructor(name?: string, positons?: string[], minPotential?: number, maxPotential?: number, atkWorkRate?: string, defWorkRate?: string, weakFoot?: number, technique?: number, status?: string) {
         makeAutoObservable(this)
@@ -86,6 +84,7 @@ export class Recruits {
         this.weakFoot = weakFoot || 1;
         this.technique = technique || 1;
         this.status = status || "new"
+        this.isEditting = false
     }
 
     @computed get midPotential() {
@@ -93,7 +92,15 @@ export class Recruits {
     }
 
     @computed get fullRating() {
-        return 99;
+        return this.midPotential +
+            (this.atkWorkRate === "High" ? 100 : this.atkWorkRate === "Medium" ? 50 : 0) +
+            (this.defWorkRate === "High" ? 100 : this.defWorkRate === "Medium" ? 50 : 0) +
+            (this.weakFoot * 20) +
+            (this.technique * 20)
+    }
+
+    @computed get playerPosition() {
+        return this.positions.join();
     }
 
     @action
@@ -103,6 +110,11 @@ export class Recruits {
         } else {
             this.positions.push(newPosition)
         }
+    }
+
+    @action
+    setEditting() {
+        this.isEditting = !this.isEditting
     }
 
 }
