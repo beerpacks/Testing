@@ -19,17 +19,17 @@ export class RecruitsView extends React.Component {
                         <th>Name</th>
                         <th style={{ maxWidth: 60 }}>Min Potential</th>
                         <th style={{ maxWidth: 60 }}>Max Potential</th>
-                        <th style={{ maxWidth: 60 }}>Mid Potential</th>
+                        <th onClick={() => { this.model.setSortValue("midPotential") }} style={{ maxWidth: 60 }}>Mid Potential</th>
                         <th>Position</th>
-                        <th style={{ maxWidth: 60 }}>Atk Work Rate</th>
-                        <th style={{ maxWidth: 60 }}>Def Work Rate</th>
-                        <th>Weak Foot</th>
-                        <th>Technique</th>
-                        <th>Full Rating</th>
+                        <th onClick={() => { this.model.setSortValue("atkworkRate") }} style={{ maxWidth: 60 }}>Atk Work Rate</th>
+                        <th onClick={() => { this.model.setSortValue("defWorkRate") }} style={{ maxWidth: 60 }}>Def Work Rate</th>
+                        <th onClick={() => { this.model.setSortValue("weakfoot") }}>Weak Foot</th>
+                        <th onClick={() => { this.model.setSortValue("technique") }}>Technique</th>
+                        <th onClick={() => { this.model.setSortValue("fullRating") }}>Full Rating</th>
                     </tr>
                     <tbody>
                         {
-                            this.model.recruitsList.map(recruit => {
+                            this.model.recruits.map(recruit => {
                                 return (<RecruitsLine key={recruit.id} recruits={recruit} onDeleteRecruit={() => this.model.deleteRecruits(recruit)} />)
                             })
                         }
