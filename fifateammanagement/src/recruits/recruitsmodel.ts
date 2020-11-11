@@ -2,8 +2,12 @@ import { action, computed, makeAutoObservable, observable } from "mobx";
 import { getAllPlayers, setAllPlayers } from "../store/playerapi";
 import { uuidv4 } from "../util/servercall"
 
+type SortValue = "fullRating" | "technique" | "weakfoot" | "defWorkRate" | "atkworkRate" | "midPotential"
+
 export class RecruitsModel {
     recruitsList: Recruits[];
+
+    sortBy: string = "fullRating"
 
     constructor() {
         makeAutoObservable(this)
@@ -19,6 +23,57 @@ export class RecruitsModel {
                 }))
             }
         });
+    }
+
+    sortingByFullRating = (recruits1: Recruits, recruits2: Recruits) => {
+        return recruits1.fullRating > recruits2.fullRating ? -1 : 1
+    }
+
+    sortingByTechnique = (recruits1: Recruits, recruits2: Recruits) => {
+        return recruits1.technique > recruits2.technique ? -1 : 1
+    }
+
+    sortingByWeakFoot = (recruits1: Recruits, recruits2: Recruits) => {
+        return recruits1.weakFoot > recruits2.weakFoot ? -1 : 1
+    }
+
+    sortingByDefWorkRate = (recruits1: Recruits, recruits2: Recruits) => {
+        if (recruits1.defWorkRate === "High" && (recruits2.defWorkRate === "Medium" || recruits2.defWorkRate === "Low"))
+            return -1
+        if (recruits1.defWorkRate === "Medium" && recruits2.defWorkRate === "Low")
+            return -1
+        return 1
+    }
+
+    sortingByAtkWorkRate = (recruits1: Recruits, recruits2: Recruits) => {
+        if (recruits1.atkWorkRate === "High" && (recruits2.atkWorkRate === "Medium" || recruits2.atkWorkRate === "Low"))
+            return -1
+        if (recruits1.atkWorkRate === "Medium" && recruits2.atkWorkRate === "Low")
+            return -1
+        return 1
+    }
+
+    sortingByMidPotential = (recruits1: Recruits, recruits2: Recruits) => {
+        return recruits1.midPotential > recruits2.midPotential ? -1 : 1
+    }
+
+    @computed get recruits() {
+        if (this.sortBy === "midPotential")
+            return this.recruitsList.slice().sort(this.sortingByMidPotential)
+        if (this.sortBy === "atkworkRate")
+            return this.recruitsList.slice().sort(this.sortingByAtkWorkRate)
+        if (this.sortBy === "defWorkRate")
+            return this.recruitsList.slice().sort(this.sortingByDefWorkRate)
+        if (this.sortBy === "weakfoot")
+            return this.recruitsList.slice().sort(this.sortingByWeakFoot)
+        if (this.sortBy === "technique")
+            return this.recruitsList.slice().sort(this.sortingByTechnique)
+        return this.recruitsList.slice().sort(this.sortingByFullRating);
+    }
+
+    @action
+    setSortValue(newSort: SortValue) {
+        this.sortBy = newSort;
     }
 
     @action
