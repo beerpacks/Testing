@@ -9,6 +9,8 @@ export class RecruitsModel {
 
     sortBy: string = "fullRating"
 
+    searchedPosition: string[] = []
+
     constructor() {
         makeAutoObservable(this)
         this.recruitsList = []
@@ -76,21 +78,43 @@ export class RecruitsModel {
     }
 
     @computed get mainComparatorModel() {
-        return this.recruitsList.find(recruit => recruit.isMainComparator)
+        return this.filteredRecruits.find(recruit => recruit.isMainComparator)
     }
 
     @computed get recruits() {
         if (this.sortBy === "midPotential")
-            return this.recruitsList.slice().sort(this.sortingByMidPotential)
+            return this.filteredRecruits.slice().sort(this.sortingByMidPotential)
         if (this.sortBy === "atkworkRate")
-            return this.recruitsList.slice().sort(this.sortingByAtkWorkRate)
+            return this.filteredRecruits.slice().sort(this.sortingByAtkWorkRate)
         if (this.sortBy === "defWorkRate")
-            return this.recruitsList.slice().sort(this.sortingByDefWorkRate)
+            return this.filteredRecruits.slice().sort(this.sortingByDefWorkRate)
         if (this.sortBy === "weakfoot")
-            return this.recruitsList.slice().sort(this.sortingByWeakFoot)
+            return this.filteredRecruits.slice().sort(this.sortingByWeakFoot)
         if (this.sortBy === "technique")
-            return this.recruitsList.slice().sort(this.sortingByTechnique)
-        return this.recruitsList.slice().sort(this.sortingByFullRating);
+            return this.filteredRecruits.slice().sort(this.sortingByTechnique)
+        return this.filteredRecruits.slice().sort(this.sortingByFullRating);
+    }
+
+    @computed get filteredRecruits() {
+        if (this.searchedPosition.length > 0) {
+            console.debug("resultat" + this.recruitsList.filter(recruit => this.searchedPosition.every(pos => recruit.positions.includes(pos))))
+            return this.recruitsList.filter(recruit => this.searchedPosition.every(pos => recruit.positions.includes(pos)))
+        }
+        return this.recruitsList;
+    }
+
+    @action
+    setSearch(newPosition: string) {
+        if (this.searchedPosition.find(pos => pos === newPosition) !== undefined) {
+            this.searchedPosition = this.searchedPosition.filter(pos => pos !== newPosition);
+        } else {
+            this.searchedPosition.push(newPosition)
+        }
+    }
+
+    @action
+    clearSearch() {
+        this.searchedPosition = []
     }
 
     @action
