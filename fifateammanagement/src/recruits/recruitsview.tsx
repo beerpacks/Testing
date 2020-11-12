@@ -1,4 +1,4 @@
-import { observable } from "mobx"
+import { observable, observe } from "mobx"
 import * as React from "react"
 import { Recruits, RecruitsModel } from "./recruitsmodel"
 import { observer } from "mobx-react"
@@ -14,14 +14,102 @@ export class RecruitsView extends React.Component {
     render() {
         return (
             <div style={{ display: "flex", flexDirection: "column" }}>
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                    <span>Search by selecting positions</span>
+                    <div style={{ display: 'flex' }}>
+                        <Button text="Clear search" onClick={() => { this.model.clearSearch() }} />
+                        <div style={{ display: 'flex', flexDirection: 'row' }}>
+                            LW
+                            <input type="checkbox" checked={this.model.searchedPosition.find(pos => pos === "LW") !== undefined} onChange={() => {
+                                this.model.setSearch("LW")
+                            }} />
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'row' }}>
+                            ST
+                            <input type="checkbox" checked={this.model.searchedPosition.find(pos => pos === "ST") !== undefined} onChange={() => {
+                                this.model.setSearch("ST")
+                            }} />
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'row' }}>
+                            RW
+                            <input type="checkbox" checked={this.model.searchedPosition.find(pos => pos === "RW") !== undefined} onChange={() => {
+                                this.model.setSearch("RW")
+                            }} />
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'row' }}>
+                            CF
+                            <input type="checkbox" checked={this.model.searchedPosition.find(pos => pos === "CF") !== undefined} onChange={() => {
+                                this.model.setSearch("CF")
+                            }} />
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'row' }}>
+                            CAM
+                            <input type="checkbox" checked={this.model.searchedPosition.find(pos => pos === "CAM") !== undefined} onChange={() => {
+                                this.model.setSearch("CAM")
+                            }} />
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'row' }}>
+                            LM
+                            <input type="checkbox" checked={this.model.searchedPosition.find(pos => pos === "LM") !== undefined} onChange={() => {
+                                this.model.setSearch("LM")
+                            }} />
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'row' }}>
+                            CM
+                            <input type="checkbox" checked={this.model.searchedPosition.find(pos => pos === "CM") !== undefined} onChange={() => {
+                                this.model.setSearch("CM")
+                            }} />
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'row' }}>
+                            RM
+                            <input type="checkbox" checked={this.model.searchedPosition.find(pos => pos === "RM") !== undefined} onChange={() => {
+                                this.model.setSearch("RM")
+                            }} />
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'row' }}>
+                            CDM
+                            <input type="checkbox" checked={this.model.searchedPosition.find(pos => pos === "CDM") !== undefined} onChange={() => {
+                                this.model.setSearch("CDM")
+                            }} />
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'row' }}>
+                            LB
+                            <input type="checkbox" checked={this.model.searchedPosition.find(pos => pos === "LB") !== undefined} onChange={() => {
+                                this.model.setSearch("LB")
+                            }} />
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'row' }}>
+                            CB
+                            <input type="checkbox" checked={this.model.searchedPosition.find(pos => pos === "CB") !== undefined} onChange={() => {
+                                this.model.setSearch("CB")
+                            }} />
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'row' }}>
+                            RB
+                            <input type="checkbox" checked={this.model.searchedPosition.find(pos => pos === "RB") !== undefined} onChange={() => {
+                                this.model.setSearch("RB")
+                            }} />
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'row' }}>
+                            GK
+                            <input type="checkbox" checked={this.model.searchedPosition.find(pos => pos === "GK") !== undefined} onChange={() => {
+                                this.model.setSearch("GK")
+                            }} />
+                        </div>
+                    </div>
+                </div>
                 <table>
                     <tr>
                         <th></th>
-                        <th>Name</th>
+                        <th>
+                            <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                <span>Name</span>
+                                <span>Position(s)</span>
+                            </div>
+                        </th>
                         <th style={{ maxWidth: 60 }}>Min Potential</th>
                         <th style={{ maxWidth: 60 }}>Max Potential</th>
                         <th onClick={() => { this.model.setSortValue("midPotential") }} style={{ maxWidth: 60 }}>Mid Potential</th>
-                        <th>Position</th>
                         <th onClick={() => { this.model.setSortValue("atkworkRate") }} style={{ maxWidth: 60 }}>Atk Work Rate</th>
                         <th onClick={() => { this.model.setSortValue("defWorkRate") }} style={{ maxWidth: 60 }}>Def Work Rate</th>
                         <th onClick={() => { this.model.setSortValue("weakfoot") }}>Weak Foot</th>
@@ -55,13 +143,106 @@ const RecruitsLine = observer(({ recruits, comparatorModel, onDeleteRecruit }: {
                 }
             </td>
             <td>
-                {
-                    recruits.isEditting ? (
-                        <input type="text" value={recruits.name} onChange={(inputer) => {
-                            recruits.name = inputer.target.value
-                        }} />
-                    ) : (recruits.name)
-                }
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    {
+                        recruits.isEditting ? (
+                            <input type="text" value={recruits.name} onChange={(inputer) => {
+                                recruits.name = inputer.target.value
+                            }} />
+                        ) : (<span>{recruits.name}</span>)
+                    }
+                    {
+                        recruits.isEditting ? (
+                            <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                    <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                        LW
+                    <input type="checkbox" checked={recruits.positions.find(pos => pos === "LW") !== undefined} onChange={() => {
+                                            recruits.setPosition("LW")
+                                        }} />
+                                    </div>
+                                    <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                        ST
+                <input type="checkbox" checked={recruits.positions.find(pos => pos === "ST") !== undefined} onChange={() => {
+                                            recruits.setPosition("ST")
+                                        }} />
+                                    </div>
+                                    <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                        RW
+                <input type="checkbox" checked={recruits.positions.find(pos => pos === "RW") !== undefined} onChange={() => {
+                                            recruits.setPosition("RW")
+                                        }} />
+                                    </div>
+                                </div>
+                                <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                    CF
+                    <input type="checkbox" checked={recruits.positions.find(pos => pos === "CF") !== undefined} onChange={() => {
+                                        recruits.setPosition("CF")
+                                    }} />
+
+                                </div>
+                                <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                    CAM
+                    <input type="checkbox" checked={recruits.positions.find(pos => pos === "CAM") !== undefined} onChange={() => {
+                                        recruits.setPosition("CAM")
+                                    }} />
+                                </div>
+                                <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                    <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                        LM
+                    <input type="checkbox" checked={recruits.positions.find(pos => pos === "LM") !== undefined} onChange={() => {
+                                            recruits.setPosition("LM")
+                                        }} />
+                                    </div>
+                                    <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                        CM
+                    <input type="checkbox" checked={recruits.positions.find(pos => pos === "CM") !== undefined} onChange={() => {
+                                            recruits.setPosition("CM")
+                                        }} />
+                                    </div>
+                                    <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                        RM
+                    <input type="checkbox" checked={recruits.positions.find(pos => pos === "RM") !== undefined} onChange={() => {
+                                            recruits.setPosition("RM")
+                                        }} />
+                                    </div>
+                                </div>
+                                <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                    CDM
+                    <input type="checkbox" checked={recruits.positions.find(pos => pos === "CDM") !== undefined} onChange={() => {
+                                        recruits.setPosition("CDM")
+                                    }} />
+                                </div>
+                                <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                    <div>
+                                        LB
+                    <input type="checkbox" checked={recruits.positions.find(pos => pos === "LB") !== undefined} onChange={() => {
+                                            recruits.setPosition("LB")
+                                        }} />
+                                    </div>
+                                    <div>
+                                        CB
+                    <input type="checkbox" checked={recruits.positions.find(pos => pos === "CB") !== undefined} onChange={() => {
+                                            recruits.setPosition("CB")
+                                        }} />
+                                    </div>
+                                    <div>
+                                        RB
+                    <input type="checkbox" checked={recruits.positions.find(pos => pos === "RB") !== undefined} onChange={() => {
+                                            recruits.setPosition("RB")
+                                        }} />
+                                    </div>
+                                </div>
+                                <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                    GK
+                    <input type="checkbox" checked={recruits.positions.find(pos => pos === "GK") !== undefined} onChange={() => {
+                                        recruits.setPosition("GK")
+                                    }} />
+                                </div>
+                            </div>
+                        ) : (<span>{recruits.playerPosition}</span>)
+                    }
+                </div>
             </td>
             <td>
                 {
@@ -101,99 +282,6 @@ const RecruitsLine = observer(({ recruits, comparatorModel, onDeleteRecruit }: {
                         )
                     }
                 </div>
-            </td>
-            <td>
-                {
-                    recruits.isEditting ? (
-                        <div style={{ display: 'flex', flexDirection: 'column' }}>
-                            <div style={{ display: 'flex', flexDirection: 'row' }}>
-                                <div style={{ display: 'flex', flexDirection: 'row' }}>
-                                    LW
-                    <input type="checkbox" checked={recruits.positions.find(pos => pos === "LW") !== undefined} onChange={() => {
-                                        recruits.setPosition("LW")
-                                    }} />
-                                </div>
-                                <div style={{ display: 'flex', flexDirection: 'row' }}>
-                                    ST
-                <input type="checkbox" checked={recruits.positions.find(pos => pos === "ST") !== undefined} onChange={() => {
-                                        recruits.setPosition("ST")
-                                    }} />
-                                </div>
-                                <div style={{ display: 'flex', flexDirection: 'row' }}>
-                                    RW
-                <input type="checkbox" checked={recruits.positions.find(pos => pos === "RW") !== undefined} onChange={() => {
-                                        recruits.setPosition("RW")
-                                    }} />
-                                </div>
-                            </div>
-                            <div style={{ display: 'flex', flexDirection: 'row' }}>
-                                CF
-                    <input type="checkbox" checked={recruits.positions.find(pos => pos === "CF") !== undefined} onChange={() => {
-                                    recruits.setPosition("CF")
-                                }} />
-
-                            </div>
-                            <div style={{ display: 'flex', flexDirection: 'row' }}>
-                                CAM
-                    <input type="checkbox" checked={recruits.positions.find(pos => pos === "CAM") !== undefined} onChange={() => {
-                                    recruits.setPosition("CAM")
-                                }} />
-                            </div>
-                            <div style={{ display: 'flex', flexDirection: 'row' }}>
-                                <div style={{ display: 'flex', flexDirection: 'row' }}>
-                                    LM
-                    <input type="checkbox" checked={recruits.positions.find(pos => pos === "LM") !== undefined} onChange={() => {
-                                        recruits.setPosition("LM")
-                                    }} />
-                                </div>
-                                <div style={{ display: 'flex', flexDirection: 'row' }}>
-                                    CM
-                    <input type="checkbox" checked={recruits.positions.find(pos => pos === "CM") !== undefined} onChange={() => {
-                                        recruits.setPosition("CM")
-                                    }} />
-                                </div>
-                                <div style={{ display: 'flex', flexDirection: 'row' }}>
-                                    RM
-                    <input type="checkbox" checked={recruits.positions.find(pos => pos === "RM") !== undefined} onChange={() => {
-                                        recruits.setPosition("RM")
-                                    }} />
-                                </div>
-                            </div>
-                            <div style={{ display: 'flex', flexDirection: 'row' }}>
-                                CDM
-                    <input type="checkbox" checked={recruits.positions.find(pos => pos === "CDM") !== undefined} onChange={() => {
-                                    recruits.setPosition("CDM")
-                                }} />
-                            </div>
-                            <div style={{ display: 'flex', flexDirection: 'row' }}>
-                                <div>
-                                    LB
-                    <input type="checkbox" checked={recruits.positions.find(pos => pos === "LB") !== undefined} onChange={() => {
-                                        recruits.setPosition("LB")
-                                    }} />
-                                </div>
-                                <div>
-                                    CB
-                    <input type="checkbox" checked={recruits.positions.find(pos => pos === "CB") !== undefined} onChange={() => {
-                                        recruits.setPosition("CB")
-                                    }} />
-                                </div>
-                                <div>
-                                    RB
-                    <input type="checkbox" checked={recruits.positions.find(pos => pos === "RB") !== undefined} onChange={() => {
-                                        recruits.setPosition("RB")
-                                    }} />
-                                </div>
-                            </div>
-                            <div style={{ display: 'flex', flexDirection: 'row' }}>
-                                GK
-                    <input type="checkbox" checked={recruits.positions.find(pos => pos === "GK") !== undefined} onChange={() => {
-                                    recruits.setPosition("GK")
-                                }} />
-                            </div>
-                        </div>
-                    ) : (recruits.playerPosition)
-                }
             </td>
             <td>
                 {
