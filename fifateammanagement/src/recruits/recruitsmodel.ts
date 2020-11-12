@@ -26,35 +26,57 @@ export class RecruitsModel {
     }
 
     sortingByFullRating = (recruits1: Recruits, recruits2: Recruits) => {
-        return recruits1.fullRating > recruits2.fullRating ? -1 : 1
+        if (!recruits1.isMainComparator && !recruits2.isMainComparator) {
+            return recruits1.fullRating > recruits2.fullRating ? -1 : 1
+        }
+        return recruits2.isMainComparator ? 1 : -1
     }
 
     sortingByTechnique = (recruits1: Recruits, recruits2: Recruits) => {
-        return recruits1.technique > recruits2.technique ? -1 : 1
+        if (!recruits1.isMainComparator && !recruits2.isMainComparator) {
+            return recruits1.technique > recruits2.technique ? -1 : 1
+        }
+        return recruits2.isMainComparator ? 1 : -1
     }
 
     sortingByWeakFoot = (recruits1: Recruits, recruits2: Recruits) => {
-        return recruits1.weakFoot > recruits2.weakFoot ? -1 : 1
+        if (!recruits1.isMainComparator && !recruits2.isMainComparator) {
+            return recruits1.weakFoot > recruits2.weakFoot ? -1 : 1
+        }
+        return recruits2.isMainComparator ? 1 : -1
     }
 
     sortingByDefWorkRate = (recruits1: Recruits, recruits2: Recruits) => {
-        if (recruits1.defWorkRate === "High" && (recruits2.defWorkRate === "Medium" || recruits2.defWorkRate === "Low"))
-            return -1
-        if (recruits1.defWorkRate === "Medium" && recruits2.defWorkRate === "Low")
-            return -1
-        return 1
+        if (!recruits1.isMainComparator && !recruits2.isMainComparator) {
+            if (recruits1.defWorkRate === "High" && (recruits2.defWorkRate === "Medium" || recruits2.defWorkRate === "Low"))
+                return -1
+            if (recruits1.defWorkRate === "Medium" && recruits2.defWorkRate === "Low")
+                return -1
+            return 1
+        }
+        return recruits2.isMainComparator ? 1 : -1
     }
 
     sortingByAtkWorkRate = (recruits1: Recruits, recruits2: Recruits) => {
-        if (recruits1.atkWorkRate === "High" && (recruits2.atkWorkRate === "Medium" || recruits2.atkWorkRate === "Low"))
-            return -1
-        if (recruits1.atkWorkRate === "Medium" && recruits2.atkWorkRate === "Low")
-            return -1
-        return 1
+        if (!recruits1.isMainComparator && !recruits2.isMainComparator) {
+            if (recruits1.atkWorkRate === "High" && (recruits2.atkWorkRate === "Medium" || recruits2.atkWorkRate === "Low"))
+                return -1
+            if (recruits1.atkWorkRate === "Medium" && recruits2.atkWorkRate === "Low")
+                return -1
+            return 1
+        }
+        return recruits2.isMainComparator ? 1 : -1
     }
 
     sortingByMidPotential = (recruits1: Recruits, recruits2: Recruits) => {
-        return recruits1.midPotential > recruits2.midPotential ? -1 : 1
+        if (!recruits1.isMainComparator && !recruits2.isMainComparator) {
+            return recruits1.midPotential > recruits2.midPotential ? -1 : 1
+        }
+        return recruits2.isMainComparator ? 1 : -1
+    }
+
+    @computed get mainComparatorModel() {
+        return this.recruitsList.find(recruit => recruit.isMainComparator)
     }
 
     @computed get recruits() {
@@ -126,6 +148,7 @@ export class Recruits {
     technique: number
     status: string
     isEditting: boolean
+    isMainComparator: boolean
 
     constructor(name?: string, positons?: string[], minPotential?: number, maxPotential?: number, atkWorkRate?: string, defWorkRate?: string, weakFoot?: number, technique?: number, status?: string) {
         makeAutoObservable(this)
@@ -140,6 +163,7 @@ export class Recruits {
         this.technique = technique || 1;
         this.status = status || "new"
         this.isEditting = false
+        this.isMainComparator = false
     }
 
     @computed get midPotential() {
@@ -170,6 +194,11 @@ export class Recruits {
     @action
     setEditting() {
         this.isEditting = !this.isEditting
+    }
+
+    @action
+    setMainComparator() {
+        this.isMainComparator = !this.isMainComparator;
     }
 
 }

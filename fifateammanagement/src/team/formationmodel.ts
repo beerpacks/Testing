@@ -1,5 +1,4 @@
 import { action, makeAutoObservable, observable } from "mobx"
-import { GameRequest } from "../../interfaces/formation"
 import { addNewGames, getLastTenGamesStats } from "../store/formationapi"
 import { uuidv4 } from "../util/servercall"
 
@@ -14,6 +13,7 @@ const PLAYERS_LIST: string[] = [
     "Cumar",
     "De Ligt",
     "Aurier",
+    "Onana",
     "Pulgar",
     "Aranguiz",
     "Vietto",

@@ -3,7 +3,7 @@ import * as React from "react"
 import { Recruits, RecruitsModel } from "./recruitsmodel"
 import { observer } from "mobx-react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { faArrowAltCircleDown, faArrowAltCircleUp, faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 
 
 @observer
@@ -16,6 +16,7 @@ export class RecruitsView extends React.Component {
             <div style={{ display: "flex", flexDirection: "column" }}>
                 <table>
                     <tr>
+                        <th></th>
                         <th>Name</th>
                         <th style={{ maxWidth: 60 }}>Min Potential</th>
                         <th style={{ maxWidth: 60 }}>Max Potential</th>
@@ -30,7 +31,7 @@ export class RecruitsView extends React.Component {
                     <tbody>
                         {
                             this.model.recruits.map(recruit => {
-                                return (<RecruitsLine key={recruit.id} recruits={recruit} onDeleteRecruit={() => this.model.deleteRecruits(recruit)} />)
+                                return (<RecruitsLine key={recruit.id} recruits={recruit} onDeleteRecruit={() => this.model.deleteRecruits(recruit)} comparatorModel={this.model.mainComparatorModel} />)
                             })
                         }
                     </tbody>
@@ -45,9 +46,14 @@ export class RecruitsView extends React.Component {
     }
 }
 
-const RecruitsLine = observer(({ recruits, onDeleteRecruit }: { recruits: Recruits, onDeleteRecruit: () => void }) => {
+const RecruitsLine = observer(({ recruits, comparatorModel, onDeleteRecruit }: { recruits: Recruits, comparatorModel?: Recruits, onDeleteRecruit: () => void }) => {
     return (
         <tr>
+            <td>
+                {
+                    <input type="checkbox" onClick={() => { recruits.setMainComparator() }} disabled={comparatorModel && recruits !== comparatorModel}></input>
+                }
+            </td>
             <td>
                 {
                     recruits.isEditting ? (
@@ -76,7 +82,25 @@ const RecruitsLine = observer(({ recruits, onDeleteRecruit }: { recruits: Recrui
                 }
             </td>
             <td>
-                {recruits.midPotential}
+                <div style={{}}>
+                    {recruits.midPotential}
+                    {
+                        isModelBetter(recruits, "midPotential", comparatorModel) &&
+                        (
+                            <FontAwesomeIcon icon={faArrowAltCircleUp} style={{ fontSize: 18, color: 'green' }} />
+                        )
+                    }
+                    {
+                        isModelLesser(recruits, "midPotential", comparatorModel) && (
+                            <FontAwesomeIcon icon={faArrowAltCircleDown} style={{ fontSize: 18, color: 'red' }} />
+                        )
+                    }
+                    {
+                        isModelEqual(recruits, "midPotential", comparatorModel) && (
+                            <span>=</span>
+                        )
+                    }
+                </div>
             </td>
             <td>
                 {
@@ -181,7 +205,29 @@ const RecruitsLine = observer(({ recruits, onDeleteRecruit }: { recruits: Recrui
                             <option key="Medium" value="Medium">Medium</option>
                             <option key="Low" value="Low">Low</option>
                         </select>
-                    ) : (recruits.atkWorkRate)
+                    ) : (
+                            <div>
+                                {
+                                    recruits.atkWorkRate
+                                }
+                                {
+                                    isModelBetter(recruits, "atkWorkRate", comparatorModel) &&
+                                    (
+                                        <FontAwesomeIcon icon={faArrowAltCircleUp} style={{ fontSize: 18, color: 'green' }} />
+                                    )
+                                }
+                                {
+                                    isModelLesser(recruits, "atkWorkRate", comparatorModel) && (
+                                        <FontAwesomeIcon icon={faArrowAltCircleDown} style={{ fontSize: 18, color: 'red' }} />
+                                    )
+                                }
+                                {
+                                    isModelEqual(recruits, "atkWorkRate", comparatorModel) && (
+                                        <span>=</span>
+                                    )
+                                }
+                            </div>
+                        )
                 }
             </td>
             <td>
@@ -194,7 +240,29 @@ const RecruitsLine = observer(({ recruits, onDeleteRecruit }: { recruits: Recrui
                             <option key="Medium" value="Medium">Medium</option>
                             <option key="Low" value="Low">Low</option>
                         </select>
-                    ) : (recruits.defWorkRate)
+                    ) : (
+                            <div>
+                                {
+                                    recruits.defWorkRate
+                                }
+                                {
+                                    isModelBetter(recruits, "defWorkRate", comparatorModel) &&
+                                    (
+                                        <FontAwesomeIcon icon={faArrowAltCircleUp} style={{ fontSize: 18, color: 'green' }} />
+                                    )
+                                }
+                                {
+                                    isModelLesser(recruits, "defWorkRate", comparatorModel) && (
+                                        <FontAwesomeIcon icon={faArrowAltCircleDown} style={{ fontSize: 18, color: 'red' }} />
+                                    )
+                                }
+                                {
+                                    isModelEqual(recruits, "defWorkRate", comparatorModel) && (
+                                        <span>=</span>
+                                    )
+                                }
+                            </div>
+                        )
                 }
             </td>
             <td>
@@ -209,7 +277,29 @@ const RecruitsLine = observer(({ recruits, onDeleteRecruit }: { recruits: Recrui
                             <option key="2" value="2">2</option>
                             <option key="1" value="1">1</option>
                         </select>
-                    ) : (recruits.weakFoot.toString())
+                    ) : (
+                            <div>
+                                {
+                                    recruits.weakFoot.toString()
+                                }
+                                {
+                                    isModelBetter(recruits, "weakFoot", comparatorModel) &&
+                                    (
+                                        <FontAwesomeIcon icon={faArrowAltCircleUp} style={{ fontSize: 18, color: 'green' }} />
+                                    )
+                                }
+                                {
+                                    isModelLesser(recruits, "weakFoot", comparatorModel) && (
+                                        <FontAwesomeIcon icon={faArrowAltCircleDown} style={{ fontSize: 18, color: 'red' }} />
+                                    )
+                                }
+                                {
+                                    isModelEqual(recruits, "weakFoot", comparatorModel) && (
+                                        <span>=</span>
+                                    )
+                                }
+                            </div>
+                        )
                 }
             </td>
             <td>
@@ -224,7 +314,29 @@ const RecruitsLine = observer(({ recruits, onDeleteRecruit }: { recruits: Recrui
                             <option key="2" value="2">2</option>
                             <option key="1" value="1">1</option>
                         </select>
-                    ) : (recruits.technique)
+                    ) : (
+                            <div>
+                                {
+                                    recruits.technique.toString()
+                                }
+                                {
+                                    isModelBetter(recruits, "technique", comparatorModel) &&
+                                    (
+                                        <FontAwesomeIcon icon={faArrowAltCircleUp} style={{ fontSize: 18, color: 'green' }} />
+                                    )
+                                }
+                                {
+                                    isModelLesser(recruits, "technique", comparatorModel) && (
+                                        <FontAwesomeIcon icon={faArrowAltCircleDown} style={{ fontSize: 18, color: 'red' }} />
+                                    )
+                                }
+                                {
+                                    isModelEqual(recruits, "technique", comparatorModel) && (
+                                        <span>=</span>
+                                    )
+                                }
+                            </div>
+                        )
                 }
             </td>
             <td>
@@ -233,14 +345,92 @@ const RecruitsLine = observer(({ recruits, onDeleteRecruit }: { recruits: Recrui
                 }
             </td>
             <td>
-                <div style={{ display: "flex" }}>
-                    <FontAwesomeIcon onClick={() => { recruits.setEditting() }} icon={faEdit} style={{ fontSize: 18, cursor: 'pointer', marginRight: 5 }} />
-                    <FontAwesomeIcon onClick={onDeleteRecruit} icon={faTrashAlt} style={{ fontSize: 18, cursor: 'pointer' }} />
-                </div>
+                {
+                    !comparatorModel && (
+                        <div style={{ display: "flex" }}>
+                            <FontAwesomeIcon onClick={() => { recruits.setEditting() }} icon={faEdit} style={{ fontSize: 18, cursor: 'pointer', marginRight: 5 }} />
+                            <FontAwesomeIcon onClick={onDeleteRecruit} icon={faTrashAlt} style={{ fontSize: 18, cursor: 'pointer' }} />
+                        </div>
+                    )
+                }
+
             </td>
         </tr>
     )
 })
+
+function isModelBetter(model: Recruits, comparatorValueType: string, mainCompare?: Recruits) {
+    if (!mainCompare)
+        return false
+    if (mainCompare === model)
+        return false
+    if (comparatorValueType === "midPotential") {
+        return model.midPotential > mainCompare.midPotential
+    }
+    if (comparatorValueType === "atkWorkRate") {
+        return (model.atkWorkRate === "High" && (mainCompare.atkWorkRate === "Medium" || mainCompare.atkWorkRate === "Low")) ||
+            (model.atkWorkRate === "Medium" && mainCompare.atkWorkRate === "Low")
+    }
+    if (comparatorValueType === "defWorkRate") {
+        return (model.defWorkRate === "High" && (mainCompare.defWorkRate === "Medium" || mainCompare.defWorkRate === "Low")) ||
+            (model.defWorkRate === "Medium" && mainCompare.defWorkRate === "Low")
+    }
+    if (comparatorValueType === "weakFoot") {
+        return model.weakFoot > mainCompare.weakFoot
+    }
+    if (comparatorValueType === "technique") {
+        return model.technique > mainCompare.technique
+    }
+}
+
+function isModelLesser(model: Recruits, comparatorValueType: string, mainCompare?: Recruits) {
+    if (!mainCompare)
+        return false
+    if (mainCompare === model)
+        return false
+    if (comparatorValueType === "midPotential") {
+        return model.midPotential < mainCompare.midPotential
+    }
+    if (comparatorValueType === "atkWorkRate") {
+        return (mainCompare.atkWorkRate === "High" && (model.atkWorkRate === "Medium" || model.atkWorkRate === "Low")) ||
+            (mainCompare.atkWorkRate === "Medium" && model.atkWorkRate === "Low")
+    }
+    if (comparatorValueType === "defWorkRate") {
+        return (mainCompare.defWorkRate === "High" && (model.defWorkRate === "Medium" || model.defWorkRate === "Low")) ||
+            (mainCompare.defWorkRate === "Medium" && model.defWorkRate === "Low")
+    }
+    if (comparatorValueType === "weakFoot") {
+        return model.weakFoot < mainCompare.weakFoot
+    }
+    if (comparatorValueType === "technique") {
+        return model.technique < mainCompare.technique
+    }
+    return false;
+}
+
+function isModelEqual(model: Recruits, comparatorValueType: string, mainCompare?: Recruits) {
+    if (!mainCompare)
+        return false
+    if (mainCompare === model)
+        return false
+    if (comparatorValueType === "midPotential") {
+        return model.midPotential === mainCompare.midPotential
+    }
+    if (comparatorValueType === "atkWorkRate") {
+        return mainCompare.atkWorkRate === model.atkWorkRate
+
+    }
+    if (comparatorValueType === "defWorkRate") {
+        return mainCompare.defWorkRate === model.defWorkRate
+    }
+    if (comparatorValueType === "weakFoot") {
+        return model.weakFoot === mainCompare.weakFoot
+    }
+    if (comparatorValueType === "technique") {
+        return model.technique === mainCompare.technique
+    }
+    return false
+}
 
 const Button = observer(({ text, onClick }: { text: string, onClick: () => void }) => {
     return (
