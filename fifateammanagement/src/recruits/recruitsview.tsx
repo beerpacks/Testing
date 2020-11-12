@@ -115,6 +115,9 @@ export class RecruitsView extends React.Component {
                         <th onClick={() => { this.model.setSortValue("weakfoot") }}>Weak Foot</th>
                         <th onClick={() => { this.model.setSortValue("technique") }}>Technique</th>
                         <th onClick={() => { this.model.setSortValue("fullRating") }}>Full Rating</th>
+                        <th>Status</th>
+                        <th></th>
+
                     </tr>
                     <tbody>
                         {
@@ -430,6 +433,20 @@ const RecruitsLine = observer(({ recruits, comparatorModel, onDeleteRecruit }: {
             <td>
                 {
                     recruits.fullRating
+                }
+            </td>
+            <td>
+                {recruits.isEditting ? (
+                    <select
+                        value={recruits.status}
+                        onChange={(e) => { recruits.status = e.currentTarget.value }}>
+                        <option key="mainteam" value="mainteam">Main Team</option>
+                        <option key="academy" value="academy">Academy</option>
+                        <option key="new" value="new">New</option>
+                    </select>
+                ) : (
+                        <span>{recruits.status}</span>
+                    )
                 }
             </td>
             <td>

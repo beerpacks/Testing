@@ -23,7 +23,8 @@ const PLAYERS_LIST: string[] = [
     "Canillas",
     "Verreth",
     "Devecchi",
-    "Verdejo"
+    "Verdejo",
+    "Schulze"
 ]
 
 export class FormationsModel {
