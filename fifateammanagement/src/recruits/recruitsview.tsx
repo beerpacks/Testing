@@ -442,6 +442,7 @@ const RecruitsLine = observer(({ recruits, comparatorModel, onDeleteRecruit }: {
                         onChange={(e) => { recruits.status = e.currentTarget.value }}>
                         <option key="mainteam" value="mainteam">Main Team</option>
                         <option key="academy" value="academy">Academy</option>
+                        <option key="scoutList" value="scoutList">Scout List</option>
                         <option key="new" value="new">New</option>
                     </select>
                 ) : (
