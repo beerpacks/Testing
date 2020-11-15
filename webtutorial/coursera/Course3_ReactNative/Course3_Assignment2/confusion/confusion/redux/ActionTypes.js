@@ -12,11 +12,3 @@ export const LEADERS_FAILED = 'LEADERS_FAILED';
 export const POST_FAVORITE = 'POST_FAVORITE';
 export const ADD_FAVORITE = 'ADD_FAVORITE';
 export const ADD_COMMENT = 'ADD_COMMENT';
-
-export const SHOW_FORM = 'SHOW_FORM';
-export const SET_DISHID = 'SET_DISHID';
-export const SET_RATING = 'SET_RATING';
-export const SET_AUTHOR = 'SET_AUTHOR';
-export const SET_COMMENT = 'SET_COMMENT';
-export const COMMENT_SUBMIT = 'COMMENT_SUBMIT';
-export const COMMENT_RESET = 'COMMENT_RESET';

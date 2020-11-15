@@ -155,38 +155,20 @@ export const addFavorite = (dishId) => ({
     payload: dishId
 });
 
-export const toggleCommentForm = (isVisible)=>({
-    type:ActionTypes.SHOW_FORM,
-    payload:isVisible
-});
-
-export const setCommentDishId = (dishId) =>({
-    type:ActionTypes.SET_DISHID,
-    payload:dishId
-})
-
-export const setCommentRating = (value)=>({
-    type:ActionTypes.SET_RATING,
-    payload:value
-});
-
-export const setCommentAuthor = (author)=>({
-    type:ActionTypes.SET_AUTHOR,
-    payload:author
-});
-
-export const setCommentComment = (comment)=>({
-    type:ActionTypes.SET_COMMENT,
-    payload:comment
-});
-
-export const postComment = (dishId, rating, author, comment)=>{
+export const postComment = (dishId, author, comment, rating)  => (dispatch) => {
     setTimeout(() => {
-        dispatch(addComment(dishId, rating, author, comment, new Date().toIsoString()));
+        dispatch(addComment(dishId, author, comment, rating, new Date().toISOString()));
     }, 2000);
 };
 
-export const addComment = (dishId, rating, author, comment, date)=>({
-    type:ActionTypes.ADD_COMMENT,
-    payload:{dishId:dishId, rating:rating, author:author,comment:comment, date:date}
+
+export const addComment = (dishId, author, comment, rating, date) => ({
+    type: ActionTypes.ADD_COMMENT,
+    payload: {
+        dishId:dishId,
+        author:author,
+        comment:comment,
+        rating:rating,
+        date : date
+    }
 });
