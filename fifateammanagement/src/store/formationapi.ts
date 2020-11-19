@@ -1,10 +1,10 @@
 
 import { BaseRequest, BaseResponse } from "../../interfaces/base";
-import { GameRequest, GetLastTenGameRequest, GetLastTenGameResponse } from "../../interfaces/formation"
+import { GameRequest, GetLastTenGameResponse } from "../../interfaces/formation"
 import { apiCall } from "../util/servercall";
 
-export async function getLastTenGamesStats(request: GetLastTenGameRequest): Promise<GetLastTenGameResponse> {
-    return await apiCall<GetLastTenGameRequest, GetLastTenGameResponse>(
+export async function getLastTenGamesStats(request: BaseRequest): Promise<GetLastTenGameResponse> {
+    return await apiCall<BaseRequest, GetLastTenGameResponse>(
         'formation',
         'playersstats',
         request,

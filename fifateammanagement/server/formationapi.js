@@ -8,6 +8,7 @@ const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
 exports.formationApi = express_1.default.Router();
 const fileName = 'formations.json';
+const squadFile = 'squads.json';
 exports.formationApi.use(express_1.default.static('public'));
 exports.formationApi.use(body_parser_1.default.json());
 var fs = require('fs');
@@ -16,7 +17,6 @@ exports.formationApi.post("/playersstats", (req, res) => {
         success: false,
         players: []
     };
-    let playersRequest = req.body.players;
     let games = [];
     try {
         let data = fs.readFileSync('./public/' + fileName, 'utf8', (err, jsonString) => {
@@ -25,13 +25,19 @@ exports.formationApi.post("/playersstats", (req, res) => {
                 return;
             }
         });
+        let squadPlayers = JSON.parse(fs.readFileSync('./public/' + squadFile, 'utf8', (err, jsonString) => {
+            if (err) {
+                console.log("File read failed:", err);
+                return;
+            }
+        }));
         games = JSON.parse(data);
         if (games.length > 10) {
             games = games.slice(games.length - 10, games.length);
         }
-        playersRequest.forEach(player => {
+        squadPlayers.forEach(player => {
             let test = games.flatMap(playerGame => {
-                let playerFound = playerGame.playersList.find(playerVal => playerVal.name === player);
+                let playerFound = playerGame.playersList.find(playerVal => playerVal.name === player.name);
                 return playerFound ? playerFound.status : "Not in Squad";
             }).reduce((presence, gameStatus) => {
                 if (!(gameStatus === "Not in Squad" || gameStatus === "Benched")) {
@@ -39,7 +45,7 @@ exports.formationApi.post("/playersstats", (req, res) => {
                 }
                 return presence;
             }, 0);
-            response.players.push({ name: player, presence: test });
+            response.players.push({ name: player.name, presence: test, contractType: player.contractType });
         });
         response.success = true;
     }

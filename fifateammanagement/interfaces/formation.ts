@@ -12,13 +12,10 @@ export interface FormationPlayer {
     afterGameNote: string
 }
 
-export interface GetLastTenGameRequest extends BaseRequest {
-    players: string[]
-}
-
 export interface PlayerStats {
     name: string
     presence: number
+    contractType: string
 }
 
 export interface GetLastTenGameResponse extends BaseResponse {

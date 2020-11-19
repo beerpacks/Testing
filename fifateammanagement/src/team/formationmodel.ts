@@ -1,31 +1,6 @@
-import { action, makeAutoObservable, observable } from "mobx"
+import { action, computed, makeAutoObservable, observable } from "mobx"
 import { addNewGames, getLastTenGamesStats } from "../store/formationapi"
 import { uuidv4 } from "../util/servercall"
-
-const PLAYERS_LIST: string[] = [
-    "Vargas",
-    "Driussi",
-    "Rashica",
-    "Odegaard",
-    "Galdames",
-    "Medel",
-    "Willems",
-    "Cumar",
-    "De Ligt",
-    "Aurier",
-    "Onana",
-    "Pulgar",
-    "Aranguiz",
-    "Vietto",
-    "Martin",
-    "Blanco",
-    "Vejar",
-    "Canillas",
-    "Verreth",
-    "Devecchi",
-    "Verdejo",
-    "Schulze"
-]
 
 export class FormationsModel {
 
@@ -42,12 +17,10 @@ export class FormationsModel {
     }
 
     async loadLastTenGame() {
-        let values = await getLastTenGamesStats({
-            players: PLAYERS_LIST
-        });
+        let values = await getLastTenGamesStats({});
         if (values.success) {
             this.playerList = observable.array(values.players.map(player => {
-                return new Player(player.name, player.presence)
+                return new Player(player.name, player.presence, player.contractType)
             }))
         }
     }
@@ -71,6 +44,36 @@ export class FormationsModel {
                 this.loadLastTenGame()
         })
     }
+
+    sorting = (player1: Player, player2: Player) => {
+        if ((player1.contractType === "Crucial" && (player2.contractType === "Important" || player2.contractType === "SquadRotation" || player2.contractType === "Sporadic" || player2.contractType === "Future")) ||
+            (player1.contractType === "Important" && (player2.contractType === "SquadRotation" || player2.contractType === "Sporadic" || player2.contractType === "Future")) ||
+            (player1.contractType === "SquadRotation" && (player2.contractType === "Sporadic" || player2.contractType === "Future")) ||
+            (player1.contractType === "SquadRotation" && player2.contractType === "Future")
+        )
+            return -1
+        if ((player2.contractType === "Crucial" && (player1.contractType === "Important" || player1.contractType === "SquadRotation" || player1.contractType === "Sporadic" || player1.contractType === "Future")) ||
+            (player2.contractType === "Important" && (player1.contractType === "SquadRotation" || player1.contractType === "Sporadic" || player1.contractType === "Future")) ||
+            (player2.contractType === "SquadRotation" && (player1.contractType === "Sporadic" || player1.contractType === "Future")) ||
+            (player2.contractType === "SquadRotation" && player1.contractType === "Future"))
+            return 1
+        else
+            return player1.lastTenGame > player2.lastTenGame ? -1 : 1
+    }
+
+    @computed get squad() {
+        return this.playerList.slice().sort(this.sorting)
+    }
+
+    @computed get crucials() {
+        return this.squad.filter(player => player.contractType === "Crucial")
+    }
+    @computed get importants() {
+        return this.squad.filter(player => player.contractType === "Important")
+    }
+    @computed get futures() {
+        return this.squad.filter(player => player.contractType === "Future")
+    }
 }
 
 export class Player {
@@ -79,12 +82,28 @@ export class Player {
     lastTenGame: number
     status: string
     afterGameNote: string
-    constructor(name: string, lastTenGame: number) {
+    contractType: string
+    constructor(name: string, lastTenGame: number, contractType: string) {
         makeAutoObservable(this)
         this.id = uuidv4()
         this.name = name;
         this.lastTenGame = lastTenGame
         this.status = "Not in Squad"
         this.afterGameNote = "";
+        this.contractType = contractType
+    }
+
+    @computed get mustPlay() {
+        if (this.contractType === "Crucial" && this.lastTenGame < 9)
+            return true
+        if (this.contractType === "Important" && this.lastTenGame < 7)
+            return true
+        if (this.contractType === "SquadRotation" && this.lastTenGame < 5)
+            return true;
+        if (this.contractType === "Sporadic" && this.lastTenGame < 3)
+            return true;
+        if (this.contractType === "Future" && this.lastTenGame < 1)
+            return true;
+        return false
     }
 }

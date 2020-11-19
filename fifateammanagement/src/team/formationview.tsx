@@ -2,6 +2,7 @@ import { observable } from "mobx";
 import { observer } from "mobx-react";
 import * as React from "react"
 import { FormationPlayer } from "../../interfaces/formation";
+import { Button } from "../component/button";
 import { FormationsModel, Player } from "./formationmodel"
 
 @observer
@@ -29,32 +30,42 @@ export class FormationView extends React.Component<any, any>{
                         this.model.gameDate = inputer.target.value
                     }} />
                 </div>
-                <table>
-                    <thead>
-                        <tr>
-                            <td>Player Name</td>
-                            <td>Status</td>
-                            <td>Notes</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            this.model.playerList.map(player => {
-                                return (<PlayersView key={player.id} player={player} />)
-                            })
-                        }
-                    </tbody>
-                </table>
 
-                <div onClick={() => { this.model.saveGame() }}>Save</div>
+                <div style={{ display: 'flex' }}>
+                    <ViewByContract text="Crucial" players={this.model.crucials} />
+                    <ViewByContract text="Important" players={this.model.importants} />
+                    <ViewByContract text="Future" players={this.model.futures} />
+                </div>
+
+
+                <div style={{ marginBottom: 10 }}>
+                    <Button onClick={() => { this.model.saveGame() }} text="save" />
+                </div>
             </div>
         )
     }
 }
 
+const ViewByContract = observer(({ players, text }: { players: Player[], text: string }) => {
+    return (
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <span>{text}</span>
+            <table>
+                <tbody>
+                    {
+                        players.map(player => {
+                            return (<PlayersView key={player.id} player={player} />)
+                        })
+                    }
+                </tbody>
+            </table>
+        </div>
+    )
+})
+
 const PlayersView = observer(({ player }: { player: Player }) => {
     return (
-        <tr>
+        <tr style={player.mustPlay ? { backgroundColor: 'red' } : {}}>
             <td>
                 <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}>
                     <div>{player.name}</div>
