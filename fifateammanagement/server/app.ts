@@ -4,6 +4,7 @@ import path from "path";
 import cors from "cors";
 import { playersApi } from "./playersapi";
 import { formationApi } from "./formationapi";
+import { squadApi } from "./squadsapi";
 
 
 export function startTheServer() {
@@ -31,6 +32,8 @@ export function startTheServer() {
     app.use('/api/player', playersApi)
 
     app.use('/api/formation', formationApi);
+
+    app.use('/api/squad', squadApi);
     /*
         if (app.get('env') === 'production') {
             app.set('trust proxy', 1) // trust first proxy

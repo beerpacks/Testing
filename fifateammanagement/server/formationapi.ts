@@ -1,11 +1,13 @@
 import express from 'express';
 import bodyParser from "body-parser";
-import { Formation, GameRequest, GetLastTenGameRequest, GetLastTenGameResponse } from "../interfaces/formation"
+import { Formation, GameRequest, GetLastTenGameResponse } from "../interfaces/formation"
 import { BaseResponse } from '../interfaces/base';
+import { SquadPlayer } from '../interfaces/squad';
 
 export const formationApi = express.Router();
 
 const fileName = 'formations.json'
+const squadFile = 'squads.json'
 
 formationApi.use(express.static('public'));
 
@@ -17,7 +19,8 @@ formationApi.post("/playersstats", (req, res) => {
         success: false,
         players: []
     }
-    let playersRequest: string[] = (req.body as GetLastTenGameRequest).players;
+
+
     let games: Formation[] = []
     try {
         let data = fs.readFileSync('./public/' + fileName, 'utf8', (err: any, jsonString: string) => {
@@ -26,13 +29,21 @@ formationApi.post("/playersstats", (req, res) => {
                 return
             }
         })
+        let squadPlayers = JSON.parse(fs.readFileSync('./public/' + squadFile, 'utf8', (err: any, jsonString: string) => {
+            if (err) {
+                console.log("File read failed:", err)
+                return
+            }
+        })) as SquadPlayer[]
+
+
         games = JSON.parse(data)
         if (games.length > 10) {
             games = games.slice(games.length - 10, games.length)
         }
-        playersRequest.forEach(player => {
+        squadPlayers.forEach(player => {
             let test = games.flatMap(playerGame => {
-                let playerFound = playerGame.playersList.find(playerVal => playerVal.name === player)
+                let playerFound = playerGame.playersList.find(playerVal => playerVal.name === player.name)
                 return playerFound ? playerFound.status : "Not in Squad"
             }).reduce((presence: number, gameStatus: string) => {
                 if (!(gameStatus === "Not in Squad" || gameStatus === "Benched")) {
@@ -40,7 +51,7 @@ formationApi.post("/playersstats", (req, res) => {
                 }
                 return presence
             }, 0)
-            response.players.push({ name: player, presence: test })
+            response.players.push({ name: player.name, presence: test, contractType: player.contractType })
         })
 
         response.success = true

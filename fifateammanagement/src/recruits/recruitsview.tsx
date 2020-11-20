@@ -1,9 +1,10 @@
-import { observable, observe } from "mobx"
+import { observable } from "mobx"
 import * as React from "react"
 import { Recruits, RecruitsModel } from "./recruitsmodel"
 import { observer } from "mobx-react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowAltCircleDown, faArrowAltCircleUp, faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { Button } from '../component/button'
 
 
 @observer
@@ -127,7 +128,7 @@ export class RecruitsView extends React.Component {
                         }
                     </tbody>
                 </table>
-                <div style={{ display: "flex", marginTop: 10 }}>
+                <div style={{ display: "flex", marginTop: 10, marginBottom: 10 }}>
                     <Button onClick={() => this.model.addRecruits()} text="Add Recruits" />
                     <Button onClick={() => { this.model.save() }} text="Save" />
                     <Button onClick={() => { this.model.cancel() }} text="Cancel" />
@@ -538,10 +539,3 @@ function isModelEqual(model: Recruits, comparatorValueType: string, mainCompare?
     return false
 }
 
-const Button = observer(({ text, onClick }: { text: string, onClick: () => void }) => {
-    return (
-        <div style={{ backgroundColor: 'gray', border: 'none', color: 'white', padding: 20, textAlign: 'center', cursor: 'pointer', borderRadius: 12, marginRight: 10 }} onClick={onClick}>
-            {text}
-        </div>
-    )
-})
