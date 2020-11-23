@@ -80,6 +80,41 @@ exports.formationApi.post("/addGames", (req, res) => {
     }
     res.end(JSON.stringify(response));
 });
+exports.formationApi.post("/teamsheets", (req, res) => {
+    let response = {
+        teamSheets: [],
+        success: false
+    };
+    try {
+        let data = fs.readFileSync('./public/' + fileName, 'utf8', (err, jsonString) => {
+            if (err) {
+                console.log("File read failed:", err);
+                return;
+            }
+        });
+        response.teamSheets = JSON.parse(data);
+        response.success = true;
+    }
+    catch (err) {
+        response.errorMessage = err;
+    }
+    res.end(JSON.stringify(response));
+});
+exports.formationApi.post("/setteamsheets", (req, res) => {
+    let request = req.body;
+    let response = {
+        success: false
+    };
+    try {
+        fs.writeFile('./public/' + fileName, JSON.stringify(request.teamSheets), (err) => {
+        });
+        response.success = true;
+    }
+    catch (err) {
+        response.errorMessage = err;
+    }
+    res.end(JSON.stringify(response));
+});
 /*
 playersApi.post("/setPlayers", (req, res) => {
     const values = req.body as SavePlayersListRequest

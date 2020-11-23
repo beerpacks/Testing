@@ -1,6 +1,6 @@
 import express from 'express';
 import bodyParser from "body-parser";
-import { Formation, GameRequest, GetLastTenGameResponse } from "../interfaces/formation"
+import { Formation, GameRequest, GetLastTenGameResponse, TeamSheetsResponse, TeamSheetsRequest } from "../interfaces/formation"
 import { BaseResponse } from '../interfaces/base';
 import { SquadPlayer } from '../interfaces/squad';
 
@@ -87,6 +87,44 @@ formationApi.post("/addGames", (req, res) => {
     }
     res.end(JSON.stringify(response));
 })
+
+formationApi.post("/teamsheets", (req, res) => {
+    let response: TeamSheetsResponse = {
+        teamSheets: [],
+        success: false
+    }
+    try {
+        let data = fs.readFileSync('./public/' + fileName, 'utf8', (err: any, jsonString: string) => {
+            if (err) {
+                console.log("File read failed:", err)
+                return
+            }
+        })
+        response.teamSheets = JSON.parse(data) as Formation[]
+        response.success = true
+    } catch (err) {
+        response.errorMessage = err
+    }
+    res.end(JSON.stringify(response));
+})
+
+formationApi.post("/setteamsheets", (req, res) => {
+    let request: TeamSheetsRequest = req.body as TeamSheetsRequest;
+    let response: BaseResponse = {
+        success: false
+    }
+    try {
+        fs.writeFile('./public/' + fileName, JSON.stringify(request.teamSheets), (err: any) => {
+
+        });
+        response.success = true
+    } catch (err) {
+        response.errorMessage = err
+    }
+    res.end(JSON.stringify(response));
+})
+
+
 /*
 playersApi.post("/setPlayers", (req, res) => {
     const values = req.body as SavePlayersListRequest
