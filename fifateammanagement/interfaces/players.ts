@@ -10,6 +10,8 @@ export interface Player {
     weakFoot: number
     technique: number
     status: string
+    overall: number
+    note: string
 }
 
 export interface PlayersListResponse extends BaseResponse {

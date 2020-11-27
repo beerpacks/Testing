@@ -21,7 +21,7 @@ export class RecruitsModel {
         getAllPlayers({}).then((serverVal) => {
             if (serverVal.success) {
                 this.recruitsList = observable.array(serverVal.allPlayers.map(recruit => {
-                    return new Recruits(recruit.name, recruit.positions, recruit.minPotential, recruit.maxPotential, recruit.atkWorkRate, recruit.defWorkRate, recruit.weakFoot, recruit.technique, recruit.status)
+                    return new Recruits(recruit.name, recruit.positions, recruit.minPotential, recruit.maxPotential, recruit.atkWorkRate, recruit.defWorkRate, recruit.weakFoot, recruit.technique, recruit.status, recruit.overall, recruit.note)
                 }))
             }
         });
@@ -142,7 +142,9 @@ export class RecruitsModel {
                     defWorkRate: recruit.defWorkRate,
                     weakFoot: recruit.weakFoot,
                     technique: recruit.technique,
-                    status: recruit.status
+                    status: recruit.status,
+                    note: recruit.note,
+                    overall: recruit.overall
                 }
             })
         })
@@ -173,8 +175,11 @@ export class Recruits {
     status: string
     isEditting: boolean
     isMainComparator: boolean
+    overall: number
+    note: string
 
-    constructor(name?: string, positons?: string[], minPotential?: number, maxPotential?: number, atkWorkRate?: string, defWorkRate?: string, weakFoot?: number, technique?: number, status?: string) {
+
+    constructor(name?: string, positons?: string[], minPotential?: number, maxPotential?: number, atkWorkRate?: string, defWorkRate?: string, weakFoot?: number, technique?: number, status?: string, overall?: number, note?: string) {
         makeAutoObservable(this)
         this.id = uuidv4()
         this.name = name || "";
@@ -188,10 +193,16 @@ export class Recruits {
         this.status = status || "new"
         this.isEditting = false
         this.isMainComparator = false
+        this.overall = overall || 0
+        this.note = note || ""
     }
 
     @computed get midPotential() {
         return (this.maxPotential - this.minPotential) / 2 + this.minPotential
+    }
+
+    @computed get isPotentialAccurate() {
+        return (this.maxPotential - this.minPotential) < 9
     }
 
     @computed get fullRating() {
