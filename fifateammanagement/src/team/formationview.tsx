@@ -1,7 +1,6 @@
 import { observable } from "mobx";
 import { observer } from "mobx-react";
 import * as React from "react"
-import { FormationPlayer } from "../../interfaces/formation";
 import { Button } from "../component/button";
 import { FormationsModel, Player } from "./formationmodel"
 
@@ -30,6 +29,15 @@ export class FormationView extends React.Component<any, any>{
                         this.model.gameDate = inputer.target.value
                     }} />
                 </div>
+
+                <div style={{ display: 'flex', marginTop: 20 }}>
+                    Starter : {this.model.getStarters.length}
+                </div>
+
+                <div style={{ display: 'flex' }}>
+                    Bench : {this.model.getBenches.length}
+                </div>
+
 
                 <div style={{ display: 'flex' }}>
                     <ViewByContract text="Crucial" players={this.model.crucials} />

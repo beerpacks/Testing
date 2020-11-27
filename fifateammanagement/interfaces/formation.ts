@@ -18,6 +18,14 @@ export interface PlayerStats {
     contractType: string
 }
 
+export interface TeamSheetsResponse extends BaseResponse {
+    teamSheets: Formation[]
+}
+
+export interface TeamSheetsRequest extends BaseRequest {
+    teamSheets: Formation[]
+}
+
 export interface GetLastTenGameResponse extends BaseResponse {
     players: PlayerStats[]
 }

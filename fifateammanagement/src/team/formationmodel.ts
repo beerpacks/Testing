@@ -74,6 +74,14 @@ export class FormationsModel {
     @computed get futures() {
         return this.squad.filter(player => player.contractType === "Future")
     }
+
+    @computed get getStarters() {
+        return this.squad.filter(player => player.status === "Starter")
+    }
+
+    @computed get getBenches() {
+        return this.squad.filter(player => player.status === "Benched")
+    }
 }
 
 export class Player {
