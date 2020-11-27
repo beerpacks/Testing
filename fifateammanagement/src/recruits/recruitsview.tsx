@@ -108,6 +108,7 @@ export class RecruitsView extends React.Component {
                                 <span>Position(s)</span>
                             </div>
                         </th>
+                        <th>Overall</th>
                         <th style={{ maxWidth: 60 }}>Min Potential</th>
                         <th style={{ maxWidth: 60 }}>Max Potential</th>
                         <th onClick={() => { this.model.setSortValue("midPotential") }} style={{ maxWidth: 60 }}>Mid Potential</th>
@@ -117,6 +118,7 @@ export class RecruitsView extends React.Component {
                         <th onClick={() => { this.model.setSortValue("technique") }}>Technique</th>
                         <th onClick={() => { this.model.setSortValue("fullRating") }}>Full Rating</th>
                         <th>Status</th>
+                        <th>Note</th>
                         <th></th>
 
                     </tr>
@@ -251,6 +253,17 @@ const RecruitsLine = observer(({ recruits, comparatorModel, onDeleteRecruit }: {
             <td>
                 {
                     recruits.isEditting ? (
+                        <input type="number" value={recruits.overall} onChange={(inputer) => {
+                            recruits.overall = parseInt(inputer.target.value)
+                        }} />
+                    ) : (
+                            <span>{recruits.overall}</span>
+                        )
+                }
+            </td>
+            <td>
+                {
+                    recruits.isEditting ? (
                         <input type="number" value={recruits.minPotential} onChange={(inputer) => {
                             recruits.minPotential = parseInt(inputer.target.value)
                         }} style={{ maxWidth: 50 }} />
@@ -268,7 +281,7 @@ const RecruitsLine = observer(({ recruits, comparatorModel, onDeleteRecruit }: {
             </td>
             <td>
                 <div style={{}}>
-                    {recruits.midPotential}
+                    {recruits.midPotential}{!recruits.isPotentialAccurate ? "*" : ""}
                     {
                         isModelBetter(recruits, "midPotential", comparatorModel) &&
                         (
@@ -449,6 +462,17 @@ const RecruitsLine = observer(({ recruits, comparatorModel, onDeleteRecruit }: {
                 ) : (
                         <span>{recruits.status}</span>
                     )
+                }
+            </td>
+            <td>
+                {
+                    recruits.isEditting ? (
+                        <input type="text" value={recruits.note} onChange={(inputer) => {
+                            recruits.note = inputer.target.value
+                        }} />
+                    ) : (
+                            <span>{recruits.note}</span>
+                        )
                 }
             </td>
             <td>
