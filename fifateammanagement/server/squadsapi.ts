@@ -24,6 +24,7 @@ squadApi.post("/getSquad", (req, res) => {
                 return
             }
         })
+        console.debug(JSON.stringify(data))
         response.squads = JSON.parse(data)
         response.success = true
     } catch (err) {
