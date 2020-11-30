@@ -3,35 +3,36 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.formationApi = void 0;
+exports.gamesSquadsApi = void 0;
 const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
-exports.formationApi = express_1.default.Router();
+exports.gamesSquadsApi = express_1.default.Router();
 const fileName = 'formations.json';
 const squadFile = 'squads.json';
-exports.formationApi.use(express_1.default.static('public'));
-exports.formationApi.use(body_parser_1.default.json());
+exports.gamesSquadsApi.use(express_1.default.static('public'));
+exports.gamesSquadsApi.use(body_parser_1.default.json());
 var fs = require('fs');
-exports.formationApi.post("/playersstats", (req, res) => {
+exports.gamesSquadsApi.post("/getLastTenGamesStats", (req, res) => {
+    let request = req.body;
     let response = {
         success: false,
         players: []
     };
-    let games = [];
     try {
-        let data = fs.readFileSync('./public/' + fileName, 'utf8', (err, jsonString) => {
+        let data = fs.readFileSync('./public/' + request.targetTeam + fileName, 'utf8', (err, jsonString) => {
             if (err) {
                 console.log("File read failed:", err);
                 return;
             }
         });
-        let squadPlayers = JSON.parse(fs.readFileSync('./public/' + squadFile, 'utf8', (err, jsonString) => {
+        let squadsData = fs.readFileSync('./public/' + request.targetTeam + squadFile, 'utf8', (err, jsonString) => {
             if (err) {
                 console.log("File read failed:", err);
                 return;
             }
-        }));
-        games = JSON.parse(data);
+        });
+        let squadPlayers = JSON.parse(squadsData);
+        let games = []; //JSON.parse(data) as GameSquad[]
         if (games.length > 10) {
             games = games.slice(games.length - 10, games.length);
         }
@@ -50,28 +51,31 @@ exports.formationApi.post("/playersstats", (req, res) => {
         response.success = true;
     }
     catch (err) {
-        console.debug(err);
         response.errorMessage = err;
     }
     res.end(JSON.stringify(response));
 });
-//GameRequest
-exports.formationApi.post("/addGames", (req, res) => {
+exports.gamesSquadsApi.post("/addNewGameSquads", (req, res) => {
     let request = req.body;
     let response = {
         success: false
     };
     let games = [];
     try {
-        let data = fs.readFileSync('./public/' + fileName, 'utf8', (err, jsonString) => {
+        let data = fs.readFileSync('./public/' + request.targetTeam + fileName, 'utf8', (err, jsonString) => {
             if (err) {
                 console.log("File read failed:", err);
                 return;
             }
         });
-        games = JSON.parse(data);
-        games.push(request.currentGame);
-        fs.writeFile('./public/' + fileName, JSON.stringify(games), (err) => {
+        if (data) {
+            games = JSON.parse(data);
+        }
+        else {
+            games = [];
+        }
+        games.push(request.gameSquad);
+        fs.writeFile('./public/' + request.targetTeam + fileName, JSON.stringify(games), (err) => {
         });
         response.success = true;
     }
@@ -80,19 +84,25 @@ exports.formationApi.post("/addGames", (req, res) => {
     }
     res.end(JSON.stringify(response));
 });
-exports.formationApi.post("/teamsheets", (req, res) => {
+exports.gamesSquadsApi.post("/getGamesSquads", (req, res) => {
+    let request = req.body;
     let response = {
-        teamSheets: [],
+        gamessquads: [],
         success: false
     };
     try {
-        let data = fs.readFileSync('./public/' + fileName, 'utf8', (err, jsonString) => {
+        let data = fs.readFileSync('./public/' + request.targetTeam + fileName, 'utf8', (err, jsonString) => {
             if (err) {
                 console.log("File read failed:", err);
                 return;
             }
         });
-        response.teamSheets = JSON.parse(data);
+        if (data) {
+            response.gamessquads = JSON.parse(data);
+        }
+        else {
+            response.gamessquads = [];
+        }
         response.success = true;
     }
     catch (err) {
@@ -100,13 +110,13 @@ exports.formationApi.post("/teamsheets", (req, res) => {
     }
     res.end(JSON.stringify(response));
 });
-exports.formationApi.post("/setteamsheets", (req, res) => {
+exports.gamesSquadsApi.post("/setGamesSquads", (req, res) => {
     let request = req.body;
     let response = {
         success: false
     };
     try {
-        fs.writeFile('./public/' + fileName, JSON.stringify(request.teamSheets), (err) => {
+        fs.writeFile('./public/' + request.targetTeam + fileName, JSON.stringify(request.gamessquads), (err) => {
         });
         response.success = true;
     }
@@ -115,16 +125,4 @@ exports.formationApi.post("/setteamsheets", (req, res) => {
     }
     res.end(JSON.stringify(response));
 });
-/*
-playersApi.post("/setPlayers", (req, res) => {
-    const values = req.body as SavePlayersListRequest
-    savePlayers(values.allPlayers, () => { })
-    res.end();
-})
-
-
-function savePlayers(players: Player[], callback: () => void) {
-    fs.writeFile('./public/recruits.json', JSON.stringify(players), callback);
-}
-*/ 
 //# sourceMappingURL=formationapi.js.map

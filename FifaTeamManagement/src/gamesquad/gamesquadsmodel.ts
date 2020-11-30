@@ -1,30 +1,31 @@
 import { action, computed, makeAutoObservable, observable } from "mobx";
-import { Formation, FormationPlayer } from "../../interfaces/formation";
-import { getAllTeamSheet, setAllTeamSheet } from "../store/formationapi";
+import { GameSquad, GameSquadPlayer } from "../../interfaces/gamesquad";
+import { getGamesSquads, setGamesSquads } from "../store/gamesquadapi";
 import { uuidv4 } from "../util/servercall";
 
-export class AllTeamSheetsModel {
+export class GamesSquadsModel {
 
-    teamsheets: TeamSheetViewModel[]
+    gamesSquads: GameSquadViewModel[]
 
     constructor() {
         makeAutoObservable(this)
-        this.teamsheets = observable.array();
+        this.gamesSquads = observable.array();
         this.loadData();
     }
 
     async loadData() {
-        let values = await getAllTeamSheet({});
+        let values = await getGamesSquads({ targetTeam: 'uc' });
         if (values.success) {
-            this.teamsheets = observable.array(values.teamSheets.map(teamSheet => {
-                return new TeamSheetViewModel(teamSheet)
+            this.gamesSquads = observable.array(values.gamessquads.map((teamSheet: any) => {
+                return new GameSquadViewModel(teamSheet)
             }))
         }
     }
 
     saveData() {
-        setAllTeamSheet({
-            teamSheets: this.teamsheets.map(sheet => {
+        setGamesSquads({
+            targetTeam: 'uc',
+            gamessquads: this.gamesSquads.map(sheet => {
                 return {
                     date: sheet.date,
                     opponent: sheet.opponent,
@@ -37,25 +38,21 @@ export class AllTeamSheetsModel {
         })
     }
 
-    @computed get getTeamSheets() {
-        return this.teamsheets
-    }
-
     @computed get isSaveVisible() {
-        return this.teamsheets.filter(player => player.isEditting).length > 0
+        return this.gamesSquads.filter(player => player.isEditting).length > 0
     }
 }
 
-export class TeamSheetViewModel implements Formation {
+export class GameSquadViewModel {
 
     id: string
     opponent: string
     date: string
-    playersList: FormationPlayer[]
+    playersList: GameSquadPlayer[]
     open: boolean
     edit: boolean
 
-    constructor(formation: Formation) {
+    constructor(formation: GameSquad) {
         makeAutoObservable(this)
         this.id = uuidv4()
         this.opponent = formation.opponent
@@ -87,7 +84,7 @@ export class TeamSheetViewModel implements Formation {
         return this.playersList.slice().sort(this.sortByStatus)
     }
 
-    sortByStatus = (player1: FormationPlayer, player2: FormationPlayer) => {
+    sortByStatus = (player1: GameSquadPlayer, player2: GameSquadPlayer) => {
         if (player1.status === 'Starter')
             return -1
         if (player1.status === 'Changed' && (player2.status === 'Removed' || player2.status === 'Benched' || player2.status === "Not in Squad"))

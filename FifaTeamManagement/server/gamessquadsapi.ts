@@ -1,43 +1,42 @@
 import express from 'express';
 import bodyParser from "body-parser";
-import { Formation, GameRequest, GetLastTenGameResponse, TeamSheetsResponse, TeamSheetsRequest } from "../interfaces/formation"
-import { BaseResponse } from '../interfaces/base';
+import { GameSquad, GetLastTenGameResponse, AddNewGameRequest, GetGamesSquadsResponse, SetGamesSquadsRequest } from "../interfaces/gamesquad"
+import { BaseRequest, BaseResponse } from '../interfaces/base';
 import { SquadPlayer } from '../interfaces/squad';
 
-export const formationApi = express.Router();
+export const gamesSquadsApi = express.Router();
 
 const fileName = 'formations.json'
 const squadFile = 'squads.json'
 
-formationApi.use(express.static('public'));
+gamesSquadsApi.use(express.static('public'));
 
-formationApi.use(bodyParser.json());
+gamesSquadsApi.use(bodyParser.json());
 
 var fs = require('fs');
-formationApi.post("/playersstats", (req, res) => {
+gamesSquadsApi.post("/getLastTenGamesStats", (req, res) => {
+    let request: BaseRequest = req.body as BaseRequest;
     let response: GetLastTenGameResponse = {
         success: false,
         players: []
     }
-
-
-    let games: Formation[] = []
     try {
-        let data = fs.readFileSync('./public/' + fileName, 'utf8', (err: any, jsonString: string) => {
+        let data = fs.readFileSync('./public/' + request.targetTeam + fileName, 'utf8', (err: any, jsonString: string) => {
             if (err) {
                 console.log("File read failed:", err)
                 return
             }
         })
-        let squadPlayers = JSON.parse(fs.readFileSync('./public/' + squadFile, 'utf8', (err: any, jsonString: string) => {
+        let squadsData = fs.readFileSync('./public/' + request.targetTeam + squadFile, 'utf8', (err: any, jsonString: string) => {
             if (err) {
                 console.log("File read failed:", err)
                 return
             }
-        })) as SquadPlayer[]
+        })
+        let squadPlayers = JSON.parse(squadsData) as SquadPlayer[]
 
+        let games: GameSquad[] = []//JSON.parse(data) as GameSquad[]
 
-        games = JSON.parse(data)
         if (games.length > 10) {
             games = games.slice(games.length - 10, games.length)
         }
@@ -56,29 +55,31 @@ formationApi.post("/playersstats", (req, res) => {
 
         response.success = true
     } catch (err) {
-        console.debug(err)
         response.errorMessage = err
     }
     res.end(JSON.stringify(response));
 })
 
-//GameRequest
-formationApi.post("/addGames", (req, res) => {
-    let request: GameRequest = req.body as GameRequest;
+gamesSquadsApi.post("/addNewGameSquads", (req, res) => {
+    let request: AddNewGameRequest = req.body as AddNewGameRequest;
     let response: BaseResponse = {
         success: false
     }
-    let games: Formation[] = []
+    let games: GameSquad[] = []
     try {
-        let data = fs.readFileSync('./public/' + fileName, 'utf8', (err: any, jsonString: string) => {
+        let data = fs.readFileSync('./public/' + request.targetTeam + fileName, 'utf8', (err: any, jsonString: string) => {
             if (err) {
                 console.log("File read failed:", err)
                 return
             }
         })
-        games = JSON.parse(data)
-        games.push(request.currentGame)
-        fs.writeFile('./public/' + fileName, JSON.stringify(games), (err: any) => {
+        if (data) {
+            games = JSON.parse(data) as GameSquad[]
+        } else {
+            games = []
+        }
+        games.push(request.gameSquad)
+        fs.writeFile('./public/' + request.targetTeam + fileName, JSON.stringify(games), (err: any) => {
 
         });
         response.success = true
@@ -88,19 +89,24 @@ formationApi.post("/addGames", (req, res) => {
     res.end(JSON.stringify(response));
 })
 
-formationApi.post("/teamsheets", (req, res) => {
-    let response: TeamSheetsResponse = {
-        teamSheets: [],
+gamesSquadsApi.post("/getGamesSquads", (req, res) => {
+    let request: BaseRequest = req.body as BaseRequest;
+    let response: GetGamesSquadsResponse = {
+        gamessquads: [],
         success: false
     }
     try {
-        let data = fs.readFileSync('./public/' + fileName, 'utf8', (err: any, jsonString: string) => {
+        let data = fs.readFileSync('./public/' + request.targetTeam + fileName, 'utf8', (err: any, jsonString: string) => {
             if (err) {
                 console.log("File read failed:", err)
                 return
             }
         })
-        response.teamSheets = JSON.parse(data) as Formation[]
+        if (data) {
+            response.gamessquads = JSON.parse(data) as GameSquad[]
+        } else {
+            response.gamessquads = []
+        }
         response.success = true
     } catch (err) {
         response.errorMessage = err
@@ -108,13 +114,13 @@ formationApi.post("/teamsheets", (req, res) => {
     res.end(JSON.stringify(response));
 })
 
-formationApi.post("/setteamsheets", (req, res) => {
-    let request: TeamSheetsRequest = req.body as TeamSheetsRequest;
+gamesSquadsApi.post("/setGamesSquads", (req, res) => {
+    let request: SetGamesSquadsRequest = req.body as SetGamesSquadsRequest;
     let response: BaseResponse = {
         success: false
     }
     try {
-        fs.writeFile('./public/' + fileName, JSON.stringify(request.teamSheets), (err: any) => {
+        fs.writeFile('./public/' + request.targetTeam + fileName, JSON.stringify(request.gamessquads), (err: any) => {
 
         });
         response.success = true
@@ -123,17 +129,3 @@ formationApi.post("/setteamsheets", (req, res) => {
     }
     res.end(JSON.stringify(response));
 })
-
-
-/*
-playersApi.post("/setPlayers", (req, res) => {
-    const values = req.body as SavePlayersListRequest
-    savePlayers(values.allPlayers, () => { })
-    res.end();
-})
-
-
-function savePlayers(players: Player[], callback: () => void) {
-    fs.writeFile('./public/recruits.json', JSON.stringify(players), callback);
-}
-*/

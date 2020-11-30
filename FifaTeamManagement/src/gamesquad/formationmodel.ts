@@ -1,5 +1,5 @@
 import { action, computed, makeAutoObservable, observable } from "mobx"
-import { addNewGames, getLastTenGamesStats } from "../store/formationapi"
+import { addNewGames, getLastTenGamesStats } from "../store/gamesquadapi"
 import { uuidv4 } from "../util/servercall"
 
 export class FormationsModel {
@@ -17,9 +17,9 @@ export class FormationsModel {
     }
 
     async loadLastTenGame() {
-        let values = await getLastTenGamesStats({});
+        let values = await getLastTenGamesStats({ targetTeam: 'uc' });
         if (values.success) {
-            this.playerList = observable.array(values.players.map(player => {
+            this.playerList = observable.array(values.players.map((player: any) => {
                 return new Player(player.name, player.presence, player.contractType)
             }))
         }
@@ -28,18 +28,20 @@ export class FormationsModel {
     @action
     saveGame() {
         addNewGames({
-            currentGame: {
+            targetTeam: 'uc',
+            gameSquad: {
+                date: this.gameDate,
+                opponent: this.opponent,
                 playersList: this.playerList.map(player => {
                     return {
                         afterGameNote: player.afterGameNote,
                         name: player.name,
                         status: player.status
                     }
-                }),
-                date: this.gameDate,
-                opponent: this.opponent
+                })
             }
-        }).then(res => {
+        }
+        ).then(res => {
             if (res.success)
                 this.loadLastTenGame()
         })
@@ -73,6 +75,14 @@ export class FormationsModel {
     }
     @computed get futures() {
         return this.squad.filter(player => player.contractType === "Future")
+    }
+
+    @computed get sporadics() {
+        return this.squad.filter(player => player.contractType === "Sporadic")
+    }
+
+    @computed get squadRotations() {
+        return this.squad.filter(player => player.contractType === "SquadRotation")
     }
 
     @computed get getStarters() {
