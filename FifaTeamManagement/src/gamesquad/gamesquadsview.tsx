@@ -4,16 +4,16 @@ import { observable } from 'mobx'
 import { observer } from 'mobx-react';
 import * as React from 'react'
 import { Button } from "../component/button";
-import { AllTeamSheetsModel, TeamSheetViewModel } from './allteamsheetsmodel'
+import { GamesSquadsModel, GameSquadViewModel } from './gamesquadsmodel'
 
 @observer
-export class AllTeamSheetsView extends React.Component<any, any> {
+export class GameSquadsView extends React.Component<any, any> {
 
-    @observable model: AllTeamSheetsModel;
+    @observable model: GamesSquadsModel;
 
     constructor(props: any) {
         super(props)
-        this.model = new AllTeamSheetsModel();
+        this.model = new GamesSquadsModel();
     }
 
     render() {
@@ -28,7 +28,7 @@ export class AllTeamSheetsView extends React.Component<any, any> {
                 }
 
                 {
-                    this.model.getTeamSheets.map(teamsheet => {
+                    this.model.gamesSquads.map(teamsheet => {
                         return (<TeamSheet key={teamsheet.id} model={teamsheet} />)
                     })
                 }
@@ -37,7 +37,7 @@ export class AllTeamSheetsView extends React.Component<any, any> {
     }
 }
 
-const TeamSheet = observer(({ model }: { model: TeamSheetViewModel }) => {
+const TeamSheet = observer(({ model }: { model: GameSquadViewModel }) => {
     return (
         <div style={{ display: 'flex', flexDirection: 'column', marginBottom: 10 }}>
             <div style={{ display: 'flex', padding: 10, background: 'lightblue' }} onClick={() => { model.setOpen() }}>

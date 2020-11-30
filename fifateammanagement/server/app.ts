@@ -2,7 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import path from "path";
 import cors from "cors";
-import { formationApi } from "./formationapi";
+import { gamesSquadsApi } from "./gamessquadsapi";
 import { squadApi } from "./squadsapi";
 import { recruitsApi } from "./recruitsapi";
 
@@ -31,7 +31,7 @@ export function startTheServer() {
 
     app.use('/api/recruits', recruitsApi)
 
-    app.use('/api/formation', formationApi);
+    app.use('/api/gamessquads', gamesSquadsApi);
 
     app.use('/api/squad', squadApi);
     /*

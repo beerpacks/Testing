@@ -7,7 +7,7 @@ exports.startTheServer = void 0;
 const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const cors_1 = __importDefault(require("cors"));
-const formationapi_1 = require("./formationapi");
+const gamessquadsapi_1 = require("./gamessquadsapi");
 const squadsapi_1 = require("./squadsapi");
 const recruitsapi_1 = require("./recruitsapi");
 function startTheServer() {
@@ -25,7 +25,7 @@ function startTheServer() {
     }));
     app.use(cors_1.default());
     app.use('/api/recruits', recruitsapi_1.recruitsApi);
-    app.use('/api/formation', formationapi_1.formationApi);
+    app.use('/api/gamessquads', gamessquadsapi_1.gamesSquadsApi);
     app.use('/api/squad', squadsapi_1.squadApi);
     /*
         if (app.get('env') === 'production') {
