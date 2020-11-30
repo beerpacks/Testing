@@ -1,5 +1,5 @@
 export function apiUrl(controller: string, methodName: string) {
-    const origin = "http://10.0.0.39:8080";
+    const origin = "http://10.0.0.24:8080";
     // Rewrite the new path
     return `${origin}/api/${controller}/${methodName}`;
 }

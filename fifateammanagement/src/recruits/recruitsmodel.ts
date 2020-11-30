@@ -1,5 +1,5 @@
 import { action, computed, makeAutoObservable, observable } from "mobx";
-import { getAllPlayers, setAllPlayers } from "../store/playerapi";
+import { getAllRecruits, setAllRecruits } from "../store/recruitsapi";
 import { uuidv4 } from "../util/servercall"
 
 type SortValue = "fullRating" | "technique" | "weakfoot" | "defWorkRate" | "atkworkRate" | "midPotential"
@@ -18,7 +18,7 @@ export class RecruitsModel {
     }
 
     loadRecruits() {
-        getAllPlayers({}).then((serverVal) => {
+        getAllRecruits({ targetTeam: 'uc' }).then((serverVal) => {
             if (serverVal.success) {
                 this.recruitsList = observable.array(serverVal.allPlayers.map(recruit => {
                     return new Recruits(recruit.name, recruit.positions, recruit.minPotential, recruit.maxPotential, recruit.atkWorkRate, recruit.defWorkRate, recruit.weakFoot, recruit.technique, recruit.status, recruit.overall, recruit.note)
@@ -131,7 +131,8 @@ export class RecruitsModel {
 
     @action
     save() {
-        setAllPlayers({
+        setAllRecruits({
+            targetTeam: 'uc',
             allPlayers: this.recruitsList.map(recruit => {
                 return {
                     name: recruit.name,
