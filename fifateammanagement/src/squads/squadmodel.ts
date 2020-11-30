@@ -18,14 +18,14 @@ export class SquadModel {
         });
         if (values.success) {
             this.playerList = observable.array(values.squads.map(player => {
-                return new Player(player.name, player.contractType, player.uuid, player.age, player.country, player.overall, player.position, player.potentiel)
+                return new Player(player.name, player.contractType, player.uuid, player.age, player.country, player.overall, player.position, player.potentiel,player.wages, player.value)
             }))
         }
     }
 
     @action
     saveSquad() {
-        setSquad({
+        let request = {
             targetTeam: 'uc',
             squads: this.playerList.map(player => {
                 return {
@@ -40,10 +40,14 @@ export class SquadModel {
                     wages: player.wage,
                     value: player.value
                 }
-            })
-        }).then(res => {
-            if (res.success)
-                this.loadSquadPlayer()
+            }
+            )
+        }
+        console.debug(JSON.stringify(request))
+        setSquad(request)
+        .then(res => {
+            //if (res.success)
+                //this.loadSquadPlayer()
         })
     }
 
