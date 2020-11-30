@@ -26,7 +26,8 @@ squadApi.post("/getSquad", (req, res) => {
             }
         })
         let allPlayers: SquadPlayer[] = JSON.parse(data)
-        response.squads = allPlayers.map(player => {
+        response.squads = allPlayers        
+        /*response.squads = allPlayers.map(player => {
             return {
                 uuid: player.uuid,
                 name: player.name,
@@ -39,7 +40,7 @@ squadApi.post("/getSquad", (req, res) => {
                 value: player.value || 0,
                 wages: player.wages || 0
             }
-        })
+        })*/
         response.success = true
     } catch (err) {
         response.errorMessage = err
