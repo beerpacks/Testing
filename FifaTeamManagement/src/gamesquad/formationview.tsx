@@ -46,6 +46,9 @@ export class FormationView extends React.Component<any, any>{
                     <ViewByContract text="Sporadic" players={this.model.sporadics} />
                     <ViewByContract text="Future" players={this.model.futures} />
                 </div>
+                <div style={{display:'flex'}}>
+                    <ViewByContract text="Autre" players={this.model.others}/>
+                </div>
 
 
                 <div style={{ marginBottom: 10 }}>
