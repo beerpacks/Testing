@@ -31,14 +31,14 @@ gamesSquadsApi.post("/getLastTenGamesStats", (req, res) => {
         if (data) {
             games = JSON.parse(data) as GameSquad[]
         }
-        let squadPlayers :SquadPlayer[] = [] 
+        let squadPlayers: SquadPlayer[] = []
         let squadsData = fs.readFileSync('./public/' + request.targetTeam + squadFile, 'utf8', (err: any, jsonString: string) => {
             if (err) {
                 console.log("File read failed:", err)
                 return
             }
         })
-        if(squadsData){
+        if (squadsData) {
             squadPlayers = JSON.parse(squadsData) as SquadPlayer[]
         }
 

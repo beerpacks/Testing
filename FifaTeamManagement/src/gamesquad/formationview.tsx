@@ -29,7 +29,39 @@ export class FormationView extends React.Component<any, any>{
                         this.model.gameDate = inputer.target.value
                     }} />
                 </div>
-
+                <div style={{ display: 'flex' }}>
+                    <select
+                        value={this.model.ending}
+                        onChange={(e) => { this.model.ending = e.currentTarget.value }}>
+                        <option key="victory" value="victory">Victory</option>
+                        <option key="defeat" value="defeat">Defeat</option>
+                        <option key="tie" value="tie">Tie</option>
+                    </select>
+                </div>
+                <div style={{ display: 'flex' }}>
+                    <input type="radio" id="Home" name="where" value="Home" checked={this.model.homeGame} onClick={() => { this.model.homeGame = true }} />
+                    <span>Home</span>
+                    <input type="radio" id="Away" name="where" value="Away" checked={!this.model.homeGame} onClick={() => { this.model.homeGame = false }} />
+                    <span>Away</span>
+                </div>
+                <div style={{ display: 'flex' }}>
+                    <span>Formation:</span>
+                    <input type="text" value={this.model.opponentFormation} onChange={(inputer) => {
+                        this.model.opponentFormation = inputer.target.value
+                    }} />
+                </div>
+                <div style={{ display: 'flex' }}>
+                    <span>Game notes:</span>
+                    <input type="text" value={this.model.afterGameNote} onChange={(inputer) => {
+                        this.model.afterGameNote = inputer.target.value
+                    }} />
+                </div>
+                <div style={{ display: 'flex' }}>
+                    <span>Final Result:</span>
+                    <input type="text" value={this.model.result} onChange={(inputer) => {
+                        this.model.result = inputer.target.value
+                    }} />
+                </div>
                 <div style={{ display: 'flex', marginTop: 20 }}>
                     Starter : {this.model.getStarters.length}
                 </div>
@@ -43,11 +75,11 @@ export class FormationView extends React.Component<any, any>{
                     <ViewByContract text="Crucial" players={this.model.crucials} />
                     <ViewByContract text="Important" players={this.model.importants} />
                     <ViewByContract text="Squad Rotation" players={this.model.squadRotations} />
+                </div>
+                <div style={{ display: 'flex' }}>
                     <ViewByContract text="Sporadic" players={this.model.sporadics} />
                     <ViewByContract text="Future" players={this.model.futures} />
-                </div>
-                <div style={{display:'flex'}}>
-                    <ViewByContract text="Autre" players={this.model.others}/>
+                    <ViewByContract text="Autre" players={this.model.others} />
                 </div>
 
 
@@ -95,6 +127,11 @@ const PlayersView = observer(({ player }: { player: Player }) => {
                     <option key="Benched" value="Benched">Benched</option>
                     <option key="Not in Squad" value="Not in Squad">Not in Squad</option>
                 </select>
+            </td>
+            <td>
+                <input type="text" value={player.rating} onChange={(inputer) => {
+                    player.rating = inputer.target.value
+                }} />
             </td>
             <td>
                 <input type="text" value={player.afterGameNote} onChange={(inputer) => {

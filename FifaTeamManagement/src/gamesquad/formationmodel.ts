@@ -6,12 +6,22 @@ export class FormationsModel {
 
     opponent: string
     gameDate: string
+    result: string
+    ending: string
+    homeGame: boolean
+    afterGameNote: string
+    opponentFormation: string
     playerList: Player[]
 
     constructor() {
         makeAutoObservable(this)
         this.opponent = "";
         this.gameDate = "";
+        this.result = "";
+        this.ending = "defeat";
+        this.homeGame = false;
+        this.afterGameNote = "";
+        this.opponentFormation = "";
         this.playerList = observable.array();
         this.loadLastTenGame()
     }
@@ -30,10 +40,16 @@ export class FormationsModel {
         addNewGames({
             targetTeam: 'uc',
             gameSquad: {
+                gameNote: this.afterGameNote,
+                isHome: this.homeGame,
+                ending: this.ending,
+                opponentFormation: this.opponentFormation,
+                result: this.result,
                 date: this.gameDate,
                 opponent: this.opponent,
                 playersList: this.playerList.map(player => {
                     return {
+                        playerRating: player.rating,
                         afterGameNote: player.afterGameNote,
                         name: player.name,
                         status: player.status
@@ -67,7 +83,7 @@ export class FormationsModel {
         return this.playerList.slice().sort(this.sorting)
     }
 
-    @computed get others(){
+    @computed get others() {
         return this.squad.filter(player => player.contractType === "onLoan")
     }
 
@@ -105,6 +121,7 @@ export class Player {
     status: string
     afterGameNote: string
     contractType: string
+    rating: string
     constructor(name: string, lastTenGame: number, contractType: string) {
         makeAutoObservable(this)
         this.id = uuidv4()
@@ -113,6 +130,7 @@ export class Player {
         this.status = "Not in Squad"
         this.afterGameNote = "";
         this.contractType = contractType
+        this.rating = "n/a"
     }
 
     @computed get mustPlay() {
