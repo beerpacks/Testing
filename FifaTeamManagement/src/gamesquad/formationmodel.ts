@@ -67,6 +67,10 @@ export class FormationsModel {
         return this.playerList.slice().sort(this.sorting)
     }
 
+    @computed get others(){
+        return this.squad.filter(player => player.contractType === "onLoan")
+    }
+
     @computed get crucials() {
         return this.squad.filter(player => player.contractType === "Crucial")
     }
