@@ -1,4 +1,4 @@
-import { action, makeAutoObservable, observable } from "mobx"
+import { action, computed, makeAutoObservable, observable } from "mobx"
 import { getSquad, setSquad } from "../store/squadapi"
 import { uuidv4 } from "../util/servercall"
 
@@ -7,9 +7,27 @@ export class SquadModel {
     playerList: Player[]
 
     constructor() {
-        makeAutoObservable(this)
+        makeAutoObservable(this, {
+            playerList: observable,
+            NbChilePlayers: computed,
+            NbOtherCountryPlayers: computed,
+            NbYouth: computed,
+            saveSquad: action
+        })
         this.playerList = observable.array();
         this.loadSquadPlayer()
+    }
+
+    get NbChilePlayers() {
+        return this.playerList.filter(player => player.country === "Chile").length
+    }
+
+    get NbOtherCountryPlayers() {
+        return this.playerList.length - this.NbChilePlayers;
+    }
+
+    get NbYouth() {
+        return this.playerList.filter(player => player.age < 22).length
     }
 
     async loadSquadPlayer() {
@@ -18,12 +36,11 @@ export class SquadModel {
         });
         if (values.success) {
             this.playerList = observable.array(values.squads.map(player => {
-                return new Player(player.name, player.contractType, player.uuid, player.age, player.country, player.overall, player.position, player.potentiel,player.wages, player.value)
+                return new Player(player.name, player.contractType, player.uuid, player.age, player.country, player.overall, player.position, player.potentiel, player.wages, player.value)
             }))
         }
     }
 
-    @action
     saveSquad() {
         let request = {
             targetTeam: 'uc',
@@ -45,10 +62,10 @@ export class SquadModel {
         }
         console.debug(JSON.stringify(request))
         setSquad(request)
-        .then(res => {
-            //if (res.success)
+            .then(res => {
+                //if (res.success)
                 //this.loadSquadPlayer()
-        })
+            })
     }
 
     @action
@@ -63,7 +80,9 @@ export class SquadModel {
 
     @action
     addSquadPlayer() {
-        this.playerList.push(new Player(""))
+        let player = new Player("");
+        player.isEdditing = true;
+        this.playerList.push(player)
     }
 }
 
