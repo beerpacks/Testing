@@ -3,12 +3,18 @@ import { BaseRequest, BaseResponse } from './base'
 export interface GameSquad {
     opponent: string
     date: string
+    ending: string
+    result: string
+    isHome: boolean
+    opponentFormation: string
+    gameNote: string
     playersList: GameSquadPlayer[]
 }
 
 export interface GameSquadPlayer {
     name: string
     status: string
+    playerRating: string
     afterGameNote: string
 }
 

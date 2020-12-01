@@ -16,8 +16,8 @@ export class GamesSquadsModel {
     async loadData() {
         let values = await getGamesSquads({ targetTeam: 'uc' });
         if (values.success) {
-            this.gamesSquads = observable.array(values.gamessquads.map((teamSheet: any) => {
-                return new GameSquadViewModel(teamSheet)
+            this.gamesSquads = observable.array(values.gamessquads.map((teamSheet) => {
+                return new GameSquadViewModel(teamSheet.opponent, teamSheet.date, teamSheet.playersList, teamSheet.ending, teamSheet.isHome, teamSheet.opponentFormation, teamSheet.gameNote, teamSheet.result)
             }))
         }
     }
@@ -27,15 +27,28 @@ export class GamesSquadsModel {
             targetTeam: 'uc',
             gamessquads: this.gamesSquads.map(sheet => {
                 return {
+                    result: sheet.result,
                     date: sheet.date,
                     opponent: sheet.opponent,
-                    playersList: sheet.playersList
+                    playersList: sheet.playersList.map(player => {
+                        return {
+                            name: player.name,
+                            afterGameNote: player.afterGameNote,
+                            playerRating: player.rating,
+                            status: player.status
+                        }
+                    }),
+                    ending: sheet.ending,
+                    isHome: sheet.home,
+                    opponentFormation: sheet.formation,
+                    gameNote: sheet.note
                 }
             })
-        }).then(res => {
-            if (res.success)
-                this.loadData()
         })
+            .then(res => {
+                if (res.success)
+                    this.loadData()
+            })
     }
 
     @computed get isSaveVisible() {
@@ -48,16 +61,26 @@ export class GameSquadViewModel {
     id: string
     opponent: string
     date: string
-    playersList: GameSquadPlayer[]
+    result: string
+    playersList: GameSquadPlayerModelView[]
+    ending: string
+    home: boolean
+    formation: string
+    note: string
     open: boolean
     edit: boolean
 
-    constructor(formation: GameSquad) {
+    constructor(opponent: string, date: string, playersList: GameSquadPlayer[], victory?: string, home?: boolean, formation?: string, note?: string, result?: string) {
         makeAutoObservable(this)
         this.id = uuidv4()
-        this.opponent = formation.opponent
-        this.date = formation.date
-        this.playersList = formation.playersList;
+        this.opponent = opponent
+        this.date = date
+        this.playersList = playersList.map(player => { return { name: player.name, status: player.status, afterGameNote: player.afterGameNote, rating: player.playerRating } });
+        this.home = home ? home : false
+        this.formation = formation ? formation : ""
+        this.note = note ? note : ""
+        this.ending = victory ? victory : "defeat"
+        this.result = result ? result : "0-0"
         this.open = false;
         this.edit = false;
     }
@@ -84,7 +107,7 @@ export class GameSquadViewModel {
         return this.playersList.slice().sort(this.sortByStatus)
     }
 
-    sortByStatus = (player1: GameSquadPlayer, player2: GameSquadPlayer) => {
+    sortByStatus = (player1: GameSquadPlayerModelView, player2: GameSquadPlayerModelView) => {
         if (player1.status === 'Starter')
             return -1
         if (player1.status === 'Changed' && (player2.status === 'Removed' || player2.status === 'Benched' || player2.status === "Not in Squad"))
@@ -97,5 +120,20 @@ export class GameSquadViewModel {
             return 0;
         return 1
     }
+}
+
+export class GameSquadPlayerModelView {
+    name: string
+    rating: string
+    status: string
+    afterGameNote: string
+    constructor(name: string, status: string, note: string, rating?: string) {
+        makeAutoObservable(this)
+        this.name = name;
+        this.status = status;
+        this.afterGameNote = note
+        this.rating = rating ? rating : "n/a"
+    }
+
 }
 

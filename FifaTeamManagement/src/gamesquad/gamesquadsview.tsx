@@ -40,29 +40,99 @@ export class GameSquadsView extends React.Component<any, any> {
 const TeamSheet = observer(({ model }: { model: GameSquadViewModel }) => {
     return (
         <div style={{ display: 'flex', flexDirection: 'column', marginBottom: 10 }}>
-            <div style={{ display: 'flex', padding: 10, background: 'lightblue' }} onClick={() => { model.setOpen() }}>
-                <div onClick={(e) => { model.setEdit(); e.stopPropagation(); }}><FontAwesomeIcon icon={faEdit} /></div>
-                {
-                    model.isEditting ? (
-                        <input type="date" value={model.date} onChange={(inputer) => {
-                            model.date = inputer.target.value
-                        }} />
-                    ) : (
-                            <span style={{ marginLeft: 10 }}>Date : {model.date} </span>
-                        )
-                }
-                <div style={{ display: 'flex', flexGrow: 1 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', padding: 10, background: 'lightblue' }} onClick={() => { model.setOpen() }}>
+                <div style={{ display: 'flex' }}>
+                    <div onClick={(e) => { model.setEdit(); e.stopPropagation(); }}><FontAwesomeIcon icon={faEdit} /></div>
                     {
                         model.isEditting ? (
-                            <input type="text" value={model.opponent} onChange={(inputer) => {
-                                model.opponent = inputer.target.value
+                            <input type="date" value={model.date} onChange={(inputer) => {
+                                model.date = inputer.target.value
                             }} />
                         ) : (
-                                <span style={{ marginLeft: 10 }}>Opponent: {model.opponent}</span>
+                                <span style={{ marginLeft: 10 }}>Date : {model.date} </span>
+                            )
+                    }
+                    <div style={{ display: 'flex', flexGrow: 1 }}>
+                        {
+                            model.isEditting ? (
+                                <input type="text" value={model.opponent} onChange={(inputer) => {
+                                    model.opponent = inputer.target.value
+                                }} />
+                            ) : (
+                                    <span style={{ marginLeft: 10 }}>Opponent: {model.opponent}</span>
+                                )
+                        }
+                    </div>
+                    <FontAwesomeIcon style={{ marginLeft: 10 }} icon={model.isOpen ? faArrowDown : faArrowUp} />
+                </div>
+                <div style={{ display: 'flex' }}>
+                    <div style={{ display: 'flex' }}>
+                        {
+                            model.isEditting ? (
+                                <select
+                                    value={model.ending}
+                                    onChange={(e) => { model.ending = e.currentTarget.value }}>
+                                    <option key="victory" value="victory">Victory</option>
+                                    <option key="defeat" value="defeat">Defeat</option>
+                                    <option key="tie" value="tie">Tie</option>
+                                </select>
+                            ) : (
+                                    <span style={{ marginLeft: 10 }}>{model.ending}</span>
+                                )
+                        }
+                    </div>
+                    <div style={{ display: 'flex' }}>
+                        {
+                            model.isEditting ? (
+                                <input type="text" value={model.result} onChange={(inputer) => {
+                                    model.result = inputer.target.value
+                                }} />
+                            ) : (
+                                    <span style={{ marginLeft: 10 }}>Result: {model.result}</span>
+                                )
+                        }
+                    </div>
+                    <div style={{ display: 'flex', marginLeft: 10 }}>
+                        {
+                            model.isEditting ? (
+                                <div>
+                                    <input type="radio" id="Home" name="where" value="Home" checked={model.home} onClick={() => { model.home = true }} />
+                                    <span>Home</span>
+                                    <input type="radio" id="Away" name="where" value="Away" checked={!model.home} onClick={() => { model.home = false }} />
+                                    <span>Away</span>
+                                </div>
+                            ) : (
+                                    <span style={{ marginLeft: 10 }}>{model.home ? "Home" : "Away"}</span>
+                                )
+                        }
+                    </div>
+                </div>
+                <div style={{ display: 'flex' }}>
+                    <div style={{ display: 'flex' }}>
+                        <span>Formation:</span>
+                        {
+                            model.isEditting ? (
+                                <input type="text" value={model.formation} onChange={(inputer) => {
+                                    model.formation = inputer.target.value
+                                }} />
+                            ) : (
+                                    <span style={{ marginLeft: 10 }}>{model.formation}</span>
+                                )
+                        }
+                    </div>
+                </div>
+                <div style={{ display: 'flex' }}>
+                    <span>Notes:</span>
+                    {
+                        model.isEditting ? (
+                            <input type="text" value={model.note} onChange={(inputer) => {
+                                model.note = inputer.target.value
+                            }} />
+                        ) : (
+                                <span style={{ marginLeft: 10 }}>{model.note}</span>
                             )
                     }
                 </div>
-                <FontAwesomeIcon style={{ marginLeft: 10 }} icon={model.isOpen ? faArrowDown : faArrowUp} />
             </div>
             {
                 model.isOpen && (
@@ -72,6 +142,16 @@ const TeamSheet = observer(({ model }: { model: GameSquadViewModel }) => {
                                 return (
                                     <div key={player.name} style={{ display: 'flex' }}>
                                         <span style={{ display: 'flex', flexGrow: 1, alignSelf: 'flex-start' }}>{player.name}</span>
+                                        <span>Rating:</span>
+                                        {
+                                            model.isEditting ? (
+                                                <input type="text" value={player.rating} onChange={(inputer) => {
+                                                    player.rating = inputer.target.value
+                                                }} />
+                                            ) : (
+                                                    <span style={{ marginLeft: 10 }}>{player.rating}</span>
+                                                )
+                                        }
                                         {
                                             model.isEditting ? (
                                                 <select
@@ -84,7 +164,7 @@ const TeamSheet = observer(({ model }: { model: GameSquadViewModel }) => {
                                                     <option key="Not in Squad" value="Not in Squad">Not in Squad</option>
                                                 </select>
                                             ) : (
-                                                    <span>{player.status}</span>
+                                                    <span style={{ marginLeft: 10 }}>{player.status}</span>
                                                 )
                                         }
                                     </div>
