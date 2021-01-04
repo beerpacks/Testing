@@ -14,7 +14,7 @@ export class GamesSquadsModel {
     }
 
     async loadData() {
-        let values = await getGamesSquads({ targetTeam: 'uc' });
+        let values = await getGamesSquads({ targetTeam: 'jfuc' });
         if (values.success) {
             this.gamesSquads = observable.array(values.gamessquads.map((teamSheet) => {
                 return new GameSquadViewModel(teamSheet.opponent, teamSheet.date, teamSheet.playersList, teamSheet.ending, teamSheet.isHome, teamSheet.opponentFormation, teamSheet.gameNote, teamSheet.result)
@@ -24,7 +24,7 @@ export class GamesSquadsModel {
 
     saveData() {
         setGamesSquads({
-            targetTeam: 'uc',
+            targetTeam: 'jfuc',
             gamessquads: this.gamesSquads.map(sheet => {
                 return {
                     result: sheet.result,

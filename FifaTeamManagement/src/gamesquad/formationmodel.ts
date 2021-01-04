@@ -27,7 +27,7 @@ export class FormationsModel {
     }
 
     async loadLastTenGame() {
-        let values = await getLastTenGamesStats({ targetTeam: 'uc' });
+        let values = await getLastTenGamesStats({ targetTeam: 'jfuc' });
         if (values.success) {
             this.playerList = observable.array(values.players.map((player: any) => {
                 return new Player(player.name, player.presence, player.contractType)
@@ -38,7 +38,7 @@ export class FormationsModel {
     @action
     saveGame() {
         addNewGames({
-            targetTeam: 'uc',
+            targetTeam: 'jfuc',
             gameSquad: {
                 gameNote: this.afterGameNote,
                 isHome: this.homeGame,

@@ -41,6 +41,7 @@ export class SquadView extends React.Component<any, any>{
 }
 
 const PlayersCardView = observer(({ player, onDeletePlayer }: { player: Player, onDeletePlayer: () => void }) => {
+    
     if (player.isEdditing)
         return (
             <div style={{ display: 'flex', padding: 10, width: 200 }}>
@@ -118,7 +119,7 @@ const PlayersCardView = observer(({ player, onDeletePlayer }: { player: Player, 
             <div style={{ display: 'flex', padding: 10, width: 200 }}>
                 <div style={{ display: 'flex', flexDirection: 'column', width: '100%', border: 'black 1px solid', padding: 5 }}>
                     <div style={{ display: 'flex' }}>
-                        <span style={{ textAlign: 'left' }}>{player.potentiel}</span>
+                        <span style={{ textAlign: 'left' }}>{player.overall}</span>
                         <div style={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-end' }}>
                             <FontAwesomeIcon onClick={() => { player.isEdditing = true }} icon={faEdit} style={{ fontSize: 18, cursor: 'pointer' }} />
                             <FontAwesomeIcon onClick={onDeletePlayer} icon={faTrashAlt} style={{ fontSize: 18, cursor: 'pointer', marginLeft: 5 }} />
@@ -135,7 +136,7 @@ const PlayersCardView = observer(({ player, onDeletePlayer }: { player: Player, 
                             <span style={{ marginLeft: 5 }}>Pot</span>
                         </div>
                         <div style={{ display: 'flex', flexGrow: 1 }}>
-                            <span>{player.value}</span>
+                            <span>{player.valueText}</span>
                             <span style={{ marginLeft: 5 }}>Val</span>
                         </div>
                     </div>
@@ -145,7 +146,7 @@ const PlayersCardView = observer(({ player, onDeletePlayer }: { player: Player, 
                             <span style={{ marginLeft: 5 }}>Age</span>
                         </div>
                         <div style={{ display: 'flex', flexGrow: 1 }}>
-                            <span>{player.wage}</span>
+                            <span>{player.wagesText}</span>
                             <span style={{ marginLeft: 5 }}>Wages</span>
                         </div>
                     </div>
@@ -153,83 +154,4 @@ const PlayersCardView = observer(({ player, onDeletePlayer }: { player: Player, 
                 </div>
             </div>
         )
-})
-
-const PlayersView = observer(({ player, onDeletePlayer }: { player: Player, onDeletePlayer: () => void }) => {
-    return (
-        <tr>
-            <td>
-                <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}>
-                    <input type="text" value={player.name} onChange={(inputer) => {
-                        player.name = inputer.target.value
-                    }} />
-                </div>
-            </td>
-            <td>
-                <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}>
-                    <input type="number" value={player.overall} onChange={(inputer) => {
-                        player.overall = parseInt(inputer.target.value)
-                    }} />
-                </div>
-            </td>
-            <td>
-                <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}>
-                    <input type="number" value={player.potentiel} onChange={(inputer) => {
-                        player.potentiel = parseInt(inputer.target.value)
-                    }} />
-                </div>
-            </td>
-            <td>
-                <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}>
-                    <input type="text" value={player.position} onChange={(inputer) => {
-                        player.position = inputer.target.value
-                    }} />
-                </div>
-            </td>
-            <td>
-                <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}>
-                    <input type="text" value={player.country} onChange={(inputer) => {
-                        player.country = inputer.target.value
-                    }} />
-                </div>
-            </td>
-            <td>
-                <select
-                    value={player.contractType}
-                    onChange={(e) => { player.contractType = e.currentTarget.value }}>
-                    <option key="OnLoan" value="onLoan">Loaning FROM Team</option>
-                    <option key="Loaned" value="Loaned">Loaning TO Team</option>
-                    <option key="Future" value="Future">Future First Team</option>
-                    <option key="Sporadic" value="Sporadic">Sporadic First Team</option>
-                    <option key="SquadRotation" value="SquadRotation">Squad Rotation</option>
-                    <option key="Important" value="Important">Important</option>
-                    <option key="Crucial" value="Crucial">Crucial</option>
-                </select>
-            </td>
-            <td>
-                <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}>
-                    <input type="number" value={player.age} onChange={(inputer) => {
-                        player.age = parseInt(inputer.target.value)
-                    }} />
-                </div>
-            </td>
-            <td>
-                <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}>
-                    <input type="number" value={player.value} onChange={(inputer) => {
-                        player.value = parseInt(inputer.target.value)
-                    }} />
-                </div>
-            </td>
-            <td>
-                <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}>
-                    <input type="number" value={player.wage} onChange={(inputer) => {
-                        player.wage = parseInt(inputer.target.value)
-                    }} />
-                </div>
-            </td>
-            <td>
-                <FontAwesomeIcon onClick={onDeletePlayer} icon={faTrashAlt} style={{ fontSize: 18, cursor: 'pointer' }} />
-            </td>
-        </tr>
-    )
 })

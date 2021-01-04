@@ -18,7 +18,7 @@ export class RecruitsModel {
     }
 
     loadRecruits() {
-        getAllRecruits({ targetTeam: 'uc' }).then((serverVal) => {
+        getAllRecruits({ targetTeam: 'jfuc' }).then((serverVal) => {
             if (serverVal.success) {
                 this.recruitsList = observable.array(serverVal.allPlayers.map(recruit => {
                     return new Recruits(recruit.name, recruit.positions, recruit.minPotential, recruit.maxPotential, recruit.atkWorkRate, recruit.defWorkRate, recruit.weakFoot, recruit.technique, recruit.status, recruit.overall, recruit.note)
@@ -132,7 +132,7 @@ export class RecruitsModel {
     @action
     save() {
         setAllRecruits({
-            targetTeam: 'uc',
+            targetTeam: 'jfuc',
             allPlayers: this.recruitsList.map(recruit => {
                 return {
                     name: recruit.name,

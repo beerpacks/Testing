@@ -130,7 +130,7 @@ export class RecruitsView extends React.Component {
                         }
                     </tbody>
                 </table>
-                <div style={{ display: "flex", marginTop: 10, marginBottom: 10 }}>
+                <div style={{ display: "flex", marginTop: 10, marginBottom: 10 , justifyContent:'center',alignSelf:'center'}}>
                     <Button onClick={() => this.model.addRecruits()} text="Add Recruits" />
                     <Button onClick={() => { this.model.save() }} text="Save" />
                     <Button onClick={() => { this.model.cancel() }} text="Cancel" />
