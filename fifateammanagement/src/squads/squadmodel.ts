@@ -32,7 +32,7 @@ export class SquadModel {
 
     async loadSquadPlayer() {
         let values = await getSquad({
-            targetTeam: 'uc'
+            targetTeam: 'jfuc'
         });
         if (values.success) {
             this.playerList = observable.array(values.squads.map(player => {
@@ -43,7 +43,7 @@ export class SquadModel {
 
     saveSquad() {
         let request = {
-            targetTeam: 'uc',
+            targetTeam: 'jfuc',
             squads: this.playerList.map(player => {
                 return {
                     uuid: player.id,
@@ -99,7 +99,20 @@ export class Player {
     wage: number
     value: number
     constructor(name: string, contract?: string, id?: string, age?: number, country?: string, overall?: number, position?: string, potentiel?: number, wage?: number, value?: number) {
-        makeAutoObservable(this)
+        makeAutoObservable(this,{
+            name:observable,
+            contractType:observable,
+            age:observable,
+            country:observable,
+            overall:observable,
+            position:observable,
+            potentiel:observable,
+            isEdditing:observable,
+            wage:observable,
+            value:observable,
+            wagesText:computed,
+            valueText:computed
+        })
         this.id = id && id?.length > 0 ? id : uuidv4()
         this.name = name;
         this.age = age ? age : 0
@@ -111,5 +124,20 @@ export class Player {
         this.isEdditing = false
         this.wage = wage ? wage : 0
         this.value = value ? value : 0
+    }
+
+    get valueText(){
+        if(!(this.value / 1000000).toString().startsWith("0")){
+            return ((this.value / 1000000).toFixed(1)) + " M"
+        }
+        return ((this.value / 1000)) + " K"
+    }
+
+
+    get wagesText(){
+        if((this.wage / 1000) > 0){
+            return ((this.wage / 1000)) + " K"
+        }
+        return this.wage
     }
 }

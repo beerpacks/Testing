@@ -71,12 +71,12 @@ export class FormationView extends React.Component<any, any>{
                 </div>
 
 
-                <div style={{ display: 'flex' }}>
+                <div style={{ display: 'flex', flexWrap:'wrap' }}>
                     <ViewByContract text="Crucial" players={this.model.crucials} />
                     <ViewByContract text="Important" players={this.model.importants} />
                     <ViewByContract text="Squad Rotation" players={this.model.squadRotations} />
                 </div>
-                <div style={{ display: 'flex' }}>
+                <div style={{ display: 'flex', flexWrap:'wrap' }}>
                     <ViewByContract text="Sporadic" players={this.model.sporadics} />
                     <ViewByContract text="Future" players={this.model.futures} />
                     <ViewByContract text="Autre" players={this.model.others} />
@@ -128,11 +128,14 @@ const PlayersView = observer(({ player }: { player: Player }) => {
                     <option key="Not in Squad" value="Not in Squad">Not in Squad</option>
                 </select>
             </td>
+            {
+                /*
             <td>
                 <input type="text" value={player.rating} onChange={(inputer) => {
                     player.rating = inputer.target.value
                 }} />
-            </td>
+            </td>*/
+}
             <td>
                 <input type="text" value={player.afterGameNote} onChange={(inputer) => {
                     player.afterGameNote = inputer.target.value
