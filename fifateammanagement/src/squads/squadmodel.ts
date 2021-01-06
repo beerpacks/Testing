@@ -2,14 +2,19 @@ import { action, computed, makeAutoObservable, observable } from "mobx"
 import { getSquad, setSquad } from "../store/squadapi"
 import { uuidv4 } from "../util/servercall"
 
+type SortValue = "fullRating" | "value"
+
 export class SquadModel {
 
+
+    sortType: SortValue = "value"
     playerList: Player[]
     youths: Player[]
 
     constructor() {
         makeAutoObservable(this, {
             playerList: observable,
+            sortType: observable,
             NbChilePlayers: computed,
             NbOtherCountryPlayers: computed,
             NbYouth: computed,
@@ -22,10 +27,17 @@ export class SquadModel {
     }
 
     sortingByFullRating = (recruits1: Player, recruits2: Player) => {
-        //if (!recruits1.isMainComparator && !recruits2.isMainComparator) {
-        return recruits1.fullRating > recruits2.fullRating ? -1 : 1
-        //}
-        //return recruits2.isMainComparator ? 1 : -1
+        if (this.sortType === "fullRating") {
+            return recruits1.fullRating > recruits2.fullRating ? -1 : 1
+        }
+        return recruits1.value > recruits2.value ? -1 : 1
+    }
+
+    setSorting() {
+        if (this.sortType === "fullRating")
+            this.sortType = "value"
+        else
+            this.sortType = "fullRating"
     }
 
     get players() {
