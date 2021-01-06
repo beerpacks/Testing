@@ -5,6 +5,7 @@ import { uuidv4 } from "../util/servercall"
 export class SquadModel {
 
     playerList: Player[]
+    youths: Player[]
 
     constructor() {
         makeAutoObservable(this, {
@@ -12,10 +13,23 @@ export class SquadModel {
             NbChilePlayers: computed,
             NbOtherCountryPlayers: computed,
             NbYouth: computed,
+            players: computed,
             saveSquad: action
         })
         this.playerList = observable.array();
+        this.youths = observable.array();
         this.loadSquadPlayer()
+    }
+
+    sortingByFullRating = (recruits1: Player, recruits2: Player) => {
+        //if (!recruits1.isMainComparator && !recruits2.isMainComparator) {
+        return recruits1.fullRating > recruits2.fullRating ? -1 : 1
+        //}
+        //return recruits2.isMainComparator ? 1 : -1
+    }
+
+    get players() {
+        return [...this.playerList, ...this.youths].sort(this.sortingByFullRating)
     }
 
     get NbChilePlayers() {
@@ -36,7 +50,10 @@ export class SquadModel {
         });
         if (values.success) {
             this.playerList = observable.array(values.squads.map(player => {
-                return new Player(player.name, player.contractType, player.uuid, player.age, player.country, player.overall, player.position, player.potentiel, player.wages, player.value)
+                return new Player(player.name, player.contractType, player.uuid, player.age, player.country, player.overall, player.position, player.potentiel, player.wages, player.value, player.atkWorkRate, player.defWorkRate, player.weakFoot, player.technique)
+            }))
+            this.youths = observable.array(values.youths.map(player => {
+                return new Player(player.name, player.contractType, player.uuid, player.age, player.country, player.overall, player.position, player.potentiel, player.wages, player.value, player.atkWorkRate, player.defWorkRate, player.weakFoot, player.technique)
             }))
         }
     }
@@ -55,7 +72,11 @@ export class SquadModel {
                     contractType: player.contractType,
                     name: player.name,
                     wages: player.wage,
-                    value: player.value
+                    value: player.value,
+                    atkWorkRate: player.atkWorkRate,
+                    defWorkRate: player.defWorkRate,
+                    weakFoot: player.weakFoot,
+                    technique: player.technique
                 }
             }
             )
@@ -93,49 +114,85 @@ export class Player {
     age: number
     country: string
     overall: number
-    position: string
+    position: string[]
     potentiel: number
     isEdditing: boolean
     wage: number
     value: number
-    constructor(name: string, contract?: string, id?: string, age?: number, country?: string, overall?: number, position?: string, potentiel?: number, wage?: number, value?: number) {
-        makeAutoObservable(this,{
-            name:observable,
-            contractType:observable,
-            age:observable,
-            country:observable,
-            overall:observable,
-            position:observable,
-            potentiel:observable,
-            isEdditing:observable,
-            wage:observable,
-            value:observable,
-            wagesText:computed,
-            valueText:computed
+    atkWorkRate: string
+    defWorkRate: string
+    weakFoot: number
+    technique: number
+    constructor(name: string, contract?: string, id?: string, age?: number, country?: string, overall?: number, position?: string[], potentiel?: number, wage?: number, value?: number, atkWorkRate?: string, defWorkRate?: string, weakFoot?: number, technique?: number) {
+        makeAutoObservable(this, {
+            name: observable,
+            contractType: observable,
+            age: observable,
+            country: observable,
+            overall: observable,
+            position: observable,
+            potentiel: observable,
+            isEdditing: observable,
+            wage: observable,
+            value: observable,
+            atkWorkRate: observable,
+            defWorkRate: observable,
+            technique: observable,
+            weakFoot: observable,
+            wagesText: computed,
+            valueText: computed,
+            positions: computed,
+            isEditable: computed,
+            fullRating: computed
+
         })
         this.id = id && id?.length > 0 ? id : uuidv4()
         this.name = name;
         this.age = age ? age : 0
         this.country = country && country.length > 0 ? country : ""
         this.overall = overall ? overall : 0
-        this.position = position && position.length > 0 ? position : ""
+        this.position = position && position.length > 0 ? position : []
         this.potentiel = potentiel ? potentiel : 0
         this.contractType = contract ? contract : "Future"
         this.isEdditing = false
         this.wage = wage ? wage : 0
         this.value = value ? value : 0
+        this.atkWorkRate = atkWorkRate || "Low"
+        this.defWorkRate = defWorkRate || "Low"
+        this.weakFoot = weakFoot || 0
+        this.technique = technique || 0
     }
 
-    get valueText(){
-        if(!(this.value / 1000000).toString().startsWith("0")){
+    get fullRating() {
+        return this.potentiel +
+            (this.atkWorkRate === "High" ? 100 : this.atkWorkRate === "Medium" ? 50 : 0) +
+            (this.defWorkRate === "High" ? 100 : this.defWorkRate === "Medium" ? 50 : 0) +
+            (this.weakFoot * 20) +
+            (this.technique * 20)
+    }
+
+    get isEditable() {
+        return this.contractType != "Academy"
+    }
+
+    get positions() {
+        return this.position.length > 0 ? this.position.join() : []
+    }
+
+    setPosition(pos: string) {
+        this.position = pos.split(",")
+    }
+
+    get valueText() {
+        if (!(this.value / 1000000).toString().startsWith("0")) {
             return ((this.value / 1000000).toFixed(1)) + " M"
         }
         return ((this.value / 1000)) + " K"
     }
 
 
-    get wagesText(){
-        if((this.wage / 1000) > 0){
+    get wagesText() {
+        if ((this.wage / 1000) > 0) {
             return ((this.wage / 1000)) + " K"
         }
         return this.wage

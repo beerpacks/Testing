@@ -1,4 +1,4 @@
-import { faEdit, faSave, faTrashAlt, faWindowClose } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faSave, faStar, faTrashAlt, faWindowClose } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { observable } from "mobx";
 import { observer } from "mobx-react";
@@ -24,7 +24,7 @@ export class SquadView extends React.Component<any, any>{
                 <span style={{ textAlign: 'left' }}>Youth : {this.model.NbYouth}</span>
                 <div style={{ display: 'flex', flexWrap: 'wrap', maxWidth: 1320, alignSelf: 'center' }}>
                     {
-                        this.model.playerList.map(player => {
+                        this.model.players.map(player => {
                             return (<PlayersCardView key={player.id} player={player} onDeletePlayer={() =>
                                 this.model.deletePlayer(player)} />)
                         })
@@ -41,62 +41,42 @@ export class SquadView extends React.Component<any, any>{
 }
 
 const PlayersCardView = observer(({ player, onDeletePlayer }: { player: Player, onDeletePlayer: () => void }) => {
-    
     if (player.isEdditing)
         return (
             <div style={{ display: 'flex', padding: 10, width: 200 }}>
                 <div style={{ display: 'flex', flexDirection: 'column', width: '100%', border: 'black 1px solid', padding: 5 }}>
                     <div style={{ display: 'flex' }}>
-                        <input type="number" style={{ maxWidth: 30 }} value={player.overall} placeholder="Overall" onChange={(inputer) => {
-                            player.overall = parseInt(inputer.target.value)
+                        <input type="text" style={{ maxWidth: 135 }} value={player.name} placeholder="Name" onChange={(inputer) => {
+                            player.name = inputer.target.value
                         }} />
                         <div style={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-end', marginLeft: 5 }}>
                             <FontAwesomeIcon onClick={() => { player.isEdditing = false }} icon={faSave} style={{ fontSize: 18, cursor: 'pointer' }} />
                             <FontAwesomeIcon onClick={() => { player.isEdditing = false }} icon={faWindowClose} style={{ marginLeft: 5, fontSize: 18, cursor: 'pointer' }} />
                         </div>
                     </div>
-                    <div style={{ display: 'flex', marginTop: 5 }}>
-                        <input type="text" value={player.position} placeholder="Position" onChange={(inputer) => {
-                            player.position = inputer.target.value
+                    <div style={{ display: 'flex', flexGrow: 1 }}>
+                        <span>Age</span>
+                        <input type="number" style={{ maxWidth: 30, marginLeft: 5 }} value={player.age} placeholder="Age" onChange={(inputer) => {
+                            player.age = parseInt(inputer.target.value)
+                        }} />
+                    </div>
+                    <div style={{ display: 'flex', flexGrow: 1 }}>
+                        <span>Orv</span>
+                        <input type="number" style={{ maxWidth: 30, marginLeft: 5 }} value={player.overall} placeholder="Overall" onChange={(inputer) => {
+                            player.overall = parseInt(inputer.target.value)
                         }} />
                     </div>
                     <div style={{ display: 'flex', marginTop: 5 }}>
-                        <input type="text" value={player.country} placeholder="Country" onChange={(inputer) => {
-                            player.country = inputer.target.value
+                        <span>Price</span>
+                        <input type="number" style={{ maxWidth: 70, marginLeft: 5 }} value={player.value} placeholder="Value" onChange={(inputer) => {
+                            player.value = parseInt(inputer.target.value)
                         }} />
                     </div>
                     <div style={{ display: 'flex', marginTop: 5 }}>
-                        <input type="text" value={player.name} placeholder="Name" onChange={(inputer) => {
-                            player.name = inputer.target.value
+                        <span>Wage</span>
+                        <input type="number" style={{ maxWidth: 70, marginLeft: 5 }} value={player.wage} placeholder="Wages" onChange={(inputer) => {
+                            player.wage = parseInt(inputer.target.value)
                         }} />
-                    </div>
-                    <div style={{ display: 'flex', marginTop: 5 }}>
-                        <div style={{ display: 'flex', flexGrow: 1 }}>
-                            <input type="number" style={{ maxWidth: 30 }} value={player.potentiel} placeholder="Potentiel" onChange={(inputer) => {
-                                player.potentiel = parseInt(inputer.target.value)
-                            }} />
-                            <span style={{ marginLeft: 5 }}>Pot</span>
-                        </div>
-                        <div style={{ display: 'flex', flexGrow: 1 }}>
-                            <input type="number" style={{ maxWidth: 70 }} value={player.value} placeholder="Value" onChange={(inputer) => {
-                                player.value = parseInt(inputer.target.value)
-                            }} />
-                            <span style={{ marginLeft: 5 }}>Val</span>
-                        </div>
-                    </div>
-                    <div style={{ display: 'flex', marginTop: 5 }}>
-                        <div style={{ display: 'flex', flexGrow: 1 }}>
-                            <input type="number" style={{ maxWidth: 30 }} value={player.age} placeholder="Age" onChange={(inputer) => {
-                                player.age = parseInt(inputer.target.value)
-                            }} />
-                            <span style={{ marginLeft: 5 }}>Age</span>
-                        </div>
-                        <div style={{ display: 'flex', flexGrow: 1 }}>
-                            <input type="number" style={{ maxWidth: 70 }} value={player.wage} placeholder="Wages" onChange={(inputer) => {
-                                player.wage = parseInt(inputer.target.value)
-                            }} />
-                            <span style={{ marginLeft: 5 }}>Wag</span>
-                        </div>
                     </div>
                     <span style={{ textAlign: 'left', marginTop: 5 }}>
                         <select
@@ -111,6 +91,60 @@ const PlayersCardView = observer(({ player, onDeletePlayer }: { player: Player, 
                             <option key="Crucial" value="Crucial">Crucial</option>
                         </select>
                     </span>
+                    <div style={{ display: 'flex', marginTop: 5 }}>
+                        <span>Pot</span>
+                        <input type="number" style={{ maxWidth: 70, marginLeft: 5 }} value={player.potentiel} placeholder="Potentiel" onChange={(inputer) => {
+                            player.potentiel = parseInt(inputer.target.value)
+                        }} />
+                    </div>
+                    <div style={{ display: 'flex', marginTop: 5 }}>
+                        <span>Pos</span>
+                        <input type="text" style={{ maxWidth: 70, marginLeft: 5 }} value={player.positions} placeholder="Position" onChange={(inputer) => {
+                            player.setPosition(inputer.target.value)
+                        }} />
+                    </div>
+                    <div style={{ display: 'flex', marginTop: 5 }}>
+                        <span>Nation</span>
+                        <input type="text" style={{ maxWidth: 70, marginLeft: 5 }} value={player.country} placeholder="Country" onChange={(inputer) => {
+                            player.country = inputer.target.value
+                        }} />
+                    </div>
+                    <div style={{ textAlign: 'left', marginTop: 5 }}>
+                        <span>Atk Work Rate</span>
+                        <select
+                            value={player.atkWorkRate}
+                            onChange={(e) => { player.atkWorkRate = e.currentTarget.value }}>
+                            <option key="High" value="High">High</option>
+                            <option key="Medium" value="Medium">Medium</option>
+                            <option key="Low" value="Low">Low</option>
+                        </select>
+                    </div>
+                    <div style={{ textAlign: 'left', marginTop: 5 }}>
+                        <span>Def Work Rate</span>
+                        <select
+                            value={player.defWorkRate}
+                            onChange={(e) => { player.defWorkRate = e.currentTarget.value }}>
+                            <option key="High" value="High">High</option>
+                            <option key="Medium" value="Medium">Medium</option>
+                            <option key="Low" value="Low">Low</option>
+                        </select>
+                    </div>
+                    <div style={{ display: 'flex', marginTop: 5 }}>
+                        <span>Weak Foot</span>
+                        <FontAwesomeIcon icon={faStar} onClick={() => { player.weakFoot = 1 }} style={{ color: "Yellow" }} />
+                        <FontAwesomeIcon icon={faStar} onClick={() => { player.weakFoot = 2 }} style={{ color: player.weakFoot > 1 ? "Yellow" : "Grey" }} />
+                        <FontAwesomeIcon icon={faStar} onClick={() => { player.weakFoot = 3 }} style={{ color: player.weakFoot > 2 ? "Yellow" : "Grey" }} />
+                        <FontAwesomeIcon icon={faStar} onClick={() => { player.weakFoot = 4 }} style={{ color: player.weakFoot > 3 ? "Yellow" : "Grey" }} />
+                        <FontAwesomeIcon icon={faStar} onClick={() => { player.weakFoot = 5 }} style={{ color: player.weakFoot > 4 ? "Yellow" : "Grey" }} />
+                    </div>
+                    <div style={{ display: 'flex', marginTop: 5 }}>
+                        <span>Technique</span>
+                        <FontAwesomeIcon icon={faStar} onClick={() => { player.technique = 1 }} style={{ color: "Yellow" }} />
+                        <FontAwesomeIcon icon={faStar} onClick={() => { player.technique = 2 }} style={{ color: player.technique > 1 ? "Yellow" : "Grey" }} />
+                        <FontAwesomeIcon icon={faStar} onClick={() => { player.technique = 3 }} style={{ color: player.technique > 2 ? "Yellow" : "Grey" }} />
+                        <FontAwesomeIcon icon={faStar} onClick={() => { player.technique = 4 }} style={{ color: player.technique > 3 ? "Yellow" : "Grey" }} />
+                        <FontAwesomeIcon icon={faStar} onClick={() => { player.technique = 5 }} style={{ color: player.technique > 4 ? "Yellow" : "Grey" }} />
+                    </div>
                 </div>
             </div>
         )
@@ -120,12 +154,17 @@ const PlayersCardView = observer(({ player, onDeletePlayer }: { player: Player, 
                 <div style={{ display: 'flex', flexDirection: 'column', width: '100%', border: 'black 1px solid', padding: 5 }}>
                     <div style={{ display: 'flex' }}>
                         <span style={{ textAlign: 'left' }}>{player.overall}</span>
-                        <div style={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-end' }}>
-                            <FontAwesomeIcon onClick={() => { player.isEdditing = true }} icon={faEdit} style={{ fontSize: 18, cursor: 'pointer' }} />
-                            <FontAwesomeIcon onClick={onDeletePlayer} icon={faTrashAlt} style={{ fontSize: 18, cursor: 'pointer', marginLeft: 5 }} />
-                        </div>
+                        {
+                            player.isEditable && (
+                                <div style={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-end' }}>
+                                    <FontAwesomeIcon onClick={() => { player.isEdditing = true }} icon={faEdit} style={{ fontSize: 18, cursor: 'pointer' }} />
+                                    <FontAwesomeIcon onClick={onDeletePlayer} icon={faTrashAlt} style={{ fontSize: 18, cursor: 'pointer', marginLeft: 5 }} />
+                                </div>
+                            )
+                        }
+
                     </div>
-                    <span style={{ textAlign: 'left', marginTop: 5 }}>{player.position}</span>
+                    <span style={{ textAlign: 'left', marginTop: 5 }}>{player.positions}</span>
                     <span style={{ textAlign: 'left', marginTop: 5 }}>{player.country}</span>
                     <div style={{ display: 'flex', marginTop: 5, justifyContent: 'center' }}>
                         <span >{player.name}</span>
@@ -151,6 +190,7 @@ const PlayersCardView = observer(({ player, onDeletePlayer }: { player: Player, 
                         </div>
                     </div>
                     <span style={{ textAlign: 'left', marginTop: 5 }}>{player.contractType}</span>
+                    <span>full rating {player.fullRating}</span>
                 </div>
             </div>
         )
