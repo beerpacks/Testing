@@ -31,6 +31,7 @@ export class SquadView extends React.Component<any, any>{
                     }
                 </div>
                 <div style={{ display: "flex", marginTop: 10, marginBottom: 10 }}>
+                    <Button onClick={() => { this.model.setSorting() }} text="Sort" />
                     <Button onClick={() => this.model.addSquadPlayer()} text="Add Player" />
                     <Button onClick={() => { this.model.saveSquad() }} text="Save" />
                     <Button onClick={() => { this.model.cancel() }} text="Cancel" />
