@@ -184,7 +184,7 @@ export class Player {
     }
 
     get isEditable() {
-        return this.contractType != "Academy"
+        return this.contractType !== "Academy"
     }
 
     get positions() {
