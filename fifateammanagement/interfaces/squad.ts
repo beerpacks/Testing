@@ -3,7 +3,8 @@ import { BaseRequest, BaseResponse } from './base'
 export interface SquadPlayer {
     uuid: string,
     name: string,
-    overall: number,
+    baseOverall: number,
+    currentOverall:number,
     potentiel: number,
     position: string[],
     country: string,
@@ -14,12 +15,18 @@ export interface SquadPlayer {
     atkWorkRate: string
     defWorkRate: string
     weakFoot: number
-    technique: number
+    technique: number,
+    minPotential:number,
+    maxPotential:number,
+    status:string
 }
 
 export interface GetSquadResponse extends BaseResponse {
     squads: SquadPlayer[]
-    youths: SquadPlayer[]
+}
+
+export interface AddPlayerRequest extends BaseRequest{
+    player:SquadPlayer
 }
 
 export interface SetSquadRequest extends BaseRequest {

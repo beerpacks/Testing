@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+service SquadService {
+    rpc GetSquad(SquadBaseRequest) returns (SquadPlayerList){}
+    rpc AddPlayer(AddPlayerRequest) returns (SquadBaseResponse){}
+}
+
+message AddPlayerRequest {
+    string targetTeam = 1;
+    SquadPlayer player = 2;
+}
+
+message SquadBaseRequest{
+    string targetTeam = 1;
+}
+
+message SquadBaseResponse{
+    bool succes = 1;
+    string errorMessage = 2;
+}
+
+message SquadPlayerList {
+    bool succes = 1;
+    string errorMessage = 2;
+    repeated SquadPlayer squads = 3;
+}
+
+message SquadPlayer {
+    string uuid = 1;
+    string name = 2;
+    int32 baseOverall= 3;
+    int32 currentOverall =4;
+    int32 potentiel = 5;
+    repeated string position = 6;
+    string country = 7;
+    string contractType = 8;
+    int32 age = 9;
+    int32 value = 10;
+    int32 wages = 11;
+    string atkWorkRate = 12;
+    string defWorkRate = 13;
+    int32 weakFoot = 14;
+    int32 technique = 15;
+    int32 minPotential =16;
+    int32 maxPotential =17;
+    string status =18;
+}

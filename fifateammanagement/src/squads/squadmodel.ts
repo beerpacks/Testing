@@ -61,12 +61,12 @@ export class SquadModel {
             targetTeam: 'jfuc'
         });
         if (values.success) {
-            this.playerList = observable.array(values.squads.map(player => {
+            /*this.playerList = observable.array(values.squads.map(player => {
                 return new Player(player.name, player.contractType, player.uuid, player.age, player.country, player.overall, player.position, player.potentiel, player.wages, player.value, player.atkWorkRate, player.defWorkRate, player.weakFoot, player.technique)
-            }))
-            this.youths = observable.array(values.youths.map(player => {
+            }))*/
+            /*this.youths = observable.array(values.youths.map(player => {
                 return new Player(player.name, player.contractType, player.uuid, player.age, player.country, player.overall, player.position, player.potentiel, player.wages, player.value, player.atkWorkRate, player.defWorkRate, player.weakFoot, player.technique)
-            }))
+            }))*/
         }
     }
 
@@ -94,11 +94,11 @@ export class SquadModel {
             )
         }
         console.debug(JSON.stringify(request))
-        setSquad(request)
+        /*setSquad(request)
             .then(res => {
                 //if (res.success)
                 //this.loadSquadPlayer()
-            })
+            })*/
     }
 
     @action

@@ -1,10 +1,10 @@
 import React from 'react';
 import './App.css';
 import { RecruitsView } from './recruits/recruitsview';
-import { FormationView } from './gamesquad/formationview'
+//import { FormationView } from './gamesquad/formationview'
 import { BrowserRouter, Link, Route, Switch } from 'react-router-dom';
 import { SquadView } from './squads/squadview';
-import { GameSquadsView } from './gamesquad/gamesquadsview';
+//import { GameSquadsView } from './gamesquad/gamesquadsview';
 
 
 function App() {
@@ -21,8 +21,12 @@ function App() {
           <Route render={({ history, location }) => {
             return (
               <Switch>
-                <Route exact path="/" component={FormationView} />
+                {
+                  /*
+                  <Route exact path="/" component={FormationView} />
                 <Route exact path="/gamesheets" component={GameSquadsView} />
+                  */
+                }
                 <Route exact path="/recruits" component={RecruitsView} />
                 <Route exact path="/squad" component={SquadView} />
               </Switch>

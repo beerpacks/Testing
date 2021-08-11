@@ -1,22 +1,31 @@
 import express from 'express';
 import bodyParser from "body-parser";
-import { GetSquadResponse, SetSquadRequest, SquadPlayer } from "../interfaces/squad"
+import { AddPlayerRequest, GetSquadResponse, SetSquadRequest, SquadPlayer } from "../interfaces/squad"
 import { BaseRequest, BaseResponse } from '../interfaces/base';
-import { Recruit } from "../interfaces/recruits"
+//import { Recruit } from "../interfaces/recruits"
 
 export const squadApi = express.Router();
 
 const fileName = 'squads.json'
-const recruiting = 'recruits.json'
 
 squadApi.use(express.static('public'));
 
 squadApi.use(bodyParser.json());
 
+interface SquadList{
+    squads:Squad[]
+}
+
+interface Squad{
+    uuid:string,
+    players:Player[]
+}
+
 interface Player {
     uuid: string,
     name: string,
-    overall: number,
+    baseOverall: number,
+    currentOverall:number,
     potentiel: number,
     position: string[] | string,
     country: string,
@@ -24,39 +33,40 @@ interface Player {
     age: number,
     value: number,
     wages: number
-    atkWorkRate?: string
-    defWorkRate?: string
-    weakFoot?: number
-    technique?: number
+    atkWorkRate: string
+    defWorkRate: string
+    weakFoot: number
+    technique: number
+    minPotential:number
+    maxPotential:number,
+    status:string
 }
 
 var fs = require('fs');
 squadApi.post("/getSquad", (req, res) => {
-    let request: BaseRequest = req.body as BaseRequest;
-    let response: GetSquadResponse = {
+    const request: BaseRequest = req.body as BaseRequest;
+    const response: GetSquadResponse = {
         squads: [],
-        youths: [],
         success: false
     }
     try {
-        let data = fs.readFileSync('./public/' + request.targetTeam + fileName, 'utf8', (err: any, jsonString: string) => {
+        const data = fs.readFileSync('./public/' +fileName, 'utf8', (err: any, jsonString: string) => {
             if (err) {
                 console.log("File read failed:", err)
                 return
             }
         })
-        let youths = fs.readFileSync('./public/' + request.targetTeam + recruiting, 'utf8', (err: any, jsonString: string) => {
-            if (err) {
-                console.log("File read failed:", err)
-                return
-            }
-        })
-        let allPlayers: Player[] = JSON.parse(data)
-        response.squads = allPlayers.map(player => {
+        const fileContent : SquadList = JSON.parse(data);
+        const squad = fileContent.squads.find(squad => squad.uuid === request.targetTeam || "jfuc");
+        if(!squad){
+            throw new Error('Squad not found');
+        }
+        response.squads = squad.players.map(player => {
             return {
                 uuid: player.uuid,
                 name: player.name,
-                overall: player.overall || 0,
+                baseOverall: player.baseOverall || 0,
+                currentOverall:player.currentOverall || 0,
                 potentiel: player.potentiel || 0,
                 position: typeof player.position === "string" ? player.position.split(',') : player.position,
                 country: player.country || "",
@@ -67,25 +77,10 @@ squadApi.post("/getSquad", (req, res) => {
                 atkWorkRate: player.atkWorkRate || "low",
                 defWorkRate: player.defWorkRate || "low",
                 technique: player.technique || 1,
-                weakFoot: player.weakFoot || 1
-            }
-        })
-        response.youths = (JSON.parse(youths) as Recruit[]).map(youth => {
-            return {
-                uuid: "",
-                name: youth.name,
-                overall: youth.overall,
-                potentiel: ((youth.maxPotential - youth.minPotential) / 2) + youth.minPotential,
-                position: youth.positions,
-                country: "Chile",
-                contractType: "Academy",
-                age: 17,
-                value: 0,
-                wages: 0,
-                atkWorkRate: youth.atkWorkRate,
-                defWorkRate: youth.defWorkRate,
-                technique: youth.technique,
-                weakFoot: youth.weakFoot
+                weakFoot: player.weakFoot || 1,
+                maxPotential : player.maxPotential || 0,
+                minPotential : player.minPotential || 0,
+                status:player.status || "Main Team"
             }
         })
         response.success = true
@@ -94,6 +89,53 @@ squadApi.post("/getSquad", (req, res) => {
     }
     res.end(JSON.stringify(response));
 })
+
+squadApi.post("/addPlayer",(req,res)=>{
+    const request: AddPlayerRequest = req.body as AddPlayerRequest;
+    const response: BaseResponse = {
+        success: false
+    }
+    const data = fs.readFileSync('./public/' +fileName, 'utf8', (err: any, jsonString: string) => {
+        if (err) {
+            console.log("File read failed:", err)
+            return
+        }
+    })
+    const fileContent : SquadList = JSON.parse(data);
+    const squad = fileContent.squads.find(squad => squad.uuid === request.targetTeam || "jfuc");
+    if(!squad){
+        throw new Error('Squad not found');
+    }
+    squad.players.push({
+        age : request.player.age,
+        atkWorkRate:request.player.atkWorkRate,
+        baseOverall:request.player.baseOverall,
+        contractType:request.player.contractType,
+        country:request.player.country,
+        currentOverall:request.player.baseOverall,
+        defWorkRate:request.player.defWorkRate,
+        maxPotential:0,
+        minPotential:0,
+        name:request.player.name,
+        position:request.player.position,
+        potentiel:request.player.potentiel,
+        technique:request.player.technique,
+        uuid:request.player.uuid,
+        value:request.player.value,
+        wages:request.player.wages,
+        weakFoot:request.player.weakFoot,
+        status:"Main Team"
+    });
+    try {
+        fs.writeFile('./public/' + fileName, JSON.stringify(fileContent), (err: any) => {
+
+        });
+        response.success = true
+    } catch (err) {
+        response.errorMessage = err
+    }
+    res.end(JSON.stringify(response));
+});
 
 squadApi.post("/setSquad", (req, res) => {
     let request: SetSquadRequest = req.body as SetSquadRequest;

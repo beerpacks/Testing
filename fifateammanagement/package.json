@@ -18,6 +18,10 @@
     "@types/react-router-dom": "^5.1.6",
     "babel-loader": "^8.1.0",
     "cors": "^2.8.5",
+    "google-protobuf": "^3.17.3",
+    "grpc": "^1.24.11",
+    "grpc_tools_node_protoc_ts": "^5.3.1",
+    "grpc-tools": "^1.11.2",
     "mobx": "^6.0.3",
     "mobx-react": "^7.0.4",
     "nodemon": "^2.0.6",
@@ -34,7 +38,9 @@
     "server": "nodemon app.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "tscwatch": "tsc -p server --watch"
+    "tscwatch": "tsc -p server --watch",
+    "gene": "pbjs -t static-module -w commonjs -o server/generated/protos.js server/protos/*.proto && pbts -o server/generated/protos.d.ts server/generated/protos.js && tsc",
+    "gene2": "grpc_tools_node_protoc --plugin=protoc-gen-ts=./node_modules/.bin/protoc-gen-ts --ts_out=server/generated --js_out=import_style=commonjs,binary:server/generated --grpc_out=server/generated -I server/protos server/protos/*.proto"
   },
   "eslintConfig": {
     "extends": [
